@@ -31,26 +31,34 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - <strong>Swift Hydra</strong>: Self-Reinforcing Generative Framework for Anomaly Detection  
   <em>International Conference on Learning Representations (ICLR) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
+
 - <strong>REM</strong>: Reinforced Multi-Expert Framework for Influence Maximization  
   <em>Association for the Advancement of Artificial Intelligence (AAAI) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+
 
 - <strong>MIM-Reasoner</strong>: Learning with Theoretical Guarantees for Multiplex Influence Maximization  
   <em>International Conference on Artificial Intelligence and Statistics (AISTATS) 2024</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
+
 - <strong>CHARME</strong>: A Chain-based RL Approach for Minor Embedding Problem  
   <em>IEEE/ACM Transactions on Quantum Computing, 2024</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+
 
 - <strong>Self-Controlling Photonic-on-Chip Networks</strong>  
   <em>Nature Scientific Reports, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
 
+
 - <strong>Compact, Efficient 2×2 Three-mode Photonic Switch</strong>  
   <em>IEEE Access, Vol. 9, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+
 
 - <strong>Dual-mode Optical Hybrid Device for SOI Platform</strong>  
   <em>IEEE Photonics Journal, Vol. 13 (1), 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
 
+
 - <strong>Multi-objective Exploration for PPO</strong>  
   <em>IEEE ATiGB Conference, 2022</em>
+
 
 - See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)
 
