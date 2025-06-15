@@ -24,25 +24,25 @@ I’m especially drawn to problems that sit at the boundary between learning and
 ### 📄 Recent Publications
 
 - **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection
-  *International Conference on Learning Representations (ICLR) 2025* **[Top Tier, A*/A Conference]**
+  *International Conference on Learning Representations (ICLR) 2025* <span style="color:red">**[Top Tier, A*/A Conference]**</span>
 
 - **REM**: Reinforced Multi-Expert Framework for Influence Maximization
-  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* **[Top Tier, A*/A Conference]**
+  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* <span style="color:red">**[Top Tier, A*/A Conference]**</span>
 
 - **MIM-Reasoner**: Learning with Theoretical Guarantees for Multiplex Influence Maximization
-  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* **[Top Tier, A*/A Conference]**
+  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* <span style="color:red">**[Top Tier, A*/A Conference]**</span>
 
 - **CHARME**: A Chain-based Reinforcement Learning Approach for the Minor Embedding Problem
-  *IEEE/ACM Transaction on Quantum Computing, 2024* **[Q1 Journal]**
+  *IEEE/ACM Transaction on Quantum Computing, 2024* <span style="color:red">**[Q1 Journal]**</span>
 
 - **Self-Controlling Photonic-on-Chip Networks With Deep Reinforcement Learning**
-  *Nature Scientific Reports, 2023* **[Q1 Journal]**
+  *Nature Scientific Reports, 2023* <span style="color:red">**[Q1 Journal]**</span>
 
 - **Compact, Highly Efficient, and Controllable Simultaneous 2×2 Three-mode Silicon Photonic Switch in the Continuum Band**
-  *IEEE Access, Vol. 9, pp. 102387–102396, 2023* **[Q1 Journal]**
+  *IEEE Access, Vol. 9, pp. 102387–102396, 2023* <span style="color:red">**[Q1 Journal]**</span>
 
 - **1×2 Switchable Dual-mode Optical 90 Hybrid Device Based on Thermo-optic Phase Shifters and 2×2 MMI Couplers on SOI Platform**
-  *IEEE Photonics Journal, Vol. 13 (1), pp. 1–16, 2023* **[Q1 Journal]**
+  *IEEE Photonics Journal, Vol. 13 (1), pp. 1–16, 2023* <span style="color:red">**[Q1 Journal]**</span>
 
 - **Multi-objective Exploration for Proximal Policy Optimization**
   *IEEE Conference on Applying New Technology in Green Buildings (ATiGB), pp. 105–109, 2022*
