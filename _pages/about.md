@@ -1,7 +1,10 @@
 ---
-permalink: /about/
-title: "About Me"
+permalink: /
+title: "Academic Pages is a ready-to-fork GitHub Pages template for academic personal websites"
 author_profile: true
+redirect_from: 
+  - /about/
+  - /about.html
 ---
 
 **Nguyen Do** (Do Hoang Khoi Nguyen) is a Ph.D. candidate in Computer Science at the **University of Florida**, working at the Optimization Lab under Prof. My T. Thai.
