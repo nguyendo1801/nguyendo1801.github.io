@@ -26,28 +26,28 @@ Overall, I care about building AI systems that are not only intelligent, but **i
 ### 📄 Recent Publications
 
 - **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection
-  *International Conference on Learning Representations (ICLR) 2025* [Top Tier, A/A* Conference]
+  *International Conference on Learning Representations (ICLR) 2025* **[Top Tier, A/A* Conference]**
 
 - **REM**: Reinforced Multi-Expert Framework for Influence Maximization
-  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* [Top Tier, A/A* Conference]
+  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* **[Top Tier, A/A* Conference]**
 
 - **MIM-Reasoner**: Learning with Theoretical Guarantees for Multiplex Influence Maximization
-  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* [Top Tier, A/A* Conference]
+  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* **[Top Tier, A/A* Conference]**
 
 - **DeepChaos+**: Signal Detection Quality Enhancement of High-Speed DP-16QAM Optical Fiber Communication Based on Chaos Masking Technique with Deep Generative Models
-  *Photonics, Volume 11 (10), Article 967, 2024* [Q1 Journal]
+  *Photonics, Volume 11 (10), Article 967, 2024* **[Q1 Journal]**
 
 - **CHARME**: A Chain-based Reinforcement Learning Approach for the Minor Embedding Problem
-  *IEEE/ACM Transaction on Quantum Computing, 2024* [Q1 Journal]
+  *IEEE/ACM Transaction on Quantum Computing, 2024* **[Q1 Journal]**
 
 - **Self-Controlling Photonic-on-Chip Networks With Deep Reinforcement Learning**
-  *Nature Scientific Reports, 2023* [Q1 Journal]
+  *Nature Scientific Reports, 2023* **[Q1 Journal]**
 
 - **Compact, Highly Efficient, and Controllable Simultaneous 2×2 Three-mode Silicon Photonic Switch in the Continuum Band**
-  *IEEE Access, Vol. 9, pp. 102387–102396, 2023* [Q1 Journal]
+  *IEEE Access, Vol. 9, pp. 102387–102396, 2023* **[Q1 Journal]**
 
 - **1×2 Switchable Dual-mode Optical 90 Hybrid Device Based on Thermo-optic Phase Shifters and 2×2 MMI Couplers on SOI Platform**
-  *IEEE Photonics Journal, Vol. 13 (1), pp. 1–16, 2023* [Q1 Journal]
+  *IEEE Photonics Journal, Vol. 13 (1), pp. 1–16, 2023* **[Q1 Journal]**
 
 - **Multi-objective Exploration for Proximal Policy Optimization**
   *IEEE Conference on Applying New Technology in Green Buildings (ATiGB), pp. 105–109, 2022*
