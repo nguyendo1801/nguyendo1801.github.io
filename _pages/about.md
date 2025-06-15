@@ -26,7 +26,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 ---
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
-<div style="text-align: justify">
+
 
 - <strong>Swift Hydra</strong>: Self-Reinforcing Generative Framework for Anomaly Detection  
   <em>International Conference on Learning Representations (ICLR) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
@@ -62,7 +62,6 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 - See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)
 
-</div>
 
 ---
 
