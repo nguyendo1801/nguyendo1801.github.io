@@ -7,8 +7,6 @@ name: &name "Nguyen Do"
 description: &description "AI Researcher, Dreamer, Believer – University of Florida"
 url: "https://nguyendo1801.github.io"
 baseurl: ""
-
-làm gì có dòng đó
 repository: "nguyendo1801/nguyendo1801.github.io"
 
 # Site Author
