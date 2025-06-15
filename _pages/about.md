@@ -13,15 +13,16 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 ---
 
-### 🎓 Education
+<h2 style="font-size: 1.6rem; font-weight: bold;">🎓 Education</h2>
+
+
 
 - **Ph.D. in Computer & Information Science & Engineering**, University of Florida, USA (2024 – Now)  
 - **M.S. in Information Systems**, Posts and Telecommunications Institute of Technology, Ha Noi, Vietnam (2023 – 2024) – Top 1%  
 - **B.E. in Electronics & Telecommunication Engineering**, Posts and Telecommunications Institute of Technology, Ha Noi, Vietnam (2016 – 2021)
 
 ---
-
-### 📄 Recent Publications
+<h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
 - **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection
   *International Conference on Learning Representations (ICLR) 2025* <span style="color:red">**[Top Tier, A*/A Conference]**</span>
@@ -49,8 +50,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 - *See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)* 
 ---
-
-### 💼 Work Experience
+<h2 style="font-size: 1.6rem; font-weight: bold;">💼 Work Experience</h2>
 
 - **Optimization Lab, University of Florida, USA** *(Sep 2022 – Now)*
 
@@ -85,8 +85,8 @@ I’m especially drawn to problems that sit at the boundary between learning and
   * Simulated photonic circuit layouts and topologies.
   * Proposed new architectures for photonic switching using deep learning.
 
+<h2 style="font-size: 1.6rem; font-weight: bold;">👨‍🔬 Past & Current Research Projects</h2>
 
-### 👨‍🔬 Past & Current Research Projects
 
 - **Self-Controlling Photonic Network-on-Chip using Deep Reinforcement Learning**
   Funded by VINIF; designed and trained RL agents to optimize optical switching in on-chip photonic networks.
@@ -103,7 +103,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - **Graph Neural Networks for Multiplex Influence Maximization**
   Designed theoretical and scalable models for submodular maximization in multilayer networks.
 
-### 🌐 Media Coverage
+<h2 style="font-size: 1.6rem; font-weight: bold;">🌐 Media Coverage</h2>
 
 - [VnExpress](https://vnexpress.net/tag/do-hoang-khoi-nguyen-1482819)
 - [VietnamNet](https://vietnamnet.vn/giao-su-dai-hoc-stanford-cac-nghien-cuu-toi-uu-hoa-hoc-may-co-tinh-ung-dung-cao-i418679.html)
@@ -113,7 +113,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - [Tin Cong Nghe](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
 
 ---
+<h2 style="font-size: 1.6rem; font-weight: bold;">📌 Professional Services</h2>
 
-### 📌 Professional Services
 - **_Conference Reviewer_**: _NeurIPS_ (2025), _AISTATS_ (2024-2025), _ICLR_ (2025), and _AAAI_ (2025).
 
