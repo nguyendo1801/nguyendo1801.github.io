@@ -16,7 +16,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 ### 🎓 Education
 
 - **Ph.D. in Computer & Information Science & Engineering**, University of Florida, USA (2024 – Now)  
-- **M.S. in Information Systems**, Hanoi University of Science and Technology, Vietnam (2023 – 2024) – Top 1%  
+- **M.S. in Information Systems**, Posts and Telecommunications Institute of Technology, Ha Noi, Vietnam (2023 – 2024) – Top 1%  
 - **B.E. in Electronics & Telecommunication Engineering**, Posts and Telecommunications Institute of Technology, Ha Noi, Vietnam (2016 – 2021)
 
 ---
