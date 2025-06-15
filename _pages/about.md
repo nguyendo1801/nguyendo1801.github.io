@@ -7,9 +7,9 @@ redirect_from:
   - /about.html
 ---
 
-**Nguyen Do** (Do Hoang Khoi Nguyen) is a Ph.D. candidate in Computer Science at the **University of Florida**, working at the Optimization Lab under Prof. My T. Thai.
+Welcome to my personal website! I am Do Hoang Khoi Nguyen (Nguyen Do), currently a Ph.D. student in Computer and Information Science and Engineering at the **University of Florida**, where I work in the **Adaptive and Optimization Lab** under the supervision of Professor **My T. Thai**.
 
-He is broadly interested in **Reinforcement Learning**, **Combinatorial Optimization**, **Generative AI**, **Mixture-of-Experts**, and **Silicon Photonics Design**. His recent research includes influence maximization on multiplex networks, anomaly detection via self-reinforcing generative models, and photonic-on-chip control using deep RL.
+My research lies at the intersection of **Reinforcement Learning**, **Combinatorial Optimization**, **Generative AI**, **Mixture-of-Experts**, and **AI-driven Silicon Photonics Design**. I am particularly interested in developing scalable, theoretically grounded models that not only achieve strong empirical performance but also provide convergence guarantees or approximation bounds in real-world applications.
 
 ---
 
