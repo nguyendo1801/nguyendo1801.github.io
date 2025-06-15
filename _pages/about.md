@@ -34,16 +34,16 @@ My research lies at the intersection of **Reinforcement Learning**, **Combinator
 
 ### 📄 Recent Publications
 
-- 🧠 **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection  
+- **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection  
   *International Conference on Learning Representations (ICLR) 2025*
 
-- 🧠 **REM**: Reinforced Multi-Expert Framework for Influence Maximization  
+- **REM**: Reinforced Multi-Expert Framework for Influence Maximization  
   *Association for the Advancement of Artificial Intelligence Conference (AAAI) 2025*
 
-- 🧠 **MIM-Reasoner**: Theoretical Guarantees for Multiplex Influence Maximization  
+- **MIM-Reasoner**: Theoretical Guarantees for Multiplex Influence Maximization  
   *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024*
 
-- 💡 **Self-Controlling Photonic-on-Chip Networks**  
+- **Self-Controlling Photonic-on-Chip Networks**  
   *Nature Scientific Reports, 2021*
 
 *(See [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en) for full list)*
@@ -66,7 +66,7 @@ My research lies at the intersection of **Reinforcement Learning**, **Combinator
   - Project: “DeepNet for Smart Routing Optimization using Reinforcement Learning”  
   Both projects received institution-level recognition for research quality and innovation in AI-based control systems.
 
-- 🧠 **ACM-ICPC National (2019)** – Ranked Top 11/400  
+- 🏅 **ACM-ICPC National (2019)** – Ranked Top 11/400  
   Achieved a top rank in one of Vietnam’s most competitive algorithm programming contests for university students.
 
 ---
