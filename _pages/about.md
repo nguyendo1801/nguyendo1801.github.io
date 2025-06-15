@@ -113,3 +113,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - [TinCongNghe.net](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
 
 ---
+
+### 🌐Professional Services
+- **_Conference Reviewer_**: _NeurIPS_ (2025), _AISTATS_ (2024-2025), _ICLR_ (2025), and _AAAI_ (2025).
+
