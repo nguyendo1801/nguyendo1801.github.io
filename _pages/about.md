@@ -65,9 +65,9 @@ I’m especially drawn to problems that sit at the boundary between learning and
 ### 🌐 Media Coverage
 
 - [VNExpress](https://vnexpress.net/tag/do-hoang-khoi-nguyen-1482819)
-- [Viet Nam Net] (https://vietnamnet.vn/giao-su-dai-hoc-stanford-cac-nghien-cuu-toi-uu-hoa-hoc-may-co-tinh-ung-dung-cao-i418679.html)
+- [Viet Nam Net](https://vietnamnet.vn/giao-su-dai-hoc-stanford-cac-nghien-cuu-toi-uu-hoa-hoc-may-co-tinh-ung-dung-cao-i418679.html)
 - [Giao Duc Thoi Dai](https://giaoducthoidai.vn/giao-duc/chang-sinh-vien-tre-tu-choi-luong-khung-de-theo-duoi-chip-quang-tu-Y4T1awbnR.html) 
-- [Giao Duc Thu Do] (https://giaoducthudo.giaoducthoidai.vn/do-hoang-khoi-nguyen-ptag.html)
+- [Giao Duc Thu Do](https://giaoducthudo.giaoducthoidai.vn/do-hoang-khoi-nguyen-ptag.html)
 - [NguonLuc.com.vn](https://www.nguonluc.com.vn/sinh-vien-viet-nam-co-cong-bo-quoc-te-ve-tri-tue-nhan-tao-a1675.html)  
 - [TinCongNghe.net](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
 
