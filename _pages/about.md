@@ -26,13 +26,13 @@ Overall, I care about building AI systems that are not only intelligent, but **i
 ### 📄 Recent Publications
 
 - **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection
-  *International Conference on Learning Representations (ICLR) 2025* **[Top Tier, A/A* Conference]**
+  *International Conference on Learning Representations (ICLR) 2025* **[Top Tier, A*/A Conference]**
 
 - **REM**: Reinforced Multi-Expert Framework for Influence Maximization
-  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* **[Top Tier, A/A* Conference]**
+  *Association for the Advancement of Artificial Intelligence (AAAI) 2025* **[Top Tier, A*/A Conference]**
 
 - **MIM-Reasoner**: Learning with Theoretical Guarantees for Multiplex Influence Maximization
-  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* **[Top Tier, A/A* Conference]**
+  *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* **[Top Tier, A*/A Conference]**
 
 - **DeepChaos+**: Signal Detection Quality Enhancement of High-Speed DP-16QAM Optical Fiber Communication Based on Chaos Masking Technique with Deep Generative Models
   *Photonics, Volume 11 (10), Article 967, 2024* **[Q1 Journal]**
