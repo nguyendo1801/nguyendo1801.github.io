@@ -56,9 +56,9 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 ### 👨‍🔬 Past & Current Research Projects
 
-- **Self-Controlling Photonic Network-on-Chip** (VINIF Funded)  
-- **AI for Silicon Photonics Optimization**  
-- **Multi-Objective PPO for RL with Safety Constraints**
+- Self-Controlling Photonic Network-on-Chip **(VINIF Funded)**  
+- AI for Silicon Photonics Optimization 
+- Multi-Objective PPO for RL with Safety Constraints
 
 ---
 
