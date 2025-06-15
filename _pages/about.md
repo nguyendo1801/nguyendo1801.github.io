@@ -74,7 +74,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
   * Developed models for **liveness detection** and **fire detection** under poor imaging conditions.
   * Designed AI-based support devices for human resources applications.
 
-- **Internship – Samsung R&D Center ** *(Aug 2018 – Sep 2018)*
+- **Internship – Samsung R&D Center** *(Aug 2018 – Sep 2018)*
 
   * Built ML-powered modules for graphics-based games and autonomous vehicle control.
   * Proposed and implemented novel reinforcement algorithms for real-world scenarios.
