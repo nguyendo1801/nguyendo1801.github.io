@@ -47,7 +47,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - **Multi-objective Exploration for Proximal Policy Optimization**
   *IEEE Conference on Applying New Technology in Green Buildings (ATiGB), pp. 105–109, 2022*
 
-- See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en) 
+- *See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)* 
 ---
 
 ### 💼 Work Experience
