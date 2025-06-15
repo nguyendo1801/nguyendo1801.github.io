@@ -6,11 +6,13 @@ redirect_from:
   - /about/
   - /about.html
 ---
+<div style="text-align: justify">
 
 Welcome to my personal website! I am Do Hoang Khoi Nguyen (Nguyen Do), currently a Ph.D. student in Computer and Information Science and Engineering at the **University of Florida**, where I work in the **Adaptive and Optimization Lab** under the supervision of Professor **My T. Thai**. My research brings together ideas from **reinforcement learning**, **combinatorial optimization**, **generative models**, and **Mixture-of-Experts architectures**, with a growing interest in applying them to real-world systems like **photonic-on-chip networks**.
 
 I’m especially drawn to problems that sit at the boundary between learning and structured decision-making — where models not only need to perform well but also make reliable, explainable decisions under uncertainty. I enjoy designing systems that are both **scalable** and **theoretically sound**, where performance isn’t just about high scores, but also about understanding **why** and **how** a model behaves. In practice, this has led me to build frameworks that combine RL with generative modeling for tasks like **influence maximization**, **anomaly detection**, or **controllable chip design**, often using ideas like **graph neural networks**, **latent dynamics**, or **energy-guided inference**. I like models that adapt, reason, and can be trusted in dynamic or noisy environments — especially when applied to domains beyond software, such as networks or hardware. Overall, I care about building AI systems that are not only intelligent, but **intelligible**, and grounded in both theory and practical relevance.
 
+</div>
 ---
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">🎓 Education</h2>
@@ -23,6 +25,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 ---
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
+<div style="text-align: justify">
 
 - **Swift Hydra**: Self-Reinforcing Generative Framework for Anomaly Detection
   *International Conference on Learning Representations (ICLR) 2025* <span style="color:red">**[Top Tier, A*/A Conference]**</span>
@@ -102,7 +105,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 - **Graph Neural Networks for Multiplex Influence Maximization**
   Designed theoretical and scalable models for submodular maximization in multilayer networks.
-
+</div>
 ---
 <h2 style="font-size: 1.6rem; font-weight: bold;">📌 Professional Services</h2>
 
