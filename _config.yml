@@ -1,7 +1,7 @@
 # Basic Site Settings
 locale: "en-US"
 site_theme: "default"
-title: "Home Page"
+title: "Nguyen Do (Andy)"
 title_separator: "-"
 name: &name "Nguyen Do (Andy)"
 description: &description "AI Researcher, Dreamer, Believer – University of Florida"
@@ -12,7 +12,7 @@ repository: "nguyendo1801/nguyendo1801.github.io"
 # Site Author
 author:
   avatar: "profile.jpg"
-  name: "Nguyen Do"
+  name: "Do Hoang Khoi Nguyen"
   bio: "AI Researcher, Dreamer, Believer"
   location: "University of Florida"
   email: "nguyen.do@ufl.edu"
