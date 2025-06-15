@@ -1,9 +1,9 @@
 # Basic Site Settings
 locale: "en-US"
 site_theme: "default"
-title: "Nguyen Do - AI Researcher"
+title: "Nguyen Do"
 title_separator: "-"
-name: &name "Nguyen Do"
+name: &name "Nguyen Do (Andy)"
 description: &description "AI Researcher, Dreamer, Believer – University of Florida"
 url: "https://nguyendo1801.github.io"
 baseurl: ""
@@ -15,25 +15,16 @@ author:
   name: "Nguyen Do"
   bio: "AI Researcher at University of Florida. Passionate about Reinforcement Learning, Combinatorial Optimization, and Generative AI."
   location: "University of Florida"
-  employer: "University of Florida"
   email: "nguyen.do@ufl.edu"
 
   # Academic websites
   googlescholar: "https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en"
-  orcid: ""
-  pubmed: ""
-  arxiv: ""
 
   # Code & Repositories
   github: "nguyendo1801"
 
   # Social media
   facebook: "nguyen.do.9256"
-  linkedin: ""
-  twitter: ""
-  youtube: ""
-  mastodon: ""
-  instagram: ""
 
 # Publication Categories
 publication_category:
