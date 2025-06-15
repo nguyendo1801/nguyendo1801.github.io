@@ -103,6 +103,13 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - **Graph Neural Networks for Multiplex Influence Maximization**
   Designed theoretical and scalable models for submodular maximization in multilayer networks.
 
+---
+<h2 style="font-size: 1.6rem; font-weight: bold;">📌 Professional Services</h2>
+
+- **_Conference Reviewer_**: _NeurIPS_ (2025), _AISTATS_ (2024-2025), _ICLR_ (2025), and _AAAI_ (2025).
+
+---
+
 <h2 style="font-size: 1.6rem; font-weight: bold;">🌐 Media Coverage</h2>
 
 - [VnExpress](https://vnexpress.net/tag/do-hoang-khoi-nguyen-1482819)
@@ -111,9 +118,4 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - [Giao Duc Thu Do](https://giaoducthudo.giaoducthoidai.vn/do-hoang-khoi-nguyen-ptag.html)
 - [Nguon Luc](https://www.nguonluc.com.vn/sinh-vien-viet-nam-co-cong-bo-quoc-te-ve-tri-tue-nhan-tao-a1675.html)  
 - [Tin Cong Nghe](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
-
----
-<h2 style="font-size: 1.6rem; font-weight: bold;">📌 Professional Services</h2>
-
-- **_Conference Reviewer_**: _NeurIPS_ (2025), _AISTATS_ (2024-2025), _ICLR_ (2025), and _AAAI_ (2025).
 
