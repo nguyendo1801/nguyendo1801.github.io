@@ -32,9 +32,6 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - **MIM-Reasoner**: Learning with Theoretical Guarantees for Multiplex Influence Maximization
   *International Conference on Artificial Intelligence and Statistics (AISTATS) 2024* **[Top Tier, A*/A Conference]**
 
-- **DeepChaos+**: Signal Detection Quality Enhancement of High-Speed DP-16QAM Optical Fiber Communication Based on Chaos Masking Technique with Deep Generative Models
-  *Photonics, Volume 11 (10), Article 967, 2024* **[Q1 Journal]**
-
 - **CHARME**: A Chain-based Reinforcement Learning Approach for the Minor Embedding Problem
   *IEEE/ACM Transaction on Quantum Computing, 2024* **[Q1 Journal]**
 
@@ -53,14 +50,58 @@ I’m especially drawn to problems that sit at the boundary between learning and
 *(See [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en) for full list)*
 ---
 
+### 💼 Work Experience
+
+- **Optimization Lab, University of Florida, USA** *(Sep 2022 – Now)*
+
+  * Develop reinforcement learning and probabilistic models for **Multiplex Influence Maximization**.
+  * Incorporate theoretical guarantees (e.g., approximation bounds, convergence analysis).
+  * Apply graph neural networks and deep RL to **quantum minor embedding problems**.
+
+- **Connected Brain Corporation, Vietnam** *(Feb 2023 – Sep 2024)*
+
+  * Research and develop models in natural language processing (NLP) and computer vision (CV).
+  * Build multilingual language models and machine translation systems.
+  * Design and deploy LLM-based chatbots for specific domains.
+
+- **Naver x PTIT AI Lab, Vietnam** *(Feb 2020 – Oct 2021)*
+
+  * Built generative models (VAEs, GANs) for unsupervised **object detection**.
+  * Benchmarked models against SOTA baselines for anomaly and object localization tasks.
+
+- **Internship – MobiFone Telecommunications Corporation, Vietnam** *(Mar 2019 – May 2019)*
+
+  * Developed models for **liveness detection** and **fire detection** under poor imaging conditions.
+  * Designed AI-based support devices for human resources applications.
+
+- **Internship – Samsung R\&D Center (SVMC)** *(Aug 2018 – Sep 2018)*
+
+  * Built ML-powered modules for graphics-based games and autonomous vehicle control.
+  * Proposed and implemented novel reinforcement algorithms for real-world scenarios.
+
+- **AI Photonic Lab, Vietnam** *(Jan 2018 – Dec 2018)*
+
+  * Researched ML-driven design of **photonic-on-chip networks**.
+  * Simulated photonic circuit layouts and topologies.
+  * Proposed new architectures for photonic switching using deep learning.
+
 
 ### 👨‍🔬 Past & Current Research Projects
 
-- Self-Controlling Photonic Network-on-Chip **(VINIF Funded)**  
-- AI for Silicon Photonics Optimization 
-- Multi-Objective PPO for RL with Safety Constraints
+- **Self-Controlling Photonic Network-on-Chip using Deep Reinforcement Learning**
+  Funded by VINIF; designed and trained RL agents to optimize optical switching in on-chip photonic networks.
 
----
+- **AI-Driven Design Optimization for Silicon Photonics**
+  Applied reinforcement learning and generative modeling to optimize thermo-optic phase shifters and MMI couplers.
+
+- **Multi-Objective Proximal Policy Optimization (MO-PPO)**
+  Developed RL framework balancing performance, safety, and energy efficiency using multi-objective optimization techniques.
+
+- **Deep Generative Models for Optical Signal Enhancement**
+  Combined chaos masking and CVAE/GANs to enhance signal quality in high-speed DP-16QAM fiber optic systems.
+
+- **Graph Neural Networks for Multiplex Influence Maximization**
+  Designed theoretical and scalable models for submodular maximization in multilayer networks.
 
 ### 🌐 Media Coverage
 
