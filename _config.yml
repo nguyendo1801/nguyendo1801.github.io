@@ -1,7 +1,7 @@
 # Basic Site Settings
 locale: "en-US"
 site_theme: "default"
-title: "Nguyen Do (Andy)"
+title: "Home"
 title_separator: "-"
 name: &name "Nguyen Do (Andy)"
 description: &description "AI Researcher, Dreamer, Believer – University of Florida"
