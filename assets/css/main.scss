@@ -42,26 +42,14 @@
     "vendor/magnific-popup/magnific-popup"
 ;
 
-.wide-container {
-  max-width: 1280px;
+.author__avatar img {
+  max-width: 200px;  // bạn có thể đổi thành 220px, 240px...
+  border-radius: 50%;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
 }
 
-.wide-container img {
-  max-width: 240px;
-  border-radius: 10px;
-}
-
-.wide-container .about-left {
-  flex: 0 0 260px;
-}
-
-.wide-container .about-right {
-  flex: 1;
+.sidebar {
+  padding-right: 2rem;  // hoặc thử 3rem nếu muốn rộng hơn
 }
 
 //body {
