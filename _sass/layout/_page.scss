@@ -25,7 +25,8 @@
 
   .page__inner-wrap {
     @include full();
-
+    display: flex;
+    gap: 3rem;
     .page__content,
     .page__meta,
     .page__share {

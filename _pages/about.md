@@ -16,8 +16,6 @@ redirect_from:
   }
 </style>
 
-<div class="about-wrapper">
-
 <div style="text-align: justify">
 
 Welcome to my personal website! I am Do Hoang Khoi Nguyen (Nguyen Do), currently a Ph.D. student in Computer and Information Science and Engineering at the <strong>University of Florida</strong>, where I work in the <strong>Adaptive and Optimization Lab</strong> under the supervision of Professor <strong>My T. Thai</strong>. My research brings together ideas from <strong>reinforcement learning</strong>, <strong>combinatorial optimization</strong>, <strong>generative models</strong>, and <strong>Mixture-of-Experts architectures</strong>, with a growing interest in applying them to real-world systems like <strong>photonic-on-chip networks</strong>.
@@ -38,31 +36,41 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
+
 - <strong>Swift Hydra</strong>: Self-Reinforcing Generative Framework for Anomaly Detection  
   <em>International Conference on Learning Representations (ICLR) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+
 
 - <strong>REM</strong>: Reinforced Multi-Expert Framework for Influence Maximization  
   <em>Association for the Advancement of Artificial Intelligence (AAAI) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
+
 - <strong>MIM-Reasoner</strong>: Learning with Theoretical Guarantees for Multiplex Influence Maximization  
   <em>International Conference on Artificial Intelligence and Statistics (AISTATS) 2024</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+
 
 - <strong>CHARME</strong>: A Chain-based RL Approach for Minor Embedding Problem  
   <em>IEEE/ACM Transactions on Quantum Computing, 2024</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
 
+
 - <strong>Self-Controlling Photonic-on-Chip Networks</strong>  
   <em>Nature Scientific Reports, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+
 
 - <strong>Compact, Efficient 2×2 Three-mode Photonic Switch</strong>  
   <em>IEEE Access, Vol. 9, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
 
+
 - <strong>Dual-mode Optical Hybrid Device for SOI Platform</strong>  
   <em>IEEE Photonics Journal, Vol. 13 (1), 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+
 
 - <strong>Multi-objective Exploration for PPO</strong>  
   <em>IEEE ATiGB Conference, 2022</em>
 
+
 - See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)
+
 
 ---
 
@@ -123,4 +131,4 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - [Nguon Luc](https://www.nguonluc.com.vn/sinh-vien-viet-nam-co-cong-bo-quoc-te-ve-tri-tue-nhan-tao-a1675.html)  
 - [Tin Cong Nghe](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
 
-</div>
+---
