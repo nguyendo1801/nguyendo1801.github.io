@@ -8,12 +8,14 @@ redirect_from:
 ---
 <style>
   .about-wrapper {
-    max-width: 2800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     display: block;
   }
 </style>
+
+<div class="about-wrapper">
 
 <div style="text-align: justify">
 
