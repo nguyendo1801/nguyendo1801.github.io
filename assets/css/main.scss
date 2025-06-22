@@ -48,30 +48,9 @@
   margin: 0 auto;
 }
 
-.sidebar {
-  padding-right: 2rem;  // hoặc thử 3rem nếu muốn rộng hơn
+.page__sidebar {
+  padding-right: 30px;
 }
-
-.about-page {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 2rem;
-}
-
-.about-left {
-  flex: 1;
-  max-width: 300px;
-}
-
-.about-right {
-  flex: 2;
-  padding-left: 20px;
-}
-
 
 //body {
 //  background-image: url("/images/background.jpg"); /* hoặc /assets/images/background.jpg */
