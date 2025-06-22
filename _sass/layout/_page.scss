@@ -27,7 +27,9 @@
     @include full();
     display: flex;
     gap: 3rem;
-    .page__content,
+    .page__content {
+  flex: 1;
+}
     .page__meta,
     .page__share {
       @include full();
