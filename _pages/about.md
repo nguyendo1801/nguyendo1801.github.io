@@ -9,7 +9,7 @@ redirect_from:
 
 <style>
   .about-wrapper {
-    max-width: 1200px;
+    max-width: 2200px;
     margin: 0 auto;
     padding: 2rem;
     display: block;
