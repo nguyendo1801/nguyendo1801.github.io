@@ -15,6 +15,12 @@ redirect_from:
   }
 </style>
 
+<style>
+.page__content {
+  max-width: 1200px !important;
+}
+</style>
+
 <div class="about-wrapper">
 
 <div style="text-align: justify">
