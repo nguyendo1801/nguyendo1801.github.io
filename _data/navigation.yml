@@ -13,9 +13,6 @@ main:
 
   - title: "Talks"
     url: /talks/
-    
-  - title: "Portfolio"
-    url: /portfolio/
 
   - title: "CV"
     url: /files/resume.pdf
