@@ -5,6 +5,7 @@ author_profile: true
 redirect_from: 
   - /about/
   - /about.html
+
 ---
 
 <div class="page__content" style="text-align: justify;">
@@ -15,7 +16,6 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 </div>
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">🎓 Education</h2>
 
