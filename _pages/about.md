@@ -16,8 +16,9 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 </div>
 
+---
 
-<h2 style="font-size: 1.6rem; font-weight: bold;">🎓 Education</h2>
+<h2 style="font-size: 1.6rem; font-weight: bold ; margin-top: 2rem;">🎓 Education</h2>
 
 - <strong>Ph.D. in Computer & Information Science & Engineering</strong>, University of Florida, USA (2024 – Now)  
 - <strong>B.E. in Electronics & Telecommunication Engineering</strong>, PTIT, Vietnam (2016 – 2021) – Top 1%
