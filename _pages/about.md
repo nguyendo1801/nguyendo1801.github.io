@@ -20,8 +20,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 <h2 style="font-size: 1.6rem; font-weight: bold;">🎓 Education</h2>
 
 - <strong>Ph.D. in Computer & Information Science & Engineering</strong>, University of Florida, USA (2024 – Now)  
-- <strong>M.S. in Information Systems</strong>, PTIT, Vietnam (2023 – 2024) – Top 1%  
-- <strong>B.E. in Electronics & Telecommunication Engineering</strong>, PTIT, Vietnam (2016 – 2021)
+- <strong>B.E. in Electronics & Telecommunication Engineering</strong>, PTIT, Vietnam (2016 – 2021) – Top 1%
 
 ---
 
