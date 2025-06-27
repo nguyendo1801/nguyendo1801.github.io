@@ -41,28 +41,3 @@
     "vendor/font-awesome/brands",
     "vendor/magnific-popup/magnific-popup"
 ;
-
-.author__avatar img {
-  max-width: 200px;  // bạn có thể đổi thành 220px, 240px...
-  border-radius: 50%;
-  margin: 0 auto;
-}
-
-.page {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 2rem; // để có padding bên rìa
-}
-
-.sidebar {
-  padding-right: 2rem;  // hoặc thử 3rem nếu muốn rộng hơn
-}
-
-//body {
-//  background-image: url("/images/background.jpg"); /* hoặc /assets/images/background.jpg */
-//  background-size: cover;
-//  background-repeat: no-repeat;
-//  background-attachment: fixed;
-//  background-position: center center;
-//}
-
