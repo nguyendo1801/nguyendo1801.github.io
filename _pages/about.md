@@ -30,10 +30,10 @@ I’m especially drawn to problems that sit at the boundary between learning and
   <em>International Conference on Learning Representations (ICLR) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
 - <strong>REM</strong>: Reinforced Multi-Expert Framework for Influence Maximization  
-  <em>AAAI 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+  <em>Association for the Advancement of Artificial Intelligence (AAAI) 2025</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
 - <strong>MIM-Reasoner</strong>: Learning with Theoretical Guarantees for Multiplex Influence Maximization  
-  <em>AISTATS 2024</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+  <em>International Conference on Artificial Intelligence and Statistics (AISTATS) 2024</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
 
 - <strong>CHARME</strong>: A Chain-based RL Approach for Minor Embedding Problem  
   <em>IEEE/ACM Transactions on Quantum Computing, 2024</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
