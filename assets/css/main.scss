@@ -48,6 +48,12 @@
   margin: 0 auto;
 }
 
+.page {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2rem; // để có padding bên rìa
+}
+
 .sidebar {
   padding-right: 2rem;  // hoặc thử 3rem nếu muốn rộng hơn
 }
