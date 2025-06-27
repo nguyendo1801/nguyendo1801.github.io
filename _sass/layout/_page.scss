@@ -44,6 +44,29 @@
   }
 }
 
+.page {
+  max-width: 100%;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.page__inner-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 3rem; // khoảng cách giữa sidebar và nội dung chính
+}
+
+.page__content {
+  flex: 1;
+  max-width: 100%;
+}
+
+.sidebar {
+  flex: 0 0 260px;
+  margin-right: 2rem;
+}
+
 .page__lead {
   font-family: $global-font-family;
   font-size: $type-size-4;

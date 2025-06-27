@@ -6,22 +6,6 @@ redirect_from:
   - /about/
   - /about.html
 ---
-<style>
-  .about-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    display: block;
-  }
-</style>
-
-<style>
-.page__content {
-  max-width: 1200px !important;
-}
-</style>
-
-<div class="about-wrapper">
 
 <div style="text-align: justify">
 
