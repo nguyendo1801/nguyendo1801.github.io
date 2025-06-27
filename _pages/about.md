@@ -16,14 +16,13 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 </div>
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold ; margin-top: 2rem;">🎓 Education</h2>
 
 - <strong>Ph.D. in Computer & Information Science & Engineering</strong>, University of Florida, USA (2024 – Now)  
 - <strong>B.E. in Electronics & Telecommunication Engineering</strong>, PTIT, Vietnam (2016 – 2021) – Top 1%
 
----
+
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
@@ -53,7 +52,6 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 - See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">💼 Work Experience</h2>
 
@@ -76,7 +74,6 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - <strong>AI Photonic Lab</strong>, Vietnam (Jan 2018 – Dec 2018)  
   • Researched photonic networks, optimized circuits with ML
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">👨‍🔬 Past & Current Research Projects</h2>
 
@@ -95,13 +92,11 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - <strong>Multiplex Influence Maximization using GNNs</strong>  
   Developed approximation-guaranteed models for influence spread in multiplex networks
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📌 Professional Services</h2>
 
 - <strong>Conference Reviewer</strong>: NeurIPS (2025), ICLR (2025), AISTATS (2024–2025), AAAI (2025)
 
----
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">🌐 Media Coverage</h2>
 
@@ -112,4 +107,3 @@ I’m especially drawn to problems that sit at the boundary between learning and
 - [Nguon Luc](https://www.nguonluc.com.vn/sinh-vien-viet-nam-co-cong-bo-quoc-te-ve-tri-tue-nhan-tao-a1675.html)  
 - [Tin Cong Nghe](https://www.tincongnghe.net/t-54224/sinh-vien-nghien-cuu-ai-co-cong-bo-quoc-te.html)
 
----
