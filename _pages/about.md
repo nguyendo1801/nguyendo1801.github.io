@@ -97,7 +97,7 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 - <strong>Conference Reviewer</strong>: NeurIPS (2025), ICLR (2025), AISTATS (2024–2025), AAAI (2025)
 
-- <strong>Program Committee</strong>: AAAI (2026)
+- <strong>Program Committee</strong>: AAAI 2026: Main Conference Track, AI Alignment Track
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">🌐 Media Coverage</h2>
 
