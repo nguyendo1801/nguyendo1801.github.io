@@ -27,31 +27,31 @@ I’m especially drawn to problems that sit at the boundary between learning and
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
 - <strong>Hephaestus</strong>: Mixture Generative Modeling with
-Energy Guidance for Large-scale QoS Degradation (First author) <em>International Conference on  Neural Information Processing Systems (NeurIPS 2025) </em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+Energy Guidance for Large-scale QoS Degradation <em>International Conference on  Neural Information Processing Systems (NeurIPS 2025) </em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (First author)
 
-- <strong>Swift Hydra</strong>: Self-Reinforcing Generative Framework for Anomaly Detection (First author)
-  <em>International Conference on Learning Representations (ICLR 2025)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+- <strong>Swift Hydra</strong>: Self-Reinforcing Generative Framework for Anomaly Detection
+  <em>International Conference on Learning Representations (ICLR 2025)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (First author)
 
-- <strong>REM</strong>: Reinforced Multi-Expert Framework for Influence Maximization (First author)
-  <em>Association for the Advancement of Artificial Intelligence (AAAI 2025)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+- <strong>REM</strong>: Reinforced Multi-Expert Framework for Influence Maximization
+  <em>Association for the Advancement of Artificial Intelligence (AAAI 2025)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (Co-First author)
 
-- <strong>MIM-Reasoner</strong>: Learning with Theoretical Guarantees for Multiplex Influence Maximization (First author) 
-  <em>International Conference on Artificial Intelligence and Statistics (AISTATS 2024)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span>
+- <strong>MIM-Reasoner</strong>: Learning with Theoretical Guarantees for Multiplex Influence Maximization 
+  <em>International Conference on Artificial Intelligence and Statistics (AISTATS 2024)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (First author)
 
-- <strong>CHARME</strong>: A Chain-based RL Approach for Minor Embedding Problem (Co-First author) 
-  <em>IEEE/ACM Transactions on Quantum Computing, 2024</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+- <strong>CHARME</strong>: A Chain-based RL Approach for Minor Embedding Problem
+  <em>IEEE/ACM Transactions on Quantum Computing, 2024</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span> (Co-First author)
 
-- <strong>Self-Controlling Photonic-on-Chip Networks</strong>  (First author)
-  <em>Nature Scientific Reports, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+- <strong>Self-Controlling Photonic-on-Chip Networks</strong>
+  <em>Nature Scientific Reports, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span> (First author)
 
-- <strong>Compact, Efficient 2×2 Three-mode Photonic Switch</strong> (Co-author) 
-  <em>IEEE Access, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+- <strong>Compact, Efficient 2×2 Three-mode Photonic Switch</strong> 
+  <em>IEEE Access, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span> (Co-author) 
 
-- <strong>Dual-mode Optical Hybrid Device for SOI Platform</strong> (Co-author)
-  <em>IEEE Photonics Journal, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span>
+- <strong>Dual-mode Optical Hybrid Device for SOI Platform</strong>
+  <em>IEEE Photonics Journal, 2023</em> <span style="color:red;"><strong>[Q1 Journal]</strong></span> (Co-author) 
 
-- <strong>Multi-objective Exploration for PPO</strong> (First author)
-  <em>IEEE ATiGB Conference, 2022</em>
+- <strong>Multi-objective Exploration for PPO</strong>
+  <em>IEEE ATiGB Conference, 2022</em> (First author)
 
 - See full list at: [Google Scholar](https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en)
 
