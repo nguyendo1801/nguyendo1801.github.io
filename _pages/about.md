@@ -26,6 +26,10 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
+- <strong>Hexaïssa</strong>: Standing on giants’ shoulders—Routing the best chess engines with
+mixture-of-experts and latent reward learning,
+  <em>Association for the Advancement of Artificial Intelligence (AAAI 2026)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (Co-First author)
+
 - <strong>Hephaestus</strong>: Mixture Generative Modeling with
 Energy Guidance for Large-scale QoS Degradation <em>International Conference on  Neural Information Processing Systems (NeurIPS 2025) </em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (First author)
 
