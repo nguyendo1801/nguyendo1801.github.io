@@ -26,6 +26,10 @@ I’m especially drawn to problems that sit at the boundary between learning and
 
 <h2 style="font-size: 1.6rem; font-weight: bold;">📄 Recent Publications</h2>
 
+- <strong>Q-ShiftDP</strong>: A Differentially Private Parameter-Shift Rule for Quantum Machine Learning,
+  <em>International Conference on Artificial Intelligence and Statistics (AISTATS 2026)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (Co author)
+
+
 - <strong>Hexaïssa</strong>: Standing on giants’ shoulders—Routing the best chess engines with
 mixture-of-experts and latent reward learning,
   <em>Association for the Advancement of Artificial Intelligence (AAAI 2026)</em> <span style="color:red;"><strong>[Top Tier, A*/A Conference]</strong></span> (Co-First author)
