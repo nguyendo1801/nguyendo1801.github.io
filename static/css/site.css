@@ -539,3 +539,94 @@ a.lab:hover{background-size:100% 1px}
 .ap .kpi{margin-bottom:16px!important}
 @media (max-width:960px){.ap-grid{grid-template-columns:1fr}.ap.wide{grid-template-columns:1fr}}
 .nomo .th-big{transform:none}
+
+/* =====================================================================
+   Accent pass: a warm coral beside the indigo, used sparingly for emphasis
+   ===================================================================== */
+:root{--hot:#ff5d3b;--hot2:#ff8a4c;--grad:linear-gradient(100deg,#3346d3 0%,#7048e8 45%,#ff5d3b 100%);--grad2:linear-gradient(135deg,#3346d3,#7048e8 55%,#ff5d3b)}
+/* italic words in headings: indigo → coral gradient */
+h1 em,h2 em,.js h2 em .wd>span,.hp h3 em,.ap-head h3 em{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.h-tag em{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* small accents */
+.lbl::after{background:var(--grad);height:2px}
+.kicker::before{background:var(--hot);box-shadow:0 0 0 0 rgba(255,93,59,.55);animation-name:pulseHot}
+@keyframes pulseHot{to{box-shadow:0 0 0 10px rgba(255,93,59,0)}}
+.nav a::after{background:var(--grad);height:2.5px}
+.nav a.on{color:var(--ink)}
+.cv{background:var(--grad2)}
+.cv:hover{background:var(--hot)}
+.btn.solid{background:var(--grad2);border:0;box-shadow:0 12px 28px rgba(112,72,232,.32)}
+.btn.solid::before{background:var(--hot)}
+.btn.solid:hover{box-shadow:0 14px 32px rgba(255,93,59,.38)}
+.ico-btn:hover{background:var(--hot);border-color:var(--hot)}
+.hl{background-image:linear-gradient(transparent 60%,rgba(255,93,59,.22) 60%)}
+.hl:hover{color:var(--hot)}
+.lg-m{background:var(--grad2)}
+.corner{border-color:var(--hot)}
+.tval b,.hero-fig figcaption span:last-child b{color:var(--hot)}
+#tslider{background:linear-gradient(90deg,#3346d3 0,#ff5d3b var(--tp,100%),var(--line) var(--tp,100%))}
+#tslider::-webkit-slider-thumb{border-color:var(--hot)}
+.nlist time{color:var(--hot)}
+.nlist li::before{background:var(--grad2)}
+.badge{background:var(--hot)}
+.cell.big{background:var(--grad2)}
+.cell .n{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cell.big .n{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#fff}
+.cell .k{color:var(--hot)}
+.hon-stats div{background:var(--grad2)}
+.hy{color:var(--hot)}
+.sk,.tw-when{color:var(--hot)}
+.tj-path .fg{stroke:url(#tjg)}
+.tj-path .agent{fill:var(--hot)}
+.tj-path .halo{stroke:var(--hot)}
+.flt button[aria-pressed="true"]{background:var(--grad2);border-color:transparent}
+.pt i{color:var(--hot)}
+.award{color:#b8380f;background:rgba(255,93,59,.1);border-color:rgba(255,93,59,.35)}
+.progress i{background:var(--grad)}
+.c-dot{background:var(--hot)}
+.cursor.label .c-ring{background:var(--hot);border-color:var(--hot)}
+.orb{background:linear-gradient(135deg,#ff8a4c,#ff5d3b)}
+.orb text{fill:#fff}
+.orb span{color:#fff}
+.ft-big em{background:linear-gradient(100deg,#8fa0ff,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ft .lbl::after{background:linear-gradient(90deg,#8fa0ff,#ff8a4c)}
+.ft-links a::after{background:var(--hot2)}
+a.lab{color:var(--hot)}
+
+/* hero: slow aurora behind the copy and the portrait */
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;opacity:.55}
+.hero::before{width:520px;height:520px;right:-120px;top:40px;background:radial-gradient(circle,rgba(255,93,59,.55),rgba(255,93,59,0) 70%);animation:aur1 18s ease-in-out infinite alternate}
+.hero::after{width:620px;height:620px;left:-200px;top:-160px;background:radial-gradient(circle,rgba(112,72,232,.45),rgba(51,70,211,0) 70%);animation:aur2 22s ease-in-out infinite alternate}
+@keyframes aur1{to{transform:translate(-90px,70px) scale(1.12)}}
+@keyframes aur2{to{transform:translate(110px,60px) scale(.92)}}
+.hero-in,.ticker{position:relative;z-index:1}
+.hero-grid-bg{z-index:0}
+
+/* ticker as a dark band with coral stars */
+.ticker{background:var(--navy);border-color:var(--navy)}
+.tk-set span{color:#e8eaf3}
+.tk-set span::after{color:var(--hot2)}
+
+/* =====================================================================
+   Research directions: a grid on a dark band
+   ===================================================================== */
+.research{height:auto!important;background:radial-gradient(900px 500px at 85% 0%,rgba(112,72,232,.28),transparent 60%),radial-gradient(700px 420px at 0% 100%,rgba(255,93,59,.16),transparent 60%),var(--navy);color:#e8eaf3;border-block:1px solid var(--navy)}
+.rs-pin{position:static!important;height:auto!important;overflow:visible;display:block;padding:110px 0 110px}
+.rs-head{margin-bottom:38px}
+.research .lbl{color:#9aa1c0}
+.research h2{color:#fff}
+.research h2 em,.js .research h2 em .wd>span{background:linear-gradient(100deg,#9fb0ff,#b197fc 45%,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rs-sub{color:#aab3d6}
+.rs-track{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;width:auto!important;max-width:1240px;margin:0 auto;padding:0 40px!important;translate:none!important;overflow:visible!important}
+.th{width:auto!important;background:#141d42;border:1px solid rgba(255,255,255,.08);color:#e8eaf3}
+.th.hot{border-color:color-mix(in srgb,var(--a) 70%,#fff);box-shadow:0 26px 60px rgba(0,0,0,.35),0 0 0 1px color-mix(in srgb,var(--a) 40%,transparent)}
+.th .th-art::after{background:linear-gradient(transparent,#141d42 98%);height:30%}
+.th-big{display:none}
+.th-body h3{color:#fff}
+.th-body p{color:#aab3d6}
+.th-body .th-n{color:color-mix(in srgb,var(--a) 55%,#fff)}
+.th::after{background:radial-gradient(420px circle at var(--gx,50%) var(--gy,0%),color-mix(in srgb,var(--a) 22%,transparent),transparent 60%)}
+.th-more{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)}
+.th-more:hover{background:var(--hot);border-color:var(--hot);color:#fff}
+@media (max-width:1060px){.rs-track{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.rs-track{grid-template-columns:1fr;padding:0 18px!important}.rs-pin{padding:90px 0}}

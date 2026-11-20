@@ -332,7 +332,7 @@ $$('video[data-auto]').forEach(function(v){
   var sec=$('.research'),track=$('.rs-track'),idx=$('.rs-i'),prog=$('.rs-prog');if(!sec||!track)return;
   var cards=$$('.th',track),wide=false,dist=0;
   function measure(){
-    wide=innerWidth>900;
+    wide=false; /* research is now a static grid */
     if(!wide){sec.style.removeProperty('--rs-h');track.style.removeProperty('--rx');return;}
     dist=Math.max(0,track.scrollWidth-innerWidth);
     sec.style.setProperty('--rs-h',(innerHeight+dist*1.1)+'px');upd();
@@ -381,7 +381,7 @@ $$('video[data-auto]').forEach(function(v){
   function lenAtY(y){var lo=0,hi=L;for(var i=0;i<22;i++){var m=(lo+hi)/2;if(fg.getPointAtLength(m).y<y)lo=m;else hi=m;}return lo;}
   function build(){
     var R=tj.getBoundingClientRect(),narrow=innerWidth<=800;if(!R.height)return;
-    svg.setAttribute('viewBox','0 0 '+R.width.toFixed(0)+' '+R.height.toFixed(0));
+    svg.setAttribute('viewBox','0 0 '+R.width.toFixed(0)+' '+R.height.toFixed(0));var lg=svg.querySelector('#tjg');if(lg)lg.setAttribute('y2',R.height.toFixed(0));
     pts=steps.map(function(s,i){var r=s.getBoundingClientRect(),y=r.top-R.top+r.height/2;return {x:narrow?(r.left-R.left-22):(i%2===0?r.right-R.left+34:r.left-R.left-34),y:y};});
     if(!pts.length)return;
     var top={x:narrow?pts[0].x:R.width/2,y:0},d='M'+top.x+' '+top.y,prev=top;
