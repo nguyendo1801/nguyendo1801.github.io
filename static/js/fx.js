@@ -198,8 +198,16 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       for(var y2=0;y2<off.height;y2+=g2)for(var x2=0;x2<off.width;x2+=g2)if(im[(y2*off.width+x2)*4+3]>128)P.push(particle(x2,y2,pal(x2/W*.8+Math.random()*.2),1.3+Math.random()*1.1));
     }
   }
+  /* the loop: denoise (t 1→0), hold the photo, re-noise (t 0→1), hold the noise; repeat */
+  var D1=3.4,H1=2.8,D2=2.6,H2=.8,CL=D1+H1+D2+H2,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
+  function clock(){return performance.now()/1000;}
+  function cycleT(e){e=((e%CL)+CL)%CL;if(e<D1)return 1-ease(e/D1);e-=D1;if(e<H1)return 0;e-=H1;if(e<D2)return ease(e/D2);return 1;}
+  function eForT(v){var lo=0,hi=D1;for(var i=0;i<24;i++){var m=(lo+hi)/2;if(1-ease(m/D1)>v)lo=m;else hi=m;}return lo;}
+  function startCycle(e){if(still()){t=0;draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
+  function freeze(){if(CYC.on&&!CYC.frozen){CYC.frozen=true;CYC.pe=clock()-CYC.t0;}}
+  function unfreeze(e){if(!CYC.on)return;CYC.frozen=false;CYC.t0=clock()-(e==null?CYC.pe:e);kick();}
   function step(dt){
-    if(introOn){var e=(performance.now()/1000-introT0)/INTRO;t=1-ease(clamp(e,0,1));if(e>=1)introOn=false;}
+    if(CYC.on&&!CYC.frozen)t=cycleT(clock()-CYC.t0);
     var R=70,R2=R*R;
     for(var i=0;i<P.length;i++){var p=P[i];p.a+=p.da*dt;
       if(mouse.on&&sharpOf(t)<.6){var dx=p.tx+p.ex-mouse.x,dy=p.ty+p.ey-mouse.y,d2=dx*dx+dy*dy;
@@ -239,19 +247,18 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     if(shown!==lastShown){lastShown=shown;if(tEl)tEl.textContent=String(shown).padStart(4,'0');if(sEl)sEl.textContent=t.toFixed(3);
       if(slider&&document.activeElement!==slider){slider.value=shown;}if(slider)slider.style.setProperty('--tp',(shown/10)+'%');}
   }
-  function busy(){return introOn||mouse.on||P.some&&false;}
   function loop(ts){raf=0;if(!run)return;var dt=last?Math.min(.05,(ts-last)/1000):.016;last=ts;if(!still())step(dt);draw();
-    if(!still()&&(introOn||mouse.on||t>.32||settling>0)){settling--;raf=requestAnimationFrame(loop);}}
+    if(!still()&&((CYC.on&&!CYC.frozen)||mouse.on||t>.32||settling>0)){settling--;raf=requestAnimationFrame(loop);}}
   var settling=0;
   function kick(){settling=90;if(!raf&&run){last=0;raf=requestAnimationFrame(loop);}}
-  function startIntro(){if(still()){t=0;draw();return;}t=1;introT0=performance.now()/1000;introOn=true;kick();}
-  frame.addEventListener('pointermove',function(e){var r=frame.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.on){mouse.vx=x-mouse.x;mouse.vy=y-mouse.y;}mouse.x=x;mouse.y=y;mouse.on=true;kick();if(still())draw();});
-  frame.addEventListener('pointerleave',function(){mouse.on=false;mouse.x=mouse.y=-9999;kick();if(still())draw();});
-  if(slider)slider.addEventListener('input',function(){introOn=false;t=slider.value/1000;kick();if(still())draw();});
-  if(replay)replay.addEventListener('click',function(){startIntro();});
+  function startIntro(){startCycle(0);}
+  frame.addEventListener('pointermove',function(e){var r=frame.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.on){mouse.vx=x-mouse.x;mouse.vy=y-mouse.y;}mouse.x=x;mouse.y=y;if(!mouse.on&&!CYC.timer)freeze();mouse.on=true;kick();if(still())draw();});
+  frame.addEventListener('pointerleave',function(){mouse.on=false;mouse.x=mouse.y=-9999;if(!CYC.timer)unfreeze();kick();if(still())draw();});
+  if(slider)slider.addEventListener('input',function(){freeze();t=slider.value/1000;clearTimeout(CYC.timer);CYC.timer=setTimeout(function(){CYC.timer=0;if(!mouse.on)unfreeze(eForT(t));},4000);kick();if(still())draw();});
+  if(replay)replay.addEventListener('click',function(){clearTimeout(CYC.timer);CYC.timer=0;startCycle(0);});
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){build();draw();},180);});
   new IntersectionObserver(function(es){run=es[0].isIntersecting;if(run)kick();}).observe(frame);
-  addEventListener('motionchange',function(e){if(e.detail.off){introOn=false;t=0;draw();}else kick();});
+  addEventListener('motionchange',function(e){if(e.detail.off){CYC.on=false;t=0;draw();}else if(heroStart)startCycle(D1);});
   function go(){
     build();
     if(still()){t=0;draw();return;}
