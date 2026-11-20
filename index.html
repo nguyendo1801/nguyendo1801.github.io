@@ -39,6 +39,7 @@
     <a href="#news">News</a>
     <a href="#about">About</a>
     <a href="#research">Research</a>
+    <a href="#projects">Projects</a>
     <a href="#publications">Publications</a>
     <a href="#trajectory">Experience</a>
     <a href="#contact">Contact</a>
@@ -53,9 +54,10 @@
   <a href="#news"><span class="mono">00</span>News</a>
   <a href="#about"><span class="mono">01</span>About</a>
   <a href="#research"><span class="mono">02</span>Research</a>
-  <a href="#publications"><span class="mono">03</span>Publications</a>
-  <a href="#trajectory"><span class="mono">04</span>Experience</a>
-  <a href="#contact"><span class="mono">05</span>Contact</a>
+  <a href="#projects"><span class="mono">03</span>Projects</a>
+  <a href="#publications"><span class="mono">04</span>Publications</a>
+  <a href="#trajectory"><span class="mono">05</span>Experience</a>
+  <a href="#contact"><span class="mono">06</span>Contact</a>
 </nav>
 
 <main id="main">
@@ -68,7 +70,7 @@
       <h1 class="h-name" data-letters>Nguyen Do</h1>
       <p class="h-alt">Do Hoang Khoi Nguyen · “Andy”</p>
       <p class="h-tag"><em>From noise to structure:</em> learning systems that make decisions you can trust.</p>
-      <p class="h-bio">I work on <a class="hl" href="#r-rl">reinforcement learning</a>, <a class="hl" href="#r-opt">combinatorial optimization</a>, <a class="hl" href="#r-gen">generative models</a> and <a class="hl" href="#r-moe">mixture-of-experts</a>, with theoretical guarantees, in the Adaptive and Optimization Lab with Prof. My T. Thai.</p>
+      <p class="h-bio">I work on <a class="hl" href="#r-rl">reinforcement learning</a>, <a class="hl" href="#r-opt">combinatorial optimization</a>, <a class="hl" href="#r-gen">generative models</a> and <a class="hl" href="#r-moe">mixture-of-experts</a>, with theoretical guarantees, in <a class="lab" href="https://www.cise.ufl.edu/research/OptimaNetSci/index.html">THÁI Lab</a> (The Science of Intelligent Systems) with Prof. My T. Thai.</p>
       <div class="h-act">
         <a class="btn solid" href="#publications" data-magnet>Publications <span aria-hidden="true">→</span></a>
         <a class="btn" href="/files/resume.pdf" data-magnet>Curriculum vitae</a>
@@ -77,7 +79,7 @@
         <a class="ico-btn" href="mailto:nguyen.do@ufl.edu" aria-label="Email nguyen.do@ufl.edu" data-magnet data-tip="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.3L4.4 7H4v.8l8 5.6 8-5.6V7h-.4L12 12.3z"/></svg></a>
       </div>
       <dl class="h-facts">
-        <div><dt class="mono">Lab</dt><dd>Adaptive &amp; Optimization Lab</dd></div>
+        <div><dt class="mono">Lab</dt><dd><a class="lab" href="https://www.cise.ufl.edu/research/OptimaNetSci/index.html">THÁI Lab ↗</a></dd></div>
         <div><dt class="mono">Advisor</dt><dd>Prof. My T. Thai</dd></div>
         <div><dt class="mono">Based in</dt><dd>Gainesville, Florida</dd></div>
       </dl>
@@ -88,12 +90,17 @@
         <img class="fig-fallback" src="/static/img/nguyen-do.jpg" width="640" height="640" alt="Portrait of Nguyen Do">
         <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span><span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
       </div>
-      <figcaption class="mono"><span><b>Fig. 1.</b> The author, sampled from noise.</span><span>t = <b id="tstep">1000</b> · σ = <b id="sig">1.000</b></span></figcaption>
-      <p class="fig-hint mono" aria-hidden="true">hover to perturb · scroll to diffuse</p>
+      <figcaption class="mono"><span><b>Fig. 1.</b> The author, sampled from noise.</span><span>σ = <b id="sig">1.000</b></span></figcaption>
+      <div class="tctl">
+        <button class="replay" type="button" aria-label="Sample again from noise" title="Sample again"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg></button>
+        <input id="tslider" type="range" min="0" max="1000" step="1" value="1000" aria-label="Diffusion timestep t, from clean (0) to pure noise (1000)">
+        <span class="tval mono">t = <b id="tstep">1000</b></span>
+      </div>
+      <p class="fig-hint mono" aria-hidden="true">drag t to add noise back · hover the photo to see its dots</p>
     </figure>
   </div>
   <div class="ticker" aria-hidden="true"><div class="tk-track"><div class="tk-set">
-    <span>NeurIPS 2025</span><span>ICLR 2025</span><span>AAAI 2026</span><span>AISTATS 2026</span><span>AAAI 2025</span><span>AISTATS 2024</span><span>ACM TQC</span><span>Scientific Reports</span><span>IEEE Access</span><span>IEEE Photonics Journal</span>
+    <span>NeurIPS 2026</span><span>AAAI 2026</span><span>AISTATS 2026</span><span>NeurIPS 2025</span><span>ICLR 2025</span><span>AAAI 2025</span><span>AISTATS 2024</span><span>ACM TQC</span><span>Scientific Reports</span><span>IEEE Access</span><span>IEEE Photonics Journal</span>
   </div></div></div>
 </section>
 
@@ -105,7 +112,9 @@
       <h2 data-words>Recent <em>updates.</em></h2>
     </div>
     <ol class="nlist">
-      <li data-reveal><time class="mono">Oct 2026</time><p>New preprint: <a href="https://arxiv.org/abs/2610.23242">Mixture Gated Theory of Anisotropic Representation Dynamics in Transformers</a>, with My T. Thai.</p><span class="badge new">new</span></li>
+      <li data-reveal><time class="mono">2026</time><p><b>Semantic Optimal Transport</b> for sparse-autoencoder feature matching and circuit compression accepted at <b>NeurIPS 2026</b> (co-first author).</p><span class="badge new">new</span></li>
+      <li data-reveal><time class="mono">Oct 2026</time><p>New preprint: <a href="https://arxiv.org/abs/2610.23242">Mixture Gated Theory of Anisotropic Representation Dynamics in Transformers</a>, with My T. Thai.</p></li>
+      <li data-reveal><time class="mono">2026</time><p>New preprint: <a href="https://arxiv.org/abs/2609.05770">RAPTOR</a>, role-aware private training for mixture-of-experts (co-first author).</p></li>
       <li data-reveal><time class="mono">2026</time><p><b>Q-ShiftDP</b>, differential privacy for the parameter-shift rule in quantum ML, accepted at <b>AISTATS 2026</b>.</p></li>
       <li data-reveal><time class="mono">2026</time><p><b>Hexaïssa</b>, routing the best chess engines with mixture-of-experts, accepted at <b>AAAI 2026</b> (co-first author).</p></li>
       <li data-reveal><time class="mono">2026</time><p>Serving on the <b>AAAI 2026 Program Committee</b>, Main Track and AI Alignment Track.</p></li>
@@ -121,9 +130,9 @@
     <p class="lbl mono" data-scramble>§ 01 · About</p>
     <p class="scrub" data-scrub>I am a Ph.D. student in Computer and Information Science and Engineering at the <b>University of Florida</b>. I work where learning meets <i>structured decision-making</i>: models that must perform well and also make reliable, explainable decisions under uncertainty. I care about AI that is not only intelligent but <i>intelligible</i>, scalable and theoretically sound, and that holds up beyond software, in networks and in hardware.</p>
     <div class="bento">
-      <div class="cell big" data-reveal data-tilt="3"><b class="n" data-count="6">6</b><span>papers at A*/A venues<br><small class="mono">NeurIPS · ICLR · AAAI · AISTATS</small></span></div>
-      <div class="cell" data-reveal data-tilt="3"><b class="n" data-count="4">4</b><span>Q1 journal articles</span></div>
-      <div class="cell" data-reveal data-tilt="3"><b class="n" data-count="8">8</b><span>first or co-first author, peer-reviewed</span></div>
+      <div class="cell big" data-reveal data-tilt="3"><b class="n" data-count="7">7</b><span>papers at A*/A venues<br><small class="mono">NeurIPS ×2 · ICLR · AAAI ×2 · AISTATS ×2</small></span></div>
+      <div class="cell" data-reveal data-tilt="3"><b class="n" data-count="10">10</b><span>first or co-first author, peer-reviewed</span></div>
+      <div class="cell" data-reveal data-tilt="3"><b class="n" data-count="133">133</b><span>citations · h-index 7<br><small class="mono">Google Scholar, Nov 2026</small></span></div>
       <div class="cell edu" data-reveal data-tilt="3"><span class="mono k">2024 → now</span><b>Ph.D., Computer &amp; Information Science &amp; Engineering</b><span>University of Florida, USA</span></div>
       <div class="cell edu" data-reveal data-tilt="3"><span class="mono k">2016 → 2021</span><b>B.E., Electronics &amp; Telecommunication</b><span>PTIT, Vietnam · top 1%</span></div>
     </div>
@@ -145,53 +154,124 @@
         <span class="th-n mono">01</span>
         <h3>Reinforcement learning</h3>
         <p>Policies over latent spaces, multi-objective exploration, and RL as a search engine for hard combinatorial problems.</p>
-        <ul class="mono"><li>Hexaïssa · AAAI’26</li><li>REM · AAAI’25</li><li>MO-PPO · ATiGB’22</li></ul>
+        <ul class="mono"><li>Hexaïssa · AAAI’26</li><li>REM · AAAI’25</li><li>MO-PPO · ATiGB’21</li></ul>
       </article>
       <article class="th" id="r-opt" style="--a:#0e9f8e" data-tilt="4">
         <div class="th-art" aria-hidden="true"><svg viewBox="0 0 200 120"><g class="g"><path d="M30 90L70 30L110 70L150 25L175 85M70 30L90 100L110 70L140 100L175 85"/></g><g class="seed"><circle cx="70" cy="30" r="6"/><circle cx="150" cy="25" r="6"/></g><g class="nd"><circle cx="30" cy="90" r="4"/><circle cx="110" cy="70" r="4"/><circle cx="175" cy="85" r="4"/><circle cx="90" cy="100" r="4"/><circle cx="140" cy="100" r="4"/></g></svg></div>
         <span class="th-n mono">02</span>
         <h3>Combinatorial optimization with guarantees</h3>
         <p>Influence maximization on multiplex networks, minor embedding for quantum annealers, approximation bounds that survive learning.</p>
-        <ul class="mono"><li>MIM-Reasoner · AISTATS’24</li><li>CHARME · ACM TQC’24</li></ul>
+        <ul class="mono"><li>MIM-Reasoner · AISTATS’24</li><li>CHARME · ACM TQC’25</li><li>REM · AAAI’25</li></ul>
       </article>
       <article class="th" id="r-gen" style="--a:#d6336c" data-tilt="4">
         <div class="th-art" aria-hidden="true"><svg viewBox="0 0 200 120" class="dn"><g class="noisy"><circle cx="40" cy="30" r="3"/><circle cx="58" cy="80" r="3"/><circle cx="30" cy="62" r="3"/><circle cx="70" cy="45" r="3"/><circle cx="50" cy="98" r="3"/><circle cx="22" cy="40" r="3"/></g><path d="M85 60h30" class="ar"/><path d="M110 54l6 6-6 6" class="ar"/><g class="clean"><circle cx="140" cy="40" r="3"/><circle cx="160" cy="40" r="3"/><circle cx="180" cy="40" r="3"/><circle cx="140" cy="80" r="3"/><circle cx="160" cy="80" r="3"/><circle cx="180" cy="80" r="3"/></g></svg></div>
         <span class="th-n mono">03</span>
         <h3>Generative models</h3>
         <p>Energy-guided mixtures and self-reinforcing synthesis: generate the attacks you have not seen yet and the anomalies you have never met.</p>
-        <ul class="mono"><li>Hephaestus · NeurIPS’25</li><li>Swift Hydra · ICLR’25</li></ul>
+        <ul class="mono"><li>Sim-to-real · Cosmos 3</li><li>Hephaestus · NeurIPS’25</li><li>Swift Hydra · ICLR’25</li></ul>
       </article>
       <article class="th" id="r-moe" style="--a:#7048e8" data-tilt="4">
         <div class="th-art" aria-hidden="true"><svg viewBox="0 0 200 120"><circle cx="30" cy="60" r="7" class="in"/><path d="M37 60C80 60 80 25 125 25M37 60H125M37 60C80 60 80 95 125 95" class="rt"/><rect x="125" y="15" width="44" height="20" rx="6"/><rect x="125" y="50" width="44" height="20" rx="6" class="on"/><rect x="125" y="85" width="44" height="20" rx="6"/></svg></div>
         <span class="th-n mono">04</span>
         <h3>Mixture-of-experts</h3>
         <p>Routing between experts, from chess engines to Mamba heads to neural bases for graphs, and what gating does to the representations inside.</p>
-        <ul class="mono"><li>HARMONIA · preprint</li><li>Swift Hydra · ICLR’25</li></ul>
+        <ul class="mono"><li>RAPTOR · preprint</li><li>HARMONIA · preprint</li><li>Hexaïssa · AAAI’26</li></ul>
       </article>
       <article class="th" id="r-theory" style="--a:#c98a00" data-tilt="4">
         <div class="th-art" aria-hidden="true"><svg viewBox="0 0 200 120"><text x="100" y="58" class="big">∀ε ∃δ</text><path d="M40 86h120" class="ln"/><text x="100" y="104" class="sm">explain → explore</text></svg></div>
         <span class="th-n mono">05</span>
         <h3>Theory &amp; interpretability</h3>
         <p>Explain first, then explore; differential privacy for quantum learning; a mixture-gated theory of anisotropy in Transformers.</p>
-        <ul class="mono"><li>SPHINX · preprint</li><li>Anisotropic dynamics · preprint</li><li>Q-ShiftDP · AISTATS’26</li></ul>
+        <ul class="mono"><li>Semantic OT · NeurIPS’26</li><li>SPHINX · preprint</li><li>Anisotropic dynamics</li><li>Q-ShiftDP · AISTATS’26</li></ul>
       </article>
       <article class="th" id="r-hw" style="--a:#e8590c" data-tilt="4">
         <div class="th-art" aria-hidden="true"><svg viewBox="0 0 200 120"><rect x="60" y="20" width="80" height="80" rx="10" class="chip"/><path d="M20 45h40M20 75h40M140 45h40M140 75h40" class="wg"/><path d="M60 45C90 45 110 75 140 75M60 75C90 75 110 45 140 45" class="sw"/></svg></div>
         <span class="th-n mono">06</span>
         <h3>Quantum &amp; photonic hardware</h3>
         <p>RL agents that switch photonic networks-on-chip, and learned design of silicon photonic components.</p>
-        <ul class="mono"><li>Photonic NoC · Sci. Rep.’23</li><li>3-mode switch · IEEE Access’23</li></ul>
+        <ul class="mono"><li>Photonic NoC · Sci. Rep.’21</li><li>DeepChaos+ · Photonics’24</li><li>3-mode switch · IEEE Access’21</li></ul>
       </article>
     </div>
   </div>
 </section>
 
+<!-- ================= HIGHLIGHTED PROJECTS ================= -->
+<section class="projects" id="projects">
+  <div class="wrap">
+    <p class="lbl mono" data-scramble>§ 03 · Highlighted projects</p>
+    <h2 data-words>Work you can <em>watch.</em></h2>
+
+    <article class="hp" data-reveal>
+      <div class="hp-head">
+        <span class="hp-tag mono">Journal in preparation</span>
+        <h3>Training-free, memory-guided sim-to-real for six-camera driving video</h3>
+        <p>Simulators know the world and the crash exactly; video generators make it look real but invent whatever the control does not pin down. On a frozen <b>Cosmos 3</b> Transfer-Auto generator, we inject a shared semantic world memory and an event-preserving module at sampling time, with no training, so every camera of every vehicle agrees on <i>which class is where</i> while texture stays free.</p>
+      </div>
+
+      <div class="cmp" data-cmp>
+        <video class="cmp-src" src="/static/media/carla-ours.mp4" poster="/static/media/carla-ours.jpg" muted loop playsinline preload="metadata" controls aria-label="Stacked comparison video: CARLA on top, Ours below"></video>
+        <canvas class="cmp-cv" aria-hidden="true"></canvas>
+        <input class="cmp-range" type="range" min="0" max="1000" value="500" aria-label="Move the divider between CARLA and Ours">
+        <span class="cmp-bar" aria-hidden="true"><i></i></span>
+        <span class="cmp-l mono" aria-hidden="true">CARLA</span>
+        <span class="cmp-r mono" aria-hidden="true">Ours</span>
+      </div>
+      <div class="cmp-ctl">
+        <button class="cmp-play mono" type="button" aria-pressed="false">Pause</button>
+        <p class="cmp-cap">Front camera, 6.0–11.8 s of a CARLA scene. Drag the divider: the simulator render on the left, our photorealistic output on the right. Pilot results.</p>
+      </div>
+
+      <div class="hp-media">
+        <figure class="hp-vid">
+          <video data-auto src="/static/media/cosmos-sixview.mp4" poster="/static/media/cosmos-sixview.jpg" muted loop playsinline preload="none" controls aria-label="Six-camera output of our method"></video>
+          <figcaption class="mono">All six cameras generated at once (front L/C/R, rear L/C/R).</figcaption>
+        </figure>
+        <figure class="hp-fig">
+          <button class="zoom" type="button" data-full="/static/media/cosmos-teaser.jpg" aria-label="Open the overview figure full size">
+            <picture><source srcset="/static/media/cosmos-teaser.webp" type="image/webp"><img src="/static/media/cosmos-teaser.jpg" width="1800" height="845" alt="Overview figure: critical obstacle, no pass-through, ghost driver, temporal and multiview consistency, Cosmos 3 versus ours" loading="lazy"></picture>
+            <span class="zoom-i mono" aria-hidden="true">⤢ enlarge</span>
+          </button>
+          <figcaption class="mono">Event preservation and consistency, Cosmos 3 vs. Ours.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <div class="hp-grid">
+      <article class="hc" data-reveal data-tilt="4" style="--a:#d6336c">
+        <div class="hc-art" aria-hidden="true"><svg viewBox="0 0 320 150" class="fig-net"><g class="edges"><path d="M30 110L90 40L160 80L230 30L290 95"/><path d="M90 40L120 120L160 80L210 125L290 95"/><path d="M30 110L120 120"/><path d="M230 30L210 125"/></g><g class="hot"><path d="M90 40L160 80L230 30"/><path d="M160 80L210 125"/></g><g class="nodes"><circle cx="30" cy="110" r="5"/><circle cx="90" cy="40" r="5"/><circle cx="160" cy="80" r="7"/><circle cx="230" cy="30" r="5"/><circle cx="290" cy="95" r="5"/><circle cx="120" cy="120" r="5"/><circle cx="210" cy="125" r="5"/></g></svg></div>
+        <span class="hp-tag mono">NeurIPS 2025 · first author</span>
+        <h3>Hephaestus</h3>
+        <p>How cheaply can an attacker who only slows links push every critical route past its delay budget? A path-stressing algorithm with a guarantee, energy-guided generative mixtures, then RL refinement.</p>
+        <p class="kpi"><b data-count="28.1" data-dec="1" data-suffix="%">28.1%</b> lower attack cost than the strongest baseline on Skitter</p>
+        <a class="hc-link" href="https://arxiv.org/abs/2510.17036">Paper ↗</a>
+      </article>
+      <article class="hc" data-reveal data-tilt="4" style="--a:#0e9f8e">
+        <div class="hc-art" aria-hidden="true"><svg viewBox="0 0 320 150" class="fig-hydra"><path d="M20 120C80 120 90 40 150 75"/><path d="M20 120C90 120 110 100 150 75"/><path d="M20 120C70 110 70 140 150 75"/><path class="h" d="M150 75C190 50 220 30 290 28"/><path class="h" d="M150 75C200 75 230 75 290 75"/><path class="h" d="M150 75C190 100 220 122 290 122"/><circle cx="150" cy="75" r="8"/><circle class="hd" cx="290" cy="28" r="6"/><circle class="hd" cx="290" cy="75" r="6"/><circle class="hd" cx="290" cy="122" r="6"/></svg></div>
+        <span class="hp-tag mono">ICLR 2025 · first author</span>
+        <h3>Swift Hydra</h3>
+        <p>An RL policy roams the latent space of a generative model to synthesize anomalies the detector has never seen, then trains on them; Mamba experts in a mixture keep inference fast.</p>
+        <p class="kpi"><b>SOTA</b> on the ADBench anomaly-detection benchmark</p>
+        <a class="hc-link" href="https://arxiv.org/abs/2503.06413">Paper ↗</a>
+      </article>
+      <article class="hc" data-reveal data-tilt="4" style="--a:#c98a00">
+        <div class="hc-art" aria-hidden="true"><svg viewBox="0 0 320 150" class="fig-ot"><g class="ca"><circle cx="70" cy="40" r="6"/><circle cx="55" cy="75" r="6"/><circle cx="80" cy="108" r="6"/><circle cx="100" cy="68" r="6"/></g><g class="tp"><path d="M76 40C160 30 170 50 244 46"/><path d="M61 75C150 90 170 70 236 84"/><path d="M86 108C160 120 180 110 252 112"/><path d="M106 68C170 60 190 64 262 66"/></g><g class="cb"><rect x="238" y="40" width="12" height="12" rx="3"/><rect x="230" y="78" width="12" height="12" rx="3"/><rect x="246" y="106" width="12" height="12" rx="3"/><rect x="256" y="60" width="12" height="12" rx="3"/></g></svg></div>
+        <span class="hp-tag mono">NeurIPS 2026 · co-first author</span>
+        <h3>Semantic Optimal Transport</h3>
+        <p>Optimal transport over what sparse-autoencoder features mean, to match features across models and to compress circuits.</p>
+        <p class="kpi"><b>SAE</b> feature matching · circuit compression</p>
+        <a class="hc-link" href="https://arxiv.org/abs/2605.28567">Paper ↗</a>
+      </article>
+    </div>
+  </div>
+</section>
+<dialog class="lbox" aria-label="Figure, full size"><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></dialog>
+
 <!-- ================= PUBLICATIONS ================= -->
 <section class="papers" id="publications">
   <div class="wrap">
-    <p class="lbl mono" data-scramble>§ 03 · Publications</p>
+    <p class="lbl mono" data-scramble>§ 04 · Publications</p>
     <div class="pp-head">
-      <h2 data-words>Selected <em>publications.</em></h2>
+      <h2 data-words>All <em>publications.</em></h2>
       <div class="flt mono" role="group" aria-label="Filter papers">
         <button type="button" aria-pressed="true" data-f="all">--all</button>
         <button type="button" aria-pressed="false" data-f="first">--first-author</button>
@@ -200,23 +280,28 @@
         <button type="button" aria-pressed="false" data-f="pre">--preprint</button>
       </div>
     </div>
-    <p class="pp-note"><span class="hov">Hover a row for a preview. </span><span class="mono">★</span> first or co-first author. Everything else on <a href="https://scholar.google.com/citations?user=6f9HM24AAAAJ&amp;hl=en">Google Scholar</a>.</p>
+    <p class="pp-note"><span class="hov">Hover a row for a preview. </span><span class="mono">★</span> first or co-first author, * equal contribution. Also on <a href="https://scholar.google.com/citations?user=6f9HM24AAAAJ&amp;hl=en">Google Scholar</a>.</p>
 
     <ol class="plist" id="plist">
-      <li data-k="pre first" data-c="#7048e8" data-tldr="A mixture-gated theory of how representations in Transformers become anisotropic."><a href="https://arxiv.org/abs/2610.23242"><span class="py mono">2026</span><span class="pt">Mixture Gated Theory of Anisotropic Representation Dynamics in Transformers <i>★</i></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
-      <li data-k="pre first" data-c="#c98a00" data-tldr="Explain first, then explore."><a href="https://arxiv.org/abs/2606.17482"><span class="py mono">2026</span><span class="pt">SPHINX: First Explain, Then Explore <i>★</i></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
-      <li data-k="pre" data-c="#7048e8" data-tldr="Interpretable graph learning with mixtures of neural bases."><a href="https://arxiv.org/abs/2609.33972"><span class="py mono">2026</span><span class="pt">HARMONIA: Interpretable Graph Learning through Mixtures of Neural Bases</span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
-      <li data-k="conf first" data-c="#3346d3" data-tldr="Route among the strongest chess engines with a mixture-of-experts and a learned latent reward."><div class="row"><span class="py mono">2026</span><span class="pt">Hexaïssa: Standing on giants’ shoulders. Routing the best chess engines with mixture-of-experts and latent reward learning <i>★</i></span><span class="pv mono">AAAI</span><span class="pg"></span></div></li>
-      <li data-k="conf" data-c="#c98a00" data-tldr="A differentially private version of the parameter-shift rule for quantum machine learning."><a href="https://arxiv.org/abs/2602.02962"><span class="py mono">2026</span><span class="pt">Q-ShiftDP: A Differentially Private Parameter-Shift Rule for Quantum Machine Learning</span><span class="pv mono">AISTATS</span><span class="pg">↗</span></a></li>
-      <li data-k="conf first" data-c="#d6336c" data-tldr="Cheapest way to push critical routes past a delay threshold: 28.1% lower attack cost than the strongest baseline on Skitter."><a href="https://arxiv.org/abs/2510.17036"><span class="py mono">2025</span><span class="pt">Hephaestus: Mixture Generative Modeling with Energy Guidance for Large-scale QoS Degradation <i>★</i></span><span class="pv mono">NeurIPS</span><span class="pg">↗</span></a></li>
-      <li data-k="conf first" data-c="#0e9f8e" data-tldr="An RL policy over a generative latent space synthesizes unseen anomalies; Mamba experts keep inference fast. State of the art on ADBench."><a href="https://arxiv.org/abs/2503.06413"><span class="py mono">2025</span><span class="pt">Swift Hydra: Self-Reinforcing Generative Framework for Anomaly Detection with Multiple Mamba Models <i>★</i></span><span class="pv mono">ICLR</span><span class="pg">↗</span></a></li>
-      <li data-k="conf first" data-c="#3346d3" data-tldr="A reinforced multi-expert framework for influence maximization."><div class="row"><span class="py mono">2025</span><span class="pt">REM: Reinforced Multi-Expert Framework for Influence Maximization <i>★</i></span><span class="pv mono">AAAI</span><span class="pg"></span></div></li>
-      <li data-k="conf first" data-c="#0e9f8e" data-tldr="Influence maximization across multiplex networks, learned, with theoretical guarantees."><a href="https://arxiv.org/abs/2402.16898"><span class="py mono">2024</span><span class="pt">MIM-Reasoner: Learning with Theoretical Guarantees for Multiplex Influence Maximization <i>★</i></span><span class="pv mono">AISTATS</span><span class="pg">↗</span></a></li>
-      <li data-k="jour first" data-c="#0e9f8e" data-tldr="Chain-based reinforcement learning for minor embedding on quantum annealers."><a href="https://doi.org/10.1145/3763244"><span class="py mono">2024</span><span class="pt">CHARME: A Chain-based Reinforcement Learning Approach for the Minor Embedding Problem <i>★</i></span><span class="pv mono">ACM TQC</span><span class="pg">↗</span></a></li>
-      <li data-k="jour first" data-c="#e8590c" data-tldr="RL agents that control switching in photonic networks-on-chip."><div class="row"><span class="py mono">2023</span><span class="pt">Self-Controlling Photonic-on-Chip Networks <i>★</i></span><span class="pv mono">Sci. Rep.</span><span class="pg"></span></div></li>
-      <li data-k="jour" data-c="#e8590c" data-tldr="A compact, efficient 2×2 photonic switch for three modes."><div class="row"><span class="py mono">2023</span><span class="pt">Compact, Efficient 2×2 Three-mode Photonic Switch</span><span class="pv mono">IEEE Access</span><span class="pg"></span></div></li>
-      <li data-k="jour" data-c="#e8590c" data-tldr="A dual-mode optical hybrid device on the silicon-on-insulator platform."><div class="row"><span class="py mono">2023</span><span class="pt">Dual-mode Optical Hybrid Device for SOI Platform</span><span class="pv mono">IEEE PJ</span><span class="pg"></span></div></li>
-      <li data-k="conf first" data-c="#3346d3" data-tldr="Multi-objective exploration for proximal policy optimization."><div class="row"><span class="py mono">2022</span><span class="pt">Multi-objective Exploration for PPO <i>★</i></span><span class="pv mono">ATiGB</span><span class="pg"></span></div></li>
+      <li data-k="conf first" data-c="#c98a00" data-tldr="Optimal transport over the semantics of sparse-autoencoder features, to match features across models and compress circuits." data-venue="Advances in Neural Information Processing Systems 40 (NeurIPS 2026)"><a href="https://arxiv.org/abs/2605.28567"><span class="py mono">2026</span><span class="pt">Semantic Optimal Transport for Sparse Autoencoder Feature Matching and Circuit Compression <i>★</i><span class="pa">T. M. Cao*, <u>Nguyen Do</u>*, M. T. Thai</span></span><span class="pv mono">NeurIPS</span><span class="pg">↗</span></a></li>
+      <li data-k="conf" data-c="#c98a00" data-tldr="A differentially private version of the parameter-shift rule for quantum machine learning." data-venue="International Conference on Artificial Intelligence and Statistics (AISTATS 2026)"><a href="https://arxiv.org/abs/2602.02962"><span class="py mono">2026</span><span class="pt">Q-ShiftDP: A Differentially Private Parameter-Shift Rule for Quantum Machine Learning<span class="pa">H. Ngo, N. Hoang, Q. Nguyen, <u>Nguyen Do</u>, I. Shin, M. T. Thai</span></span><span class="pv mono">AISTATS</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#3346d3" data-tldr="Route among the strongest chess engines with a mixture-of-experts and a learned latent reward." data-venue="Proceedings of the AAAI Conference on Artificial Intelligence 40 (AAAI 2026)"><a href="https://scholar.google.com/scholar?q=%22Hexa%C3%AFssa%22+chess+engines+mixture-of-experts"><span class="py mono">2026</span><span class="pt">Hexaïssa: Standing on Giants’ Shoulders. Routing the Best Chess Engines with Mixture-of-Experts and Latent Reward Learning <i>★</i><span class="pa">B. Ngo, <u>Nguyen Do</u> (co-first)</span></span><span class="pv mono">AAAI</span><span class="pg">↗</span></a></li>
+      <li data-k="pre first" data-c="#7048e8" data-tldr="A mixture-gated theory of how representations in Transformers become anisotropic." data-venue="arXiv preprint arXiv:2610.23242"><a href="https://arxiv.org/abs/2610.23242"><span class="py mono">2026</span><span class="pt">A Mixture-Gated Theory of Anisotropic Representation Dynamics in Transformers <i>★</i><span class="pa"><u>Nguyen Do</u>, M. T. Thai</span></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
+      <li data-k="pre" data-c="#7048e8" data-tldr="Interpretable graph learning with mixtures of neural bases." data-venue="arXiv preprint arXiv:2609.33972"><a href="https://arxiv.org/abs/2609.33972"><span class="py mono">2026</span><span class="pt">HARMONIA: Interpretable Graph Learning through Mixtures of Neural Bases<span class="pa">Q. D. Bui, <u>Nguyen Do</u>, A. N. Dang, H. Nguyen, N. D. M. Nguyen, M. T. Thai</span></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
+      <li data-k="pre first" data-c="#7048e8" data-tldr="Private training for mixture-of-experts that accounts for the role each expert plays." data-venue="arXiv preprint arXiv:2609.05770"><a href="https://arxiv.org/abs/2609.05770"><span class="py mono">2026</span><span class="pt">RAPTOR: Role-Aware Private Training for Mixture-of-Experts <i>★</i><span class="pa">D. Dm*, K. Le-Duc*, <u>Nguyen Do</u>*, M. S. Hoang, F. Draye, T. Hoang, H. P. Dam, J. Liu, et al.</span></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
+      <li data-k="pre first" data-c="#c98a00" data-tldr="Explain first, then explore." data-venue="arXiv preprint arXiv:2606.17482"><a href="https://arxiv.org/abs/2606.17482"><span class="py mono">2026</span><span class="pt">SPHINX: First Explain, Then Explore <i>★</i><span class="pa"><u>Nguyen Do</u>, T. M. Cao, T. Van Do, A. Hajdu, T. Bérczes, M. T. Thai</span></span><span class="pv mono">arXiv</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#d6336c" data-tldr="Cheapest way to push critical routes past a delay threshold: 28.1% lower attack cost than the strongest baseline on Skitter." data-venue="Advances in Neural Information Processing Systems 39 (NeurIPS 2025)"><a href="https://arxiv.org/abs/2510.17036"><span class="py mono">2025</span><span class="pt">Hephaestus: Mixture Generative Modeling with Energy Guidance for Large-scale QoS Degradation <i>★</i><span class="pa"><u>Nguyen Do</u>, B. Ngo, Y. Kashuv, C. V. Pham, H. Tong, M. T. Thai</span></span><span class="pv mono">NeurIPS</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#0e9f8e" data-tldr="An RL policy over a generative latent space synthesizes unseen anomalies; Mamba experts keep inference fast." data-venue="International Conference on Learning Representations (ICLR 2025)"><a href="https://arxiv.org/abs/2503.06413"><span class="py mono">2025</span><span class="pt">Swift Hydra: Self-Reinforcing Generative Framework for Anomaly Detection with Multiple Mamba Models <i>★</i><span class="pa"><u>Nguyen Do</u>, T. Nguyen, M. Hassanaly, R. Alharbi, J. T. Seo, M. T. Thai</span></span><span class="pv mono">ICLR</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#3346d3" data-tldr="A scalable reinforced multi-expert framework for influence maximization on multiplex networks." data-venue="Proceedings of the AAAI Conference on Artificial Intelligence 39 (AAAI 2025)"><a href="https://arxiv.org/abs/2501.00779"><span class="py mono">2025</span><span class="pt">REM: A Scalable Reinforced Multi-Expert Framework for Multiplex Influence Maximization <i>★</i><span class="pa"><u>Nguyen Do</u>, H. Nguyen, H. Dam, C. Tran, C. Pham</span></span><span class="pv mono">AAAI</span><span class="pg">↗</span></a></li>
+      <li data-k="jour first" data-c="#0e9f8e" data-tldr="Chain-based reinforcement learning for minor embedding on quantum annealers." data-venue="ACM Transactions on Quantum Computing"><a href="https://doi.org/10.1145/3763244"><span class="py mono">2025</span><span class="pt">CHARME: A Chain-based Reinforcement Learning Approach for the Minor Embedding Problem <i>★</i><span class="pa">H. Ngo*, <u>Nguyen Do</u>*, M. Vu, T. Kahveci, M. T. Thai</span></span><span class="pv mono">ACM TQC</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#0e9f8e" data-tldr="Influence maximization across multiplex networks, learned, with theoretical guarantees." data-venue="International Conference on Artificial Intelligence and Statistics (AISTATS 2024)"><a href="https://arxiv.org/abs/2402.16898"><span class="py mono">2024</span><span class="pt">MIM-Reasoner: Learning with Theoretical Guarantees for Multiplex Influence Maximization <i>★</i><span class="pa"><u>Nguyen Do</u>, T. Chowdhury, C. Ling, L. Zhao, M. T. Thai</span></span><span class="pv mono">AISTATS</span><span class="pg">↗</span></a></li>
+      <li data-k="jour first" data-c="#e8590c" data-tldr="Deep generative models recover high-speed optical signals hidden by chaos masking." data-venue="Photonics 11 (10), 967"><a href="https://doi.org/10.3390/photonics11100967"><span class="py mono">2024</span><span class="pt">DeepChaos+: Signal Detection Quality Enhancement of High-Speed DP-16QAM Optical Fiber Communication Based on Chaos Masking Technique with Deep Generative Models <i>★</i><span class="pa"><u>Nguyen Do</u>*, D. Vu*, H. Nguyen, H. Dam, T. Tran, Q. Nguyen, D. Truong</span></span><span class="pv mono">Photonics</span><span class="pg">↗</span></a></li>
+      <li data-k="conf" data-c="#3346d3" data-tldr="Unsupervised pre-training and adaptation for multi-accent Vietnamese speech recognition." data-venue="9th Int. Conference on Applying New Technology in Green Buildings (ATiGB 2024)"><a href="https://scholar.google.com/scholar?q=%22Wav2Vn%22+Vietnamese+ASR"><span class="py mono">2024</span><span class="pt">Wav2Vn: Scalable Unsupervised Pre-training and Adaptation for Multi-Accent Vietnamese ASR<span class="pa">V. N. Kim, H. N. T. Ngoc, H. D. Minh, <u>N. D. H. Khoi</u>, T. D. Do, C. T. Dung</span></span><span class="pv mono">ATiGB</span><span class="pg">↗</span></a></li>
+      <li data-k="jour" data-c="#3346d3" data-tldr="Few-shot object detection inspired by how babies learn new objects." data-venue="Image and Vision Computing 120, 104398"><a href="https://doi.org/10.1016/j.imavis.2022.104398"><span class="py mono">2022</span><span class="pt">Few-shot Object Detection via Baby Learning<span class="pa">A. K. N. Vu, <u>N. D. Nguyen</u>, K. D. Nguyen, V. T. Nguyen, T. D. Ngo, T. T. Do, et al.</span></span><span class="pv mono">IVC</span><span class="pg">↗</span></a></li>
+      <li data-k="jour first" data-c="#e8590c" data-tldr="RL agents that control switching in photonic networks-on-chip." data-venue="Scientific Reports"><a href="https://doi.org/10.1038/s41598-021-02583-7"><span class="py mono">2021</span><span class="pt">Self-Controlling Photonic-on-Chip Networks with Deep Reinforcement Learning <i>★</i><span class="pa"><u>Nguyen Do</u>, D. Truong, D. Nguyen, H. Minh, C. Pham</span></span><span class="pv mono">Sci. Rep.</span><span class="pg">↗</span></a></li>
+      <li data-k="jour" data-c="#e8590c" data-tldr="A compact, efficient 2×2 silicon photonic switch for three modes." data-venue="IEEE Access 9, 102387–102396"><a href="https://doi.org/10.1109/ACCESS.2021.3096168"><span class="py mono">2021</span><span class="pt">Compact, Highly Efficient, and Controllable Simultaneous 2×2 Three-mode Silicon Photonic Switch in the Continuum Band<span class="pa">D. Nguyen, H. Ta, T. Tran, <u>Nguyen Do</u>, D. Truong</span></span><span class="pv mono">IEEE Access</span><span class="pg">↗</span></a></li>
+      <li data-k="jour" data-c="#e8590c" data-tldr="A switchable dual-mode optical hybrid on the silicon-on-insulator platform." data-venue="IEEE Photonics Journal 13 (1), 1–16"><a href="https://doi.org/10.1109/JPHOT.2021.3055691"><span class="py mono">2021</span><span class="pt">1×2 Switchable Dual-mode Optical 90° Hybrid Device Based on Thermo-optic Phase Shifters and 2×2 MMI Couplers on SOI Platform<span class="pa">H. Ta, D. Nguyen, T. Tran, <u>Nguyen Do</u>, H. Nguyen, D. Truong</span></span><span class="pv mono">IEEE PJ</span><span class="pg">↗</span></a></li>
+      <li data-k="conf first" data-c="#3346d3" data-tldr="Multi-objective exploration for proximal policy optimization." data-venue="Applying New Technology in Green Buildings (ATiGB), 105–109"><a href="https://doi.org/10.1109/ATiGB50996.2021.9423319"><span class="py mono">2021</span><span class="pt">Multi-objective Exploration for Proximal Policy Optimization <i>★</i><span class="pa"><u>Nguyen Do</u>, C. Pham, V. Tran, D. Truong</span></span><span class="pv mono">ATiGB</span><span class="pg">↗</span></a></li>
     </ol>
   </div>
   <div class="peek" aria-hidden="true"><span class="pk-v mono"></span><p class="pk-t"></p><span class="pk-o mono">click to open ↗</span></div>
@@ -225,14 +310,14 @@
 <!-- ================= TRAJECTORY ================= -->
 <section class="traj" id="trajectory">
   <div class="wrap">
-    <p class="lbl mono" data-scramble>§ 04 · Experience</p>
+    <p class="lbl mono" data-scramble>§ 05 · Experience</p>
     <h2 data-words>An episode, <em>so far.</em></h2>
     <p class="tj-sub">Eight years of states and actions, from photonic chips in Hanoi to policies in Gainesville. Scroll to roll it out.</p>
   </div>
   <div class="wrap tj">
     <svg class="tj-path" aria-hidden="true" preserveAspectRatio="none"><path class="bg"/><path class="fg"/><circle class="agent" r="7"/><circle class="halo" r="16"/></svg>
     <ol class="steps">
-      <li class="st"><span class="sk mono">s₆ · Sep 2022 → now</span><h3>Optimization Lab, University of Florida</h3><p>RL and probabilistic models for multiplex influence maximization; GNNs with theoretical guarantees for quantum minor embedding.</p></li>
+      <li class="st"><span class="sk mono">s₆ · Sep 2022 → now</span><h3>THÁI Lab, University of Florida</h3><p>RL and probabilistic models for multiplex influence maximization; GNNs with theoretical guarantees for quantum minor embedding.</p></li>
       <li class="st"><span class="sk mono">s₅ · Feb 2023 → Sep 2024</span><h3>Connected Brain Corporation</h3><p>NLP and CV research, multilingual machine translation, GPT-based domain chatbots.</p></li>
       <li class="st"><span class="sk mono">s₄ · Feb 2020 → Oct 2021</span><h3>Naver × PTIT AI Lab</h3><p>VAEs and GANs for unsupervised object detection and benchmarking.</p></li>
       <li class="st"><span class="sk mono">s₃ · Mar → May 2019</span><h3>MobiFone Telecom</h3><p>Internship: fire and liveness detection under poor camera conditions.</p></li>
@@ -242,7 +327,7 @@
   </div>
   <div class="wrap side">
     <div class="side-col">
-      <p class="lbl mono" data-scramble>§ Projects</p>
+      <p class="lbl mono" data-scramble>§ Other projects</p>
       <ul class="lst">
         <li><b>Self-Controlling Photonic NoC</b><span>VINIF funded · RL for on-chip switching efficiency</span></li>
         <li><b>AI Design Optimization for Silicon Photonics</b><span>RL and generative models for phase-shifting components</span></li>
@@ -275,7 +360,7 @@
 <footer class="ft" id="contact">
   <canvas id="fnet" aria-hidden="true"></canvas>
   <div class="wrap">
-    <p class="lbl mono" data-scramble>§ 05 · Contact</p>
+    <p class="lbl mono" data-scramble>§ 06 · Contact</p>
     <h2 class="ft-big"><span>Let’s</span> <em>talk.</em></h2>
     <div class="ft-row">
       <a class="orb" href="mailto:nguyen.do@ufl.edu" data-magnet aria-label="Email nguyen.do@ufl.edu">
@@ -290,7 +375,7 @@
         <li><a href="/files/resume.pdf">Curriculum vitae</a></li>
       </ul>
     </div>
-    <p class="fine mono"><span>© <span id="yr">2026</span> Nguyen Do</span><span>episode still running</span></p>
+    <p class="fine mono"><span>© <span id="yr">2026</span> Nguyen Do · <a class="lab" href="https://www.cise.ufl.edu/research/OptimaNetSci/index.html">THÁI Lab</a>, University of Florida</span><span>episode still running</span></p>
   </div>
 </footer>
 
