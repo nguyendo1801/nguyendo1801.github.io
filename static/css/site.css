@@ -146,7 +146,6 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--acc)}
 .hero-fig figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mute);margin-top:12px}
 .hero-fig figcaption b{color:var(--ink);font-weight:500}
 .hero-fig figcaption span:last-child b{color:var(--acc);display:inline-block;min-width:4ch}
-.fig-hint{font-size:11px;color:var(--dim);margin:4px 0 0}
 [data-tilt]{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--ease),box-shadow .4s,border-color .4s}
 [data-tilt].hot{transition:transform .12s linear,box-shadow .4s,border-color .4s}
 .js .hero-fig{opacity:0;scale:.94;transition:opacity 1.2s var(--ease) .2s,scale 1.2s var(--ease) .2s,transform .5s var(--ease)}
