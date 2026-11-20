@@ -170,7 +170,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       t=1,mouse={x:-9999,y:-9999,vx:0,vy:0,on:false},
       tEl=$('#tstep'),sEl=$('#sig'),slider=$('#tslider'),replay=$('.replay'),src=null,imgMode=!!cv.dataset.img,
       small=document.createElement('canvas'),sc=small.getContext('2d'),gap=6,cols=0,rows=0,lastShown=-1,
-      model=null,zf=0,t3d=$('#t3d'),lastU=-1;
+      model=null,zf=0,t3d=$('#t3d'),lastU=-1,DUST=null;
   /* ST: path position (1 = at its noise sample) and opacity of the photo's foreground/background dots and of the
      3D points (sm, am), plus the 3D pose; persp blends perspective out so the frontal pose matches the halftone */
   var ST={sFg:1,sBg:1,aFg:1,aBg:1,sm:1,am:0,yaw:0,pitch:0,persp:1};
@@ -179,9 +179,11 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v);}
   function particle(x,y,c,r){return {tx:x,ty:y,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,da:(Math.random()-.5)*.8,ex:0,ey:0,c:c,r:r,fg:false,s:1};}
   function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
-  /* 2D stages: noise (s) for t in [.32,1]; halftone; sharpening (k) for t in [0,.32] */
+  /* 2D stages: noise (s) for t in [.32,1]; the halftone gives way to a blurred photo (k) for t in [.24,.32];
+     detail then builds up slowly (d) for t in [0,.24], so the photo visibly comes into focus */
   function noiseOf(t){return Math.pow(clamp((t-.32)/.68,0,1),1.25);}
-  function sharpOf(t){return imgMode?ease(clamp((.32-t)/.32,0,1)):0;}
+  function sharpOf(t){var x=clamp((.32-t)/.32,0,1);return imgMode?Math.min(1,x/.08)*(.3+.7*Math.pow(x,1.5)):0;}
+  function detailOf(t){return imgMode?clamp((.32-t)/.32,0,1):0;}
   function build(){
     var r=frame.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;if(!W||!H)return;
     cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);P=[];
@@ -203,7 +205,26 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       var im=oc.getImageData(0,0,off.width,off.height).data,g2=Math.max(3,Math.round(W/120));
       for(var y2=0;y2<off.height;y2+=g2)for(var x2=0;x2<off.width;x2+=g2)if(im[(y2*off.width+x2)*4+3]>128)P.push(particle(x2,y2,pal(x2/W*.8+Math.random()*.2),1.3+Math.random()*1.1));
     }
+    DUST=imgMode&&src?[1.7,2.8,4.6].map(function(f){return grain(Math.max(1.3,gap/f));}):null;
     couple();bindModel();
+  }
+  /* a pre-rendered halftone of the photo at a finer grid: the dots shrink through these layers while the photo
+     underneath comes into focus, until only a fine grain is left and then the clean photo */
+  function grain(g){
+    var d=Math.min(devicePixelRatio||1,2),c=document.createElement('canvas'),x=c.getContext('2d'),gc=Math.ceil(W/g),gr=Math.ceil(H/g),
+        o=document.createElement('canvas'),oc=o.getContext('2d'),s=Math.min(src.naturalWidth,src.naturalHeight);
+    c.width=Math.round(W*d);c.height=Math.round(H*d);x.scale(d,d);o.width=gc;o.height=gr;
+    oc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,gc,gr);var px=oc.getImageData(0,0,gc,gr).data;
+    for(var j=0;j<gr;j++)for(var i=0;i<gc;i++){var k=(j*gc+i)*4,lum=(.2126*px[k]+.7152*px[k+1]+.0722*px[k+2])/255,
+        r=g*.5*(.4+.75*(1-lum)),cx=(i+.5+(Math.random()-.5)*.7)*g,cy=(j+.5+(Math.random()-.5)*.7)*g;
+      x.fillStyle='rgb('+px[k]+','+px[k+1]+','+px[k+2]+')';
+      if(r*d<1.6)x.fillRect(cx-r,cy-r,2*r,2*r);else{x.beginPath();x.arc(cx,cy,r,0,6.2832);x.fill();}}
+    return c;
+  }
+  function dust(x){
+    for(var i=0;i<DUST.length;i++){var w=Math.max(0,1-Math.abs(x-[.24,.5,.76][i])/.3),a=Math.min(1,w*1.25)*Math.min(1,(1-x)*5);
+      if(a>.01){ctx.globalAlpha=a;ctx.drawImage(DUST[i],0,0,W,H);}}
+    ctx.globalAlpha=1;
   }
   /* OT-style coupling between Gaussian samples and the image's dots: both sets are sorted into matching
      x-strips, then by y inside each strip (a monotone Knothe-Rosenblatt map), so paths are short straight
@@ -242,7 +263,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   }
   /* the loop. A: noise -> 3D while turning; R: finish a full turn; B: face the camera and become the photo's halftone;
      K: sharpen into the photo; H: hold; C: photo -> noise; Z: hold. Without the model: F (noise -> photo), H, C, Z. */
-  var DA=3.6,DR=5.4,DB=1.8,DK=1.4,DH=2.6,DC=2.8,DZ=.7,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
+  var DA=3.6,DR=5.4,DB=1.8,DK=5.4,DH=2.6,DC=2.8,DZ=.7,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
   function segs(){return M.length?[['A',DA],['R',DR],['B',DB],['K',DK],['H',DH],['C',DC],['Z',DZ]]:[['F',3.4],['H',DH],['C',DC],['Z',DZ]];}
   function clock(){return performance.now()/1000;}
   function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;}
@@ -253,7 +274,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     if(id==='A'){ST.sm=1-q;ST.am=clamp(p/.15,0,1);ST.aFg=1-ST.am;ST.aBg=lerp(1,.12,q);ST.sFg=ST.sBg=1;ST.persp=1;t=lerp(.32,1,ST.sm);spin(e/(DA+DR));}
     else if(id==='R'){ST.sm=0;ST.am=1;ST.aFg=0;ST.aBg=.12;ST.sFg=ST.sBg=1;ST.persp=1;t=.32;spin((DA+e)/(DA+DR));}
     else if(id==='B'){ST.sm=0;ST.am=1-q;ST.aFg=q;ST.sFg=0;ST.sBg=1-q;ST.aBg=lerp(.12,1,q);ST.persp=1-q;ST.yaw=ST.pitch=0;t=.32;}
-    else{t=id==='K'?.32*(1-q):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();}
+    else{t=id==='K'?.32*(1-p):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();}
   }
   function eForT(v){var S=segs(),e=0;for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
   function startCycle(e){if(still()){t=0;flat();draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
@@ -286,11 +307,11 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       m.px=lerp(ox+x1*k,m.sx,s)+w;m.py=lerp(oy+y1*k,m.sy,s)+v;m.pz=z2;m.pr=lerp(rr*k,gap*.24,s);}
     ORD.sort(function(a,b){return M[a].pz-M[b].pz;});
   }
-  function dotsP(k){
+  function dotsP(live,rs){
     var cur=-1;
     for(var j=0;j<P.length;j++){var p=P[j];if(p.px<-6||p.py<-6||p.px>W+6||p.py>H+6)continue;
-      var a=(.35+.65*(1-p.s*.85))*(1-k*.85)*(p.fg?ST.aFg:ST.aBg);if(a<.02)continue;
-      if(a!==cur){ctx.globalAlpha=a;cur=a;}ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.px,p.py,p.r,0,6.2832);ctx.fill();}
+      var a=(.35+.65*(1-p.s*.85))*live*(p.fg?ST.aFg:ST.aBg);if(a<.02)continue;
+      if(a!==cur){ctx.globalAlpha=a;cur=a;}ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.px,p.py,p.r*rs,0,6.2832);ctx.fill();}
     ctx.globalAlpha=1;
   }
   function dotsM(){
@@ -311,9 +332,9 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     for(i=0;i<L.length;i+=stp){p=L[i];if(in3)ctx.fillRect(p.sx-1,p.sy-1,2,2);else if(!(p.fg&&ST.sFg<.01))ctx.fillRect(p.nx-1,p.ny-1,2,2);}
   }
   function photo(k){
-    /* coarse-to-fine: low resolution first, full detail at t = 0 */
-    var s=Math.min(src.naturalWidth,src.naturalHeight),res=Math.round(lerp(14,Math.max(W,H)*1.5,k*k));
-    small.width=small.height=res;sc.imageSmoothingEnabled=true;sc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,res,res);
+    /* coarse-to-fine: resolution grows geometrically with d, so detail arrives evenly and is full at t = 0 */
+    var s=Math.min(src.naturalWidth,src.naturalHeight),res=Math.round(16*Math.pow(Math.max(W,H)*1.5/16,detailOf(t)));
+    small.width=small.height=res;sc.imageSmoothingEnabled=true;sc.imageSmoothingQuality='high';ctx.imageSmoothingQuality='high';sc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,res,res);
     ctx.globalAlpha=k;ctx.imageSmoothingEnabled=true;ctx.drawImage(small,0,0,W,H);ctx.globalAlpha=1;
   }
   function lens(){ /* the halftone the photo was built from */
@@ -324,10 +345,13 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   }
   function draw(){
     if(!W)return;
-    var k=ST.am>0?0:sharpOf(t);
+    /* focus stage (t .32 -> 0, x 0 -> 1): the photo sharpens underneath while the dots on top shrink into ever
+       finer grain and fade out */
+    var k=ST.am>0?0:sharpOf(t),x=ST.am>0?0:detailOf(t),lp=clamp(x/.3,0,1),live=1-ease(lp);
     ctx.clearRect(0,0,W,H);
-    if(k<1){placeP();if(ST.am>0)placeM();plan();dotsP(k);if(ST.am>0)dotsM();}
     if(k>0&&src)photo(k);
+    if(x>0&&DUST)dust(x);
+    if(live>.01){placeP();if(ST.am>0)placeM();plan();dotsP(live,lerp(1,.7,lp));if(ST.am>0)dotsM();}
     if(k>.5&&mouse.on)lens();
     var shown=Math.round(t*1000);
     if(shown!==lastShown){lastShown=shown;if(tEl)tEl.textContent=String(shown).padStart(4,'0');if(sEl)sEl.textContent=t.toFixed(3);
