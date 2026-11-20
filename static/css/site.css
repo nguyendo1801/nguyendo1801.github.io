@@ -637,3 +637,8 @@ a.lab{color:var(--hot)}
 .lg-av{border-radius:11px!important}
 .lg-av picture,.lg-av img{border-radius:9px!important}
 .logo:hover .lg-av{border-radius:11px!important}
+
+/* About text now opens Research directions */
+.rs-about{font:400 clamp(1.25rem,2.1vw,1.6rem)/1.45 var(--serif)!important;color:#c9d0ee!important;max-width:880px!important;letter-spacing:-.005em}
+.rs-about b{color:#fff;font-weight:600}
+.rs-about i{font-style:italic;background:linear-gradient(100deg,#9fb0ff,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent}
