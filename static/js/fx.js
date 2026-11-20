@@ -160,20 +160,26 @@ function count(el){
 /* ---------- ticker: duplicate the set so the loop is seamless ---------- */
 $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c=s.cloneNode(true);c.setAttribute('aria-hidden','true');t.appendChild(c);});
 
-/* ---------- HERO: the portrait denoises out of Gaussian noise, then sharpens into the photo.
-   t = 1 is pure noise, t = 0 is the clean photo. The intro runs t from 1 to 0 once; the slider sets t by hand. ---------- */
+/* ---------- HERO: Gaussian noise is carried along straight optimal-transport paths onto a 3D point cloud of the
+   portrait (generated from the photo with Hunyuan3D-2 and registered to it), which turns a full circle, settles facing
+   the camera, becomes the halftone of the original photo, sharpens into the photo, and then flows back to noise.
+   t = 1 is pure noise, t = 0 is the clean photo; the 3D stage sits at t = .32, where the halftone forms. ---------- */
 (function(){
   var cv=$('#noise');if(!cv||!cv.getContext)return;
-  var frame=cv.parentNode,ctx=cv.getContext('2d'),W=0,H=0,P=[],run=true,raf=0,last=0,
-      t=1,introT0=-1,introOn=false,INTRO=3.4,mouse={x:-9999,y:-9999,vx:0,vy:0,on:false},
+  var frame=cv.parentNode,ctx=cv.getContext('2d'),W=0,H=0,P=[],M=[],ORD=[],run=true,raf=0,last=0,
+      t=1,mouse={x:-9999,y:-9999,vx:0,vy:0,on:false},
       tEl=$('#tstep'),sEl=$('#sig'),slider=$('#tslider'),replay=$('.replay'),src=null,imgMode=!!cv.dataset.img,
-      small=document.createElement('canvas'),sc=small.getContext('2d'),gap=6,lastShown=-1;
+      small=document.createElement('canvas'),sc=small.getContext('2d'),gap=6,cols=0,rows=0,lastShown=-1,
+      model=null,zf=0,t3d=$('#t3d'),lastU=-1;
+  /* ST: path position (1 = at its noise sample) and opacity of the photo's foreground/background dots and of the
+     3D points (sm, am), plus the 3D pose; persp blends perspective out so the frontal pose matches the halftone */
+  var ST={sFg:1,sBg:1,aFg:1,aBg:1,sm:1,am:0,yaw:0,pitch:0,persp:1};
   var PAL=[[51,70,211],[112,72,232],[214,51,108],[14,159,142]];
   function pal(u){u=clamp(u,0,.999)*(PAL.length-1);var i=Math.floor(u),f=u-i,a=PAL[i],b=PAL[i+1];return 'rgb('+Math.round(lerp(a[0],b[0],f))+','+Math.round(lerp(a[1],b[1],f))+','+Math.round(lerp(a[2],b[2],f))+')';}
   function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v);}
-  function particle(x,y,c,r){return {tx:x,ty:y,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,da:(Math.random()-.5)*.8,ex:0,ey:0,c:c,r:r};}
+  function particle(x,y,c,r){return {tx:x,ty:y,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,da:(Math.random()-.5)*.8,ex:0,ey:0,c:c,r:r,fg:false,s:1};}
   function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
-  /* stages: noise (s) for t in [.32,1]; halftone; sharpening (k) for t in [0,.32] */
+  /* 2D stages: noise (s) for t in [.32,1]; halftone; sharpening (k) for t in [0,.32] */
   function noiseOf(t){return Math.pow(clamp((t-.32)/.68,0,1),1.25);}
   function sharpOf(t){return imgMode?ease(clamp((.32-t)/.32,0,1)):0;}
   function build(){
@@ -181,7 +187,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);P=[];
     var off=document.createElement('canvas'),oc=off.getContext('2d');
     if(imgMode&&src){
-      gap=Math.max(4,Math.round(W/92));var cols=Math.ceil(W/gap),rows=Math.ceil(H/gap);
+      gap=Math.max(4,Math.round(W/92));cols=Math.ceil(W/gap);rows=Math.ceil(H/gap);
       off.width=cols;off.height=rows;
       var s=Math.min(src.naturalWidth,src.naturalHeight);oc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,cols,rows);
       var px=oc.getImageData(0,0,cols,rows).data;
@@ -197,34 +203,112 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       var im=oc.getImageData(0,0,off.width,off.height).data,g2=Math.max(3,Math.round(W/120));
       for(var y2=0;y2<off.height;y2+=g2)for(var x2=0;x2<off.width;x2+=g2)if(im[(y2*off.width+x2)*4+3]>128)P.push(particle(x2,y2,pal(x2/W*.8+Math.random()*.2),1.3+Math.random()*1.1));
     }
+    couple();bindModel();
   }
-  /* the loop: denoise (t 1→0), hold the photo, re-noise (t 0→1), hold the noise; repeat */
-  var D1=3.4,H1=2.8,D2=2.6,H2=.8,CL=D1+H1+D2+H2,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
+  /* OT-style coupling between Gaussian samples and the image's dots: both sets are sorted into matching
+     x-strips, then by y inside each strip (a monotone Knothe-Rosenblatt map), so paths are short straight
+     lines that rarely cross. The image side is keyed on a blurred (noised) position, as in minibatch OT,
+     so the starting cloud reads as noise instead of a warped copy of the photo. */
+  function couple(){
+    var n=P.length;if(!n)return;
+    var S=[],i;for(i=0;i<n;i++)S.push([W/2+gauss()*W*.27,H/2+gauss()*H*.27]);
+    var T=P.slice();for(i=0;i<n;i++){T[i].kx=T[i].tx+gauss()*W*.32;T[i].ky=T[i].ty+gauss()*H*.32;}
+    S.sort(function(a,b){return a[0]-b[0];});T.sort(function(a,b){return a.kx-b.kx;});
+    var C=Math.max(1,Math.round(Math.sqrt(n))),bs=Math.ceil(n/C);
+    for(var b=0;b<n;b+=bs){var s1=S.slice(b,b+bs).sort(function(a,c){return a[1]-c[1];}),t1=T.slice(b,b+bs).sort(function(a,c){return a.ky-c.ky;});
+      for(i=0;i<t1.length;i++){t1[i].nx=s1[i][0];t1[i].ny=s1[i][1];}}
+  }
+  /* the 3D points: each one is tied to the halftone dot it covers when the model faces the camera and starts from
+     that dot's noise sample, so noise -> 3D and 3D -> photo are both continuous */
+  function bindModel(){
+    M=[];ORD=[];if(!model||!imgMode||!cols)return;
+    var Wg=cols*gap,Hg=rows*gap,stride=W<300?2:1,zs=[];
+    for(var i=0;i<model.n;i+=stride){
+      var u=model.px+model.xyz[i*3],v=model.py+model.xyz[i*3+1],
+          q=P[clamp(Math.floor(v*rows),0,rows-1)*cols+clamp(Math.floor(u*cols),0,cols-1)];q.fg=true;
+      M.push({ox:model.xyz[i*3]*Wg,oy:model.xyz[i*3+1]*Hg,oz:model.xyz[i*3+2]*Wg,nx:model.nrm[i*3],ny:model.nrm[i*3+1],nz:model.nrm[i*3+2],
+        c:model.col[i],sx:q.nx+gauss()*gap*.7,sy:q.ny+gauss()*gap*.7,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,f:1,px:0,py:0,pz:0,pr:1});
+      zs.push(model.xyz[i*3+2]*Wg);
+    }
+    zs.sort(function(a,b){return a-b;});zf=zs[Math.floor(zs.length*.85)]||0;
+    ORD=M.map(function(_,k){return k;});
+  }
+  function parseModel(buf){
+    var h=new Float32Array(buf,0,4),n=h[0]|0,k=h[1]/32767,q=new Int16Array(buf,16,n*3),c=new Uint8Array(buf,16+n*6,n*3),r=new Int8Array(buf,16+n*9,n*3),
+        xyz=new Float32Array(n*3),nrm=new Float32Array(n*3),col=[];
+    for(var i=0;i<n*3;i++){xyz[i]=q[i]*k;nrm[i]=r[i]/127;}
+    for(i=0;i<n;i++)col.push('rgb('+c[i*3]+','+c[i*3+1]+','+c[i*3+2]+')');
+    return {n:n,px:h[2],py:h[3],xyz:xyz,nrm:nrm,col:col};
+  }
+  /* the loop. A: noise -> 3D while turning; R: finish a full turn; B: face the camera and become the photo's halftone;
+     K: sharpen into the photo; H: hold; C: photo -> noise; Z: hold. Without the model: F (noise -> photo), H, C, Z. */
+  var DA=3.6,DR=5.4,DB=1.8,DK=1.4,DH=2.6,DC=2.8,DZ=.7,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
+  function segs(){return M.length?[['A',DA],['R',DR],['B',DB],['K',DK],['H',DH],['C',DC],['Z',DZ]]:[['F',3.4],['H',DH],['C',DC],['Z',DZ]];}
   function clock(){return performance.now()/1000;}
-  function cycleT(e){e=((e%CL)+CL)%CL;if(e<D1)return 1-ease(e/D1);e-=D1;if(e<H1)return 0;e-=H1;if(e<D2)return ease(e/D2);return 1;}
-  function eForT(v){var lo=0,hi=D1;for(var i=0;i<24;i++){var m=(lo+hi)/2;if(1-ease(m/D1)>v)lo=m;else hi=m;}return lo;}
-  function startCycle(e){if(still()){t=0;draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
+  function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;}
+  function spin(x){var w=x*x*(3-2*x);ST.yaw=-6.2832*(1-w);ST.pitch=.1*Math.sin(Math.PI*x);}
+  function at(e){
+    var S=segs(),L=0,i;for(i=0;i<S.length;i++)L+=S[i][1];e=((e%L)+L)%L;
+    for(i=0;i<S.length-1&&e>=S[i][1];i++)e-=S[i][1];var id=S[i][0],p=clamp(e/S[i][1],0,1),q=ease(p);
+    if(id==='A'){ST.sm=1-q;ST.am=clamp(p/.15,0,1);ST.aFg=1-ST.am;ST.aBg=lerp(1,.12,q);ST.sFg=ST.sBg=1;ST.persp=1;t=lerp(.32,1,ST.sm);spin(e/(DA+DR));}
+    else if(id==='R'){ST.sm=0;ST.am=1;ST.aFg=0;ST.aBg=.12;ST.sFg=ST.sBg=1;ST.persp=1;t=.32;spin((DA+e)/(DA+DR));}
+    else if(id==='B'){ST.sm=0;ST.am=1-q;ST.aFg=q;ST.sFg=0;ST.sBg=1-q;ST.aBg=lerp(.12,1,q);ST.persp=1-q;ST.yaw=ST.pitch=0;t=.32;}
+    else{t=id==='K'?.32*(1-q):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();}
+  }
+  function eForT(v){var S=segs(),e=0;for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
+  function startCycle(e){if(still()){t=0;flat();draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
   function freeze(){if(CYC.on&&!CYC.frozen){CYC.frozen=true;CYC.pe=clock()-CYC.t0;}}
   function unfreeze(e){if(!CYC.on)return;CYC.frozen=false;CYC.t0=clock()-(e==null?CYC.pe:e);kick();}
   function step(dt){
-    if(CYC.on&&!CYC.frozen)t=cycleT(clock()-CYC.t0);
-    var R=70,R2=R*R;
-    for(var i=0;i<P.length;i++){var p=P[i];p.a+=p.da*dt;
+    if(CYC.on&&!CYC.frozen)at(clock()-CYC.t0);
+    var R=70,R2=R*R,i;
+    for(i=0;i<P.length;i++){var p=P[i];p.a+=p.da*dt;
       if(mouse.on&&sharpOf(t)<.6){var dx=p.tx+p.ex-mouse.x,dy=p.ty+p.ey-mouse.y,d2=dx*dx+dy*dy;
         if(d2<R2){var d=Math.sqrt(d2)||1,f=1-d/R;p.ex+=dx/d*f*5+(Math.random()-.5)*f*8+mouse.vx*f*.2;p.ey+=dy/d*f*5+(Math.random()-.5)*f*8+mouse.vy*f*.2;}}
       p.ex*=.92;p.ey*=.92;
     }
+    if(ST.am>0)for(i=0;i<M.length;i++)M[i].a+=.6*dt;
     mouse.vx*=.8;mouse.vy*=.8;
   }
-  function dots(alpha,A,clipX,clipY,clipR){
-    ctx.globalAlpha=alpha;
-    var r2=clipR?clipR*clipR:0;
-    for(var i=0;i<P.length;i++){var p=P[i],x=p.tx+p.ex+Math.cos(p.a)*p.m*A,y=p.ty+p.ey+Math.sin(p.a)*p.m*A;
-      if(clipR){var dx=x-clipX,dy=y-clipY;if(dx*dx+dy*dy>r2)continue;}
-      else if(x<-6||y<-6||x>W+6||y>H+6)continue;
-      ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(x,y,p.r,0,6.2832);ctx.fill();
-    }
+  /* photo dots slide along their straight OT paths between the halftone and their Gaussian samples */
+  function placeP(){
+    for(var i=0;i<P.length;i++){var p=P[i],s=p.fg?ST.sFg:ST.sBg,J=s*(1-s)*4;p.s=s;
+      p.px=lerp(p.tx,p.nx,s)+p.ex+Math.cos(p.a)*p.m*(4+10*J);
+      p.py=lerp(p.ty,p.ny,s)+p.ey+Math.sin(p.a)*p.m*(4+10*J);}
+  }
+  /* 3D points: turn (yaw, then pitch) about the head's vertical axis, project, and slide towards the noise by sm */
+  function placeM(){
+    var cy=Math.cos(ST.yaw),sy=Math.sin(ST.yaw),cp=Math.cos(ST.pitch),sp=Math.sin(ST.pitch),F=W*2.6,s=ST.sm,J=s*(1-s)*4,
+        ox=model.px*cols*gap,oy=model.py*rows*gap,rr=gap*.56;
+    for(var i=0;i<M.length;i++){var m=M[i],x1=m.ox*cy+m.oz*sy,z1=-m.ox*sy+m.oz*cy,y1=m.oy*cp-z1*sp,z2=m.oy*sp+z1*cp,
+        k=lerp(1,(F-zf)/(F-z2),ST.persp),w=Math.cos(m.a)*m.m*(1.5+10*J),v=Math.sin(m.a)*m.m*(1.5+10*J);
+      m.f=m.ny*sp+(-m.nx*sy+m.nz*cy)*cp;
+      m.px=lerp(ox+x1*k,m.sx,s)+w;m.py=lerp(oy+y1*k,m.sy,s)+v;m.pz=z2;m.pr=lerp(rr*k,gap*.24,s);}
+    ORD.sort(function(a,b){return M[a].pz-M[b].pz;});
+  }
+  function dotsP(k){
+    var cur=-1;
+    for(var j=0;j<P.length;j++){var p=P[j];if(p.px<-6||p.py<-6||p.px>W+6||p.py>H+6)continue;
+      var a=(.35+.65*(1-p.s*.85))*(1-k*.85)*(p.fg?ST.aFg:ST.aBg);if(a<.02)continue;
+      if(a!==cur){ctx.globalAlpha=a;cur=a;}ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.px,p.py,p.r,0,6.2832);ctx.fill();}
     ctx.globalAlpha=1;
+  }
+  function dotsM(){
+    var s=ST.sm,base=(.35+.65*(1-s*.85))*ST.am;
+    for(var j=0;j<ORD.length;j++){var m=M[ORD[j]],f=m.f,
+        shade=f<-.12?0:.78+.22*clamp(f,0,1),a=base*lerp(shade,1,s*s);if(a<.03)continue;
+      ctx.globalAlpha=a;ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(m.px,m.py,m.pr,0,6.2832);ctx.fill();}
+    ctx.globalAlpha=1;
+  }
+  /* the transport plan: a sparse set of couplings drawn as faint straight segments while dots are in flight */
+  function plan(){
+    var i,p,in3=ST.am>0,s=in3?ST.sm:ST.sBg,a=Math.sin(Math.PI*clamp(s,0,1));if(a<.03)return;
+    var L=in3?M:P,stp=in3?37:29;
+    ctx.strokeStyle='rgba(51,70,211,'+(.16*a).toFixed(3)+')';ctx.lineWidth=.7;ctx.beginPath();
+    for(i=0;i<L.length;i+=stp){p=L[i];if(in3)ctx.moveTo(p.sx,p.sy);else{if(p.fg&&ST.sFg<.01)continue;ctx.moveTo(p.nx,p.ny);}ctx.lineTo(p.px,p.py);}
+    ctx.stroke();
+    ctx.fillStyle='rgba(255,93,59,'+(.5*a).toFixed(3)+')';
+    for(i=0;i<L.length;i+=stp){p=L[i];if(in3)ctx.fillRect(p.sx-1,p.sy-1,2,2);else if(!(p.fg&&ST.sFg<.01))ctx.fillRect(p.nx-1,p.ny-1,2,2);}
   }
   function photo(k){
     /* coarse-to-fine: low resolution first, full detail at t = 0 */
@@ -232,20 +316,23 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     small.width=small.height=res;sc.imageSmoothingEnabled=true;sc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,res,res);
     ctx.globalAlpha=k;ctx.imageSmoothingEnabled=true;ctx.drawImage(small,0,0,W,H);ctx.globalAlpha=1;
   }
+  function lens(){ /* the halftone the photo was built from */
+    var R=78,R2=(R+4)*(R+4);ctx.save();ctx.beginPath();ctx.arc(mouse.x,mouse.y,R,0,6.2832);ctx.clip();
+    ctx.fillStyle='#fff';ctx.fillRect(mouse.x-R,mouse.y-R,2*R,2*R);
+    for(var j=0;j<P.length;j++){var p=P[j],dx=p.tx-mouse.x,dy=p.ty-mouse.y;if(dx*dx+dy*dy>R2)continue;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.tx,p.ty,p.r,0,6.2832);ctx.fill();}
+    ctx.restore();ctx.strokeStyle='rgba(51,70,211,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mouse.x,mouse.y,R,0,6.2832);ctx.stroke();
+  }
   function draw(){
     if(!W)return;
-    var s=noiseOf(t),k=sharpOf(t),A=s*Math.max(W,H)*.8;
+    var k=ST.am>0?0:sharpOf(t);
     ctx.clearRect(0,0,W,H);
-    if(k<1)dots((.35+.65*(1-s*.85))*(1-k*.85),A);
+    if(k<1){placeP();if(ST.am>0)placeM();plan();dotsP(k);if(ST.am>0)dotsM();}
     if(k>0&&src)photo(k);
-    if(k>.5&&mouse.on){ /* lens: the halftone the photo was built from */
-      var R=78;ctx.save();ctx.beginPath();ctx.arc(mouse.x,mouse.y,R,0,6.2832);ctx.clip();
-      ctx.fillStyle='#fff';ctx.fillRect(mouse.x-R,mouse.y-R,2*R,2*R);dots(1,0,mouse.x,mouse.y,R+4);ctx.restore();
-      ctx.strokeStyle='rgba(51,70,211,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mouse.x,mouse.y,R,0,6.2832);ctx.stroke();
-    }
+    if(k>.5&&mouse.on)lens();
     var shown=Math.round(t*1000);
     if(shown!==lastShown){lastShown=shown;if(tEl)tEl.textContent=String(shown).padStart(4,'0');if(sEl)sEl.textContent=t.toFixed(3);
       if(slider&&document.activeElement!==slider){slider.value=shown;}if(slider)slider.style.setProperty('--tp',(shown/10)+'%');}
+    var su=Math.round(ST.am*100);if(su!==lastU){lastU=su;if(t3d){t3d.style.opacity=(.25+.75*ST.am).toFixed(2);t3d.classList.toggle('on',ST.am>.5);}}
   }
   function loop(ts){raf=0;if(!run)return;var dt=last?Math.min(.05,(ts-last)/1000):.016;last=ts;if(!still())step(dt);draw();
     if(!still()&&((CYC.on&&!CYC.frozen)||mouse.on||t>.32||settling>0)){settling--;raf=requestAnimationFrame(loop);}}
@@ -254,19 +341,23 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   function startIntro(){if(!CYC.on)startCycle(0);}
   frame.addEventListener('pointermove',function(e){var r=frame.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.on){mouse.vx=x-mouse.x;mouse.vy=y-mouse.y;}mouse.x=x;mouse.y=y;mouse.on=true;kick();if(still())draw();});
   frame.addEventListener('pointerleave',function(){mouse.on=false;mouse.x=mouse.y=-9999;kick();if(still())draw();});
-  if(slider)slider.addEventListener('input',function(){freeze();t=slider.value/1000;clearTimeout(CYC.timer);CYC.timer=setTimeout(function(){CYC.timer=0;unfreeze(eForT(t));},4000);kick();if(still())draw();});
+  if(slider)slider.addEventListener('input',function(){freeze();t=slider.value/1000;flat();clearTimeout(CYC.timer);CYC.timer=setTimeout(function(){CYC.timer=0;unfreeze(eForT(t));},4000);kick();if(still())draw();});
   if(replay)replay.addEventListener('click',function(){clearTimeout(CYC.timer);CYC.timer=0;startCycle(0);});
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){build();draw();},180);});
   new IntersectionObserver(function(es){run=es[0].isIntersecting;if(run)kick();}).observe(frame);
-  addEventListener('motionchange',function(e){if(e.detail.off){CYC.on=false;t=0;draw();}else if(heroStart)startCycle(D1);});
+  addEventListener('motionchange',function(e){if(e.detail.off){CYC.on=false;t=0;flat();draw();}else if(heroStart)startCycle(0);});
   function go(){
     build();
-    if(still()){t=0;draw();return;}
-    t=1;draw();
+    if(still()){t=0;flat();draw();return;}
+    t=1;flat();draw();
     heroStart=startIntro;
     if(root.classList.contains('ready'))startIntro();
   }
-  if(imgMode){src=new Image();src.decoding='async';src.onload=go;src.onerror=function(){imgMode=false;src=null;go();};src.src=cv.dataset.img;}
+  if(imgMode){
+    var pm=cv.dataset.model&&window.fetch?fetch(cv.dataset.model).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(parseModel).catch(function(){return null;}):Promise.resolve(null);
+    var pi=new Promise(function(res){src=new Image();src.decoding='async';src.onload=function(){res(true);};src.onerror=function(){imgMode=false;src=null;res(false);};src.src=cv.dataset.img;});
+    Promise.all([pi,pm]).then(function(r){model=r[0]?r[1]:null;go();});
+  }
   else{var fr=document.fonts&&document.fonts.load?Promise.race([document.fonts.load('600 100px Newsreader'),new Promise(function(r){setTimeout(r,1500);})]):Promise.resolve();fr.then(go,go);}
 })();
 

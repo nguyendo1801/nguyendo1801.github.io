@@ -642,3 +642,7 @@ a.lab{color:var(--hot)}
 .rs-about{font:400 clamp(1.25rem,2.1vw,1.6rem)/1.45 var(--serif)!important;color:#c9d0ee!important;max-width:880px!important;letter-spacing:-.005em}
 .rs-about b{color:#fff;font-weight:600}
 .rs-about i{font-style:italic;background:linear-gradient(100deg,#9fb0ff,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* 3D phase chip next to the t readout */
+.t3d{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:3px 7px;border-radius:999px;border:1px solid var(--line);color:var(--dim);opacity:.25;transition:background .3s,color .3s,border-color .3s;flex:none}
+.t3d.on{background:var(--hot,#ff5d3b);border-color:transparent;color:#fff}
