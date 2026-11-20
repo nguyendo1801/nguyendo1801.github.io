@@ -630,3 +630,10 @@ a.lab{color:var(--hot)}
 .th-more:hover{background:var(--hot);border-color:var(--hot);color:#fff}
 @media (max-width:1060px){.rs-track{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:700px){.rs-track{grid-template-columns:1fr;padding:0 18px!important}.rs-pin{padding:90px 0}}
+.lg-av{padding:2px;border-radius:50%;background:var(--grad2);overflow:hidden;box-shadow:0 6px 18px rgba(112,72,232,.3)}
+.lg-av picture,.lg-av img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #fff}
+.logo:hover .lg-av{transform:rotate(-6deg) scale(1.08);border-radius:50%}
+.hd.solid .lg-av{width:34px;height:34px}
+.lg-av{border-radius:11px!important}
+.lg-av picture,.lg-av img{border-radius:9px!important}
+.logo:hover .lg-av{border-radius:11px!important}
