@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /_pages/
+Disallow: /_posts/
+Disallow: /_drafts/
+Disallow: /_portfolio/
+Disallow: /_publications/
+Disallow: /_talks/
+Disallow: /_teaching/
+Disallow: /_includes/
+Disallow: /_layouts/
+Disallow: /_sass/
+Disallow: /_data/
+Disallow: /markdown_generator/
+Disallow: /talkmap/
+Disallow: /scripts/
+
+Sitemap: https://nguyendo1801.github.io/sitemap.xml
