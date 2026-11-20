@@ -46,7 +46,7 @@ function finishLoad(){
 }
 (function(){
   var seen=false;try{seen=sessionStorage.getItem('nd-seen')==='1';sessionStorage.setItem('nd-seen','1');}catch(e){}
-  if(!loader||still()||seen){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader);loader=null;requestAnimationFrame(function(){root.classList.add('ready');});return;}
+  if(!loader||still()||seen){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader);loader=null;requestAnimationFrame(function(){root.classList.add('ready');if(heroStart)heroStart();});return;}
   var n=$('.ld-n b',loader),bar=$('.ld-bar',loader),t0=performance.now(),D=1000;
   (function f(t){
     var p=clamp((t-t0)/D,0,1),e=1-Math.pow(1-p,3);
@@ -251,10 +251,10 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     if(!still()&&((CYC.on&&!CYC.frozen)||mouse.on||t>.32||settling>0)){settling--;raf=requestAnimationFrame(loop);}}
   var settling=0;
   function kick(){settling=90;if(!raf&&run){last=0;raf=requestAnimationFrame(loop);}}
-  function startIntro(){startCycle(0);}
-  frame.addEventListener('pointermove',function(e){var r=frame.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.on){mouse.vx=x-mouse.x;mouse.vy=y-mouse.y;}mouse.x=x;mouse.y=y;if(!mouse.on&&!CYC.timer)freeze();mouse.on=true;kick();if(still())draw();});
-  frame.addEventListener('pointerleave',function(){mouse.on=false;mouse.x=mouse.y=-9999;if(!CYC.timer)unfreeze();kick();if(still())draw();});
-  if(slider)slider.addEventListener('input',function(){freeze();t=slider.value/1000;clearTimeout(CYC.timer);CYC.timer=setTimeout(function(){CYC.timer=0;if(!mouse.on)unfreeze(eForT(t));},4000);kick();if(still())draw();});
+  function startIntro(){if(!CYC.on)startCycle(0);}
+  frame.addEventListener('pointermove',function(e){var r=frame.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.on){mouse.vx=x-mouse.x;mouse.vy=y-mouse.y;}mouse.x=x;mouse.y=y;mouse.on=true;kick();if(still())draw();});
+  frame.addEventListener('pointerleave',function(){mouse.on=false;mouse.x=mouse.y=-9999;kick();if(still())draw();});
+  if(slider)slider.addEventListener('input',function(){freeze();t=slider.value/1000;clearTimeout(CYC.timer);CYC.timer=setTimeout(function(){CYC.timer=0;unfreeze(eForT(t));},4000);kick();if(still())draw();});
   if(replay)replay.addEventListener('click',function(){clearTimeout(CYC.timer);CYC.timer=0;startCycle(0);});
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){build();draw();},180);});
   new IntersectionObserver(function(es){run=es[0].isIntersecting;if(run)kick();}).observe(frame);

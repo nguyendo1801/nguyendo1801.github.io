@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
-<link rel="stylesheet" href="/static/css/site.css">
+<link rel="stylesheet" href="/static/css/site.css?v=20261120c">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nguyen Do","alternateName":"Do Hoang Khoi Nguyen","jobTitle":"Ph.D. student","affiliation":{"@type":"CollegeOrUniversity","name":"University of Florida"},"url":"https://nguyendo1801.github.io","sameAs":["https://scholar.google.com/citations?user=6f9HM24AAAAJ&hl=en","https://github.com/nguyendo1801"]}</script>
 </head>
@@ -92,13 +92,13 @@
         <img class="fig-fallback" src="/static/img/nguyen-do.jpg" width="640" height="640" alt="Portrait of Nguyen Do">
         <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span><span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
       </div>
-      <figcaption class="mono"><span><b>Fig. 1.</b> The author, sampled from noise.</span><span>σ = <b id="sig">1.000</b></span></figcaption>
+      <figcaption class="mono"><span></span><span>σ = <b id="sig">1.000</b></span></figcaption>
       <div class="tctl">
         <button class="replay" type="button" aria-label="Sample again from noise" title="Sample again"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg></button>
         <input id="tslider" type="range" min="0" max="1000" step="1" value="1000" aria-label="Diffusion timestep t, from clean (0) to pure noise (1000)">
         <span class="tval mono">t = <b id="tstep">1000</b></span>
       </div>
-      <p class="fig-hint mono" aria-hidden="true">loops noise ↔ photo · drag t to take over · hover to pause and see the dots</p>
+      <p class="fig-hint mono" aria-hidden="true">loops noise ↔ photo · drag t to take over · hover the sharp photo to see its dots</p>
     </figure>
   </div>
   <div class="ticker" aria-hidden="true"><div class="tk-track"><div class="tk-set">
@@ -491,7 +491,7 @@
   </div>
 </footer>
 
-<script src="/static/js/fx.js" defer></script>
-<script src="/static/js/papers.js" defer></script>
+<script src="/static/js/fx.js?v=20261120c" defer></script>
+<script src="/static/js/papers.js?v=20261120c" defer></script>
 </body>
 </html>
