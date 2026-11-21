@@ -645,5 +645,6 @@ a.lab{color:var(--hot)}
 /* 3D phase chip next to the t readout */
 .t3d{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:3px 7px;border-radius:999px;border:1px solid var(--line);color:var(--dim);opacity:.25;transition:background .3s,color .3s,border-color .3s;flex:none}
 .t3d.on{background:var(--hot,#ff5d3b);border-color:transparent;color:#fff}
-/* top-tier venues: filled pill in the venue colour */
-.pv.top{color:#fff;background:var(--c,var(--acc));border-color:var(--c,var(--acc));font-weight:600;letter-spacing:.02em;box-shadow:0 6px 16px -6px color-mix(in srgb,var(--c,var(--acc)) 70%,transparent)}
+/* venue labels: plain text, no pill; top-tier venues in a red-to-indigo gradient */
+.pv{border:0;background:none;padding:0;border-radius:0;font-size:13px;letter-spacing:.02em;color:var(--mute)}
+.pv.top{background:linear-gradient(90deg,#c92a2a,#7b2fbf 55%,#3b2fc9);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;font-weight:700}
