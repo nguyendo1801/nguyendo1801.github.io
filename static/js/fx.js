@@ -75,6 +75,14 @@ addEventListener('resize',function(){requestAnimationFrame(onScroll);});
   ['top','news','about','research','projects','publications','honors','trajectory','contact'].forEach(function(id){var el=$('#'+id);if(el)io.observe(el);});
 })();
 
+/* ---------- in-page links scroll without writing #section into the address bar, so a copied URL stays the home page ---------- */
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey)return;
+  var id=a.getAttribute('href').slice(1),el=id&&document.getElementById(id);if(!el)return;
+  e.preventDefault();el.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'});
+});
+if(location.hash&&history.replaceState)addEventListener('load',function(){history.replaceState(null,'',location.pathname+location.search);});
+
 /* ---------- mobile menu ---------- */
 (function(){
   var b=$('.burger'),m=$('#mnav');if(!b||!m)return;
