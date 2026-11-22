@@ -216,6 +216,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
         couple(NS);bindModel();
         sc0.P=P;sc0.M=M;sc0.ORD=ORD;sc0.zf=zf;sc0.DUST=DUST;
       }
+      for(si=0;si<SC.length&&SC.length>1;si++)pairUp(SC[si],SC[(si+1)%SC.length],(si+1)%SC.length);
       use(cur);
     }else{
       off.width=Math.ceil(W);off.height=Math.ceil(H);
@@ -260,6 +261,19 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   }
   /* the 3D points: each one is tied to the halftone dot it covers when the model faces the camera and starts from
      that dot's noise sample, so noise -> 3D and 3D -> photo are both continuous */
+  /* pairs the 3D points of one scene with those of the next (same Knothe-Rosenblatt strips as couple(), on the
+     frontal positions), so one point cloud can flow continuously into the other */
+  function pairUp(A,B,j){
+    if(!A.M||!B.M||!A.M.length||!B.M.length)return;
+    var Wg=cols*gap,Hg=rows*gap;
+    function keys(s){return s.M.map(function(m){return {m:m,x:s.model.px*Wg+m.ox,y:s.model.py*Hg+m.oy};});}
+    function byY(p,q){return p.y-q.y;}function byX(p,q){return p.x-q.x;}
+    function pick(L,n){if(L.length===n)return L;var o=[];for(var i=0;i<n;i++)o.push(L[Math.floor(i*L.length/n)]);return o;}
+    var a=keys(A).sort(byY),b=keys(B).sort(byY),n=Math.min(a.length,b.length);a=pick(a,n);b=pick(b,n);
+    var C=Math.max(1,Math.round(Math.sqrt(n)/3)),bs=Math.ceil(n/C),i;
+    for(var k=0;k<n;k+=bs){var sa=a.slice(k,k+bs).sort(byX),sb=b.slice(k,k+bs).sort(byX);for(i=0;i<sa.length;i++)sa[i].m.to[j]=sb[i].m;}
+    for(i=0;i<A.M.length;i++)if(!A.M[i].to[j])A.M[i].to[j]=b[Math.floor(Math.random()*n)].m;
+  }
   function bindModel(){
     M=[];ORD=[];if(!model||!imgMode||!cols)return;
     var Wg=cols*gap,Hg=rows*gap,stride=W<300?2:1,zs=[];
@@ -267,7 +281,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       var u=model.px+model.xyz[i*3],v=model.py+model.xyz[i*3+1],
           q=P[clamp(Math.floor(v*rows),0,rows-1)*cols+clamp(Math.floor(u*cols),0,cols-1)];q.fg=true;
       M.push({ox:model.xyz[i*3]*Wg,oy:model.xyz[i*3+1]*Hg,oz:model.xyz[i*3+2]*Wg,nx:model.nrm[i*3],ny:model.nrm[i*3+1],nz:model.nrm[i*3+2],
-        c:model.col[i],sx:q.nx+gauss()*gap*.7,sy:q.ny+gauss()*gap*.7,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,f:1,px:0,py:0,pz:0,pr:1});
+        c:model.col[i],sx:q.nx+gauss()*gap*.7,sy:q.ny+gauss()*gap*.7,a:Math.random()*6.2832,m:Math.abs(gauss())*.5+.15,f:1,px:0,py:0,pz:0,pr:1,th:Math.random(),to:{}});
       zs.push(model.xyz[i*3+2]*Wg);
     }
     zs.sort(function(a,b){return a-b;});zf=zs[Math.floor(zs.length*.85)]||0;
@@ -286,9 +300,46 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   function segs(m){return (m||M).length?[['A',DA],['R',DR],['B',DB],['K',DK],['H',DH],['C',DC],['Z',DZ]]:[['F',3.4],['H',DH],['C',DC],['Z',DZ]];}
   function cycLen(j){var S=segs(SC.length?SC[j].M:M),L=0;for(var i=0;i<S.length;i++)L+=S[i][1];return L;}
   function clock(){return performance.now()/1000;}
-  function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;ST.xf=0;}
+  function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;ST.xf=0;ST.mx=null;ST.mw=0;}
   function spin(x){var w=x*x*(3-2*x);ST.yaw=-6.2832*(1-w);ST.pitch=.1*Math.sin(Math.PI*x);}
+  /* with two or more photos that all have a 3D model, noise is only the opening: after the first photo the loop goes
+     photo -> 3D -> (turning) the next photo's 3D -> its halftone -> sharp photo, and so on. U: back to the halftone;
+     V: halftone -> 3D facing the camera; X: one point cloud flows into the next while turning a full circle. */
+  var DU=1.6,DV=1.8,DX=6.5;
+  function chain(){return SC.length>1&&SC.every(function(s){return s.M&&s.M.length;});}
+  var CH=null;
+  function chainSegs(){
+    if(CH)return CH;var I=[['A',DA,0],['R',DR,0],['B',DB,0],['K',DK,0],['H',DH,0]],L=[],n=SC.length,il=0,ll=0,i;
+    for(i=0;i<n;i++){var j=(i+1)%n;L.push(['U',DU,i],['V',DV,i],['X',DX,i,j],['B',DB,j],['K',DK,j],['H',DH,j]);}
+    for(i=0;i<I.length;i++)il+=I[i][1];for(i=0;i<L.length;i++)ll+=L[i][1];
+    return CH={I:I,L:L,il:il,ll:ll};
+  }
+  function atChain(e){
+    var c=chainSegs(),S=c.I,i;e=Math.max(0,e);
+    if(e>=c.il){e=(e-c.il)%c.ll;S=c.L;}
+    for(i=0;i<S.length-1&&e>=S[i][1];i++)e-=S[i][1];
+    var g=S[i],id=g[0],p=clamp(e/g[1],0,1),q=ease(p);ST.xf=0;ST.mx=null;ST.mw=0;
+    if(id==='X'){
+      var w=clamp((p-.12)/.76,0,1);w=w*w*(3-2*w);use(w<.5?g[2]:g[3]);
+      var A=SC[g[2]],B=SC[g[3]];M=A.M;ORD=A.ORD;ST.mx={a:A.model,b:B.model,za:A.zf,zb:B.zf,j:g[3]};ST.mw=w;
+      ST.sm=0;ST.am=1;ST.aFg=0;ST.aBg=.12;ST.sFg=ST.sBg=1;ST.persp=1;t=.32;spin(p);return;
+    }
+    if(g[2]!==cur||M!==SC[cur].M)use(g[2]);
+    if(id==='A'){ST.sm=1-q;ST.am=clamp(p/.15,0,1);ST.aFg=1-ST.am;ST.aBg=lerp(1,.12,q);ST.sFg=ST.sBg=1;ST.persp=1;t=lerp(.32,1,ST.sm);spin(e/(DA+DR));}
+    else if(id==='R'){ST.sm=0;ST.am=1;ST.aFg=0;ST.aBg=.12;ST.sFg=ST.sBg=1;ST.persp=1;t=.32;spin((DA+e)/(DA+DR));}
+    else if(id==='B'){ST.sm=0;ST.am=1-q;ST.aFg=q;ST.sFg=0;ST.sBg=1-q;ST.aBg=lerp(.12,1,q);ST.persp=1-q;ST.yaw=ST.pitch=0;t=.32;}
+    else if(id==='V'){ST.sm=0;ST.am=q;ST.aFg=1-q;ST.sFg=0;ST.sBg=q;ST.aBg=lerp(1,.12,q);ST.persp=q;ST.yaw=ST.pitch=0;t=.32;}
+    else{t=id==='K'?.32*(1-p):id==='U'?.32*p:0;flat();}
+  }
+  /* slider release: resume at the matching point of the current photo's sharpening, or of the opening for noisy t */
+  function eChain(v){
+    var c=chainSegs(),e=0,i,S=c.I.concat(c.L);
+    if(v>=.32){var sm=(v-.32)/.68,lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<1-sm)lo=m;else hi=m;}return lo*DA;}
+    for(i=0;i<S.length;i++){if(S[i][0]==='K'&&S[i][2]===cur)return e+(1-v/.32)*DK;e+=S[i][1];}
+    return 0;
+  }
   function at(e){
+    if(chain())return atChain(e);
     var n=Math.max(1,SC.length),L=0,j,i;for(j=0;j<n;j++)L+=cycLen(j);e=((e%L)+L)%L;
     for(j=0;j<n-1&&e>=cycLen(j);j++)e-=cycLen(j);if(SC.length&&j!==cur)use(j);
     var S=segs();for(i=0;i<S.length-1&&e>=S[i][1];i++)e-=S[i][1];var id=S[i][0],p=clamp(e/S[i][1],0,1),q=ease(p);ST.xf=0;
@@ -297,7 +348,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     else if(id==='B'){ST.sm=0;ST.am=1-q;ST.aFg=q;ST.sFg=0;ST.sBg=1-q;ST.aBg=lerp(.12,1,q);ST.persp=1-q;ST.yaw=ST.pitch=0;t=.32;}
     else{t=id==='K'?.32*(1-p):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();if(id==='Z'&&SC.length>1)ST.xf=q;}
   }
-  function eForT(v){var S=segs(),e=0;for(var j=0;j<cur;j++)e+=cycLen(j);for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
+  function eForT(v){if(chain())return eChain(v);var S=segs(),e=0;for(var j=0;j<cur;j++)e+=cycLen(j);for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
   function startCycle(e){if(still()){t=0;flat();draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
   function freeze(){if(CYC.on&&!CYC.frozen){CYC.frozen=true;CYC.pe=clock()-CYC.t0;}}
   function unfreeze(e){if(!CYC.on)return;CYC.frozen=false;CYC.t0=clock()-(e==null?CYC.pe:e);kick();}
@@ -320,11 +371,17 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   }
   /* 3D points: turn (yaw, then pitch) about the head's vertical axis, project, and slide towards the noise by sm */
   function placeM(){
-    var cy=Math.cos(ST.yaw),sy=Math.sin(ST.yaw),cp=Math.cos(ST.pitch),sp=Math.sin(ST.pitch),F=W*2.6,s=ST.sm,J=s*(1-s)*4,
-        ox=model.px*cols*gap,oy=model.py*rows*gap,rr=gap*.56;
-    for(var i=0;i<M.length;i++){var m=M[i],x1=m.ox*cy+m.oz*sy,z1=-m.ox*sy+m.oz*cy,y1=m.oy*cp-z1*sp,z2=m.oy*sp+z1*cp,
-        k=lerp(1,(F-zf)/(F-z2),ST.persp),w=Math.cos(m.a)*m.m*(1.5+10*J),v=Math.sin(m.a)*m.m*(1.5+10*J);
-      m.f=m.ny*sp+(-m.nx*sy+m.nz*cy)*cp;
+    /* during a morph (ST.mx) every point slides from its own position to its partner's in the next model; colour
+       and normal switch over at a per-point threshold, so the change spreads as a sparkle instead of a blend */
+    var X=ST.mx,mw=X?ST.mw:0,Jm=mw*(1-mw)*4,Wg=cols*gap,Hg=rows*gap,
+        cy=Math.cos(ST.yaw),sy=Math.sin(ST.yaw),cp=Math.cos(ST.pitch),sp=Math.sin(ST.pitch),F=W*2.6,s=ST.sm,J=s*(1-s)*4,
+        ox=(X?lerp(X.a.px,X.b.px,mw):model.px)*Wg,oy=(X?lerp(X.a.py,X.b.py,mw):model.py)*Hg,z0=X?lerp(X.za,X.zb,mw):zf,rr=gap*.56;
+    for(var i=0;i<M.length;i++){var m=M[i],n=X?m.to[X.j]:null,
+        mx=n?lerp(m.ox,n.ox,mw):m.ox,my=n?lerp(m.oy,n.oy,mw):m.oy,mz=n?lerp(m.oz,n.oz,mw):m.oz,
+        nx=n?lerp(m.nx,n.nx,mw):m.nx,ny=n?lerp(m.ny,n.ny,mw):m.ny,nz=n?lerp(m.nz,n.nz,mw):m.nz,
+        x1=mx*cy+mz*sy,z1=-mx*sy+mz*cy,y1=my*cp-z1*sp,z2=my*sp+z1*cp,
+        k=lerp(1,(F-z0)/(F-z2),ST.persp),amp=m.m*(1.5+10*J+12*Jm),w=Math.cos(m.a)*amp,v=Math.sin(m.a)*amp;
+      m.f=ny*sp+(-nx*sy+nz*cy)*cp;m.cc=n&&mw>m.th?n.c:m.c;
       m.px=lerp(ox+x1*k,m.sx,s)+w;m.py=lerp(oy+y1*k,m.sy,s)+v;m.pz=z2;m.pr=lerp(rr*k,gap*.24,s);}
     ORD.sort(function(a,b){return M[a].pz-M[b].pz;});
   }
@@ -339,7 +396,7 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     var s=ST.sm,base=(.35+.65*(1-s*.85))*ST.am;
     for(var j=0;j<ORD.length;j++){var m=M[ORD[j]],f=m.f,
         shade=f<-.12?0:.78+.22*clamp(f,0,1),a=base*lerp(shade,1,s*s);if(a<.03)continue;
-      ctx.globalAlpha=a;ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(m.px,m.py,m.pr,0,6.2832);ctx.fill();}
+      ctx.globalAlpha=a;ctx.fillStyle=m.cc||m.c;ctx.beginPath();ctx.arc(m.px,m.py,m.pr,0,6.2832);ctx.fill();}
     ctx.globalAlpha=1;
   }
   /* the transport plan: a sparse set of couplings drawn as faint straight segments while dots are in flight */
