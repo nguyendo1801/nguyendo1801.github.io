@@ -178,7 +178,10 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       t=1,mouse={x:-9999,y:-9999,vx:0,vy:0,on:false},
       tEl=$('#tstep'),sEl=$('#sig'),slider=$('#tslider'),replay=$('.replay'),src=null,imgMode=!!cv.dataset.img,
       small=document.createElement('canvas'),sc=small.getContext('2d'),gap=6,cols=0,rows=0,lastShown=-1,
-      model=null,zf=0,t3d=$('#t3d'),lastU=-1,DUST=null;
+      model=null,zf=0,t3d=$('#t3d'),lastU=-1,DUST=null,SC=[],cur=0;
+  /* several photos (data-img / data-model are comma-separated lists): each scene keeps its own dots, 3D points and
+     grain layers, and the loop plays the scenes one after another, passing through the same noise in between */
+  function use(i){var s=SC[i];cur=i;src=s.src;model=s.model;P=s.P||[];M=s.M||[];ORD=s.ORD||[];zf=s.zf||0;DUST=s.DUST||null;}
   /* ST: path position (1 = at its noise sample) and opacity of the photo's foreground/background dots and of the
      3D points (sm, am), plus the 3D pose; persp blends perspective out so the frontal pose matches the halftone */
   var ST={sFg:1,sBg:1,aFg:1,aBg:1,sm:1,am:0,yaw:0,pitch:0,persp:1};
@@ -196,15 +199,24 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     var r=frame.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;if(!W||!H)return;
     cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);P=[];
     var off=document.createElement('canvas'),oc=off.getContext('2d');
-    if(imgMode&&src){
+    if(imgMode&&SC.length){
       gap=Math.max(4,Math.round(W/92));cols=Math.ceil(W/gap);rows=Math.ceil(H/gap);
       off.width=cols;off.height=rows;
-      var s=Math.min(src.naturalWidth,src.naturalHeight);oc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,cols,rows);
-      var px=oc.getImageData(0,0,cols,rows).data;
-      for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
-        var k=(y*cols+x)*4,R=px[k],G=px[k+1],B=px[k+2],lum=(.2126*R+.7152*G+.0722*B)/255;
-        P.push(particle(x*gap+gap/2,y*gap+gap/2,'rgb('+R+','+G+','+B+')',Math.min(gap*.62,gap*.5*(.38+.7*(1-lum)))));
+      /* one shared set of Gaussian samples, so every scene dissolves into (and forms out of) the same noise */
+      var NS=[];for(var n=0;n<cols*rows;n++)NS.push([W/2+gauss()*W*.27,H/2+gauss()*H*.27]);
+      for(var si=0;si<SC.length;si++){
+        var sc0=SC[si];src=sc0.src;model=sc0.model;P=[];oc.clearRect(0,0,cols,rows);
+        var s=Math.min(src.naturalWidth,src.naturalHeight);oc.drawImage(src,(src.naturalWidth-s)/2,(src.naturalHeight-s)/2,s,s,0,0,cols,rows);
+        var px=oc.getImageData(0,0,cols,rows).data;
+        for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
+          var k=(y*cols+x)*4,R=px[k],G=px[k+1],B=px[k+2],lum=(.2126*R+.7152*G+.0722*B)/255;
+          P.push(particle(x*gap+gap/2,y*gap+gap/2,'rgb('+R+','+G+','+B+')',Math.min(gap*.62,gap*.5*(.38+.7*(1-lum)))));
+        }
+        DUST=[1.7,2.8,4.6].map(function(f){return grain(Math.max(1.3,gap/f));});
+        couple(NS);bindModel();
+        sc0.P=P;sc0.M=M;sc0.ORD=ORD;sc0.zf=zf;sc0.DUST=DUST;
       }
+      use(cur);
     }else{
       off.width=Math.ceil(W);off.height=Math.ceil(H);
       var text=cv.dataset.text||'ND';oc.font='600 100px Newsreader, Georgia, serif';
@@ -212,9 +224,8 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
       oc.font='600 '+fs.toFixed(0)+'px Newsreader, Georgia, serif';oc.textAlign='center';oc.textBaseline='middle';oc.fillStyle='#000';oc.fillText(text,W/2,H*.52);
       var im=oc.getImageData(0,0,off.width,off.height).data,g2=Math.max(3,Math.round(W/120));
       for(var y2=0;y2<off.height;y2+=g2)for(var x2=0;x2<off.width;x2+=g2)if(im[(y2*off.width+x2)*4+3]>128)P.push(particle(x2,y2,pal(x2/W*.8+Math.random()*.2),1.3+Math.random()*1.1));
+      DUST=null;couple();bindModel();
     }
-    DUST=imgMode&&src?[1.7,2.8,4.6].map(function(f){return grain(Math.max(1.3,gap/f));}):null;
-    couple();bindModel();
   }
   /* a pre-rendered halftone of the photo at a finer grid: the dots shrink through these layers while the photo
      underneath comes into focus, until only a fine grain is left and then the clean photo */
@@ -238,9 +249,9 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
      x-strips, then by y inside each strip (a monotone Knothe-Rosenblatt map), so paths are short straight
      lines that rarely cross. The image side is keyed on a blurred (noised) position, as in minibatch OT,
      so the starting cloud reads as noise instead of a warped copy of the photo. */
-  function couple(){
+  function couple(NS){
     var n=P.length;if(!n)return;
-    var S=[],i;for(i=0;i<n;i++)S.push([W/2+gauss()*W*.27,H/2+gauss()*H*.27]);
+    var S=NS&&NS.length===n?NS.slice():[],i;if(!S.length)for(i=0;i<n;i++)S.push([W/2+gauss()*W*.27,H/2+gauss()*H*.27]);
     var T=P.slice();for(i=0;i<n;i++){T[i].kx=T[i].tx+gauss()*W*.32;T[i].ky=T[i].ty+gauss()*H*.32;}
     S.sort(function(a,b){return a[0]-b[0];});T.sort(function(a,b){return a.kx-b.kx;});
     var C=Math.max(1,Math.round(Math.sqrt(n))),bs=Math.ceil(n/C);
@@ -272,19 +283,21 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
   /* the loop. A: noise -> 3D while turning; R: finish a full turn; B: face the camera and become the photo's halftone;
      K: sharpen into the photo; H: hold; C: photo -> noise; Z: hold. Without the model: F (noise -> photo), H, C, Z. */
   var DA=3.6,DR=5.4,DB=1.8,DK=5.4,DH=2.6,DC=2.8,DZ=.7,CYC={on:false,t0:0,pe:0,frozen:false,timer:0};
-  function segs(){return M.length?[['A',DA],['R',DR],['B',DB],['K',DK],['H',DH],['C',DC],['Z',DZ]]:[['F',3.4],['H',DH],['C',DC],['Z',DZ]];}
+  function segs(m){return (m||M).length?[['A',DA],['R',DR],['B',DB],['K',DK],['H',DH],['C',DC],['Z',DZ]]:[['F',3.4],['H',DH],['C',DC],['Z',DZ]];}
+  function cycLen(j){var S=segs(SC.length?SC[j].M:M),L=0;for(var i=0;i<S.length;i++)L+=S[i][1];return L;}
   function clock(){return performance.now()/1000;}
-  function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;}
+  function flat(){ST.am=0;ST.sm=1;ST.aFg=ST.aBg=1;ST.sFg=ST.sBg=noiseOf(t);ST.yaw=ST.pitch=0;ST.persp=1;ST.xf=0;}
   function spin(x){var w=x*x*(3-2*x);ST.yaw=-6.2832*(1-w);ST.pitch=.1*Math.sin(Math.PI*x);}
   function at(e){
-    var S=segs(),L=0,i;for(i=0;i<S.length;i++)L+=S[i][1];e=((e%L)+L)%L;
-    for(i=0;i<S.length-1&&e>=S[i][1];i++)e-=S[i][1];var id=S[i][0],p=clamp(e/S[i][1],0,1),q=ease(p);
+    var n=Math.max(1,SC.length),L=0,j,i;for(j=0;j<n;j++)L+=cycLen(j);e=((e%L)+L)%L;
+    for(j=0;j<n-1&&e>=cycLen(j);j++)e-=cycLen(j);if(SC.length&&j!==cur)use(j);
+    var S=segs();for(i=0;i<S.length-1&&e>=S[i][1];i++)e-=S[i][1];var id=S[i][0],p=clamp(e/S[i][1],0,1),q=ease(p);ST.xf=0;
     if(id==='A'){ST.sm=1-q;ST.am=clamp(p/.15,0,1);ST.aFg=1-ST.am;ST.aBg=lerp(1,.12,q);ST.sFg=ST.sBg=1;ST.persp=1;t=lerp(.32,1,ST.sm);spin(e/(DA+DR));}
     else if(id==='R'){ST.sm=0;ST.am=1;ST.aFg=0;ST.aBg=.12;ST.sFg=ST.sBg=1;ST.persp=1;t=.32;spin((DA+e)/(DA+DR));}
     else if(id==='B'){ST.sm=0;ST.am=1-q;ST.aFg=q;ST.sFg=0;ST.sBg=1-q;ST.aBg=lerp(.12,1,q);ST.persp=1-q;ST.yaw=ST.pitch=0;t=.32;}
-    else{t=id==='K'?.32*(1-p):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();}
+    else{t=id==='K'?.32*(1-p):id==='F'?1-q:id==='H'?0:id==='C'?q:1;flat();if(id==='Z'&&SC.length>1)ST.xf=q;}
   }
-  function eForT(v){var S=segs(),e=0;for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
+  function eForT(v){var S=segs(),e=0;for(var j=0;j<cur;j++)e+=cycLen(j);for(var i=0;S[i][0]!=='C';i++)e+=S[i][1];var lo=0,hi=1;for(i=0;i<24;i++){var m=(lo+hi)/2;if(ease(m)<v)lo=m;else hi=m;}return e+lo*DC;}
   function startCycle(e){if(still()){t=0;flat();draw();return;}CYC.on=true;CYC.frozen=false;CYC.t0=clock()-(e||0);kick();}
   function freeze(){if(CYC.on&&!CYC.frozen){CYC.frozen=true;CYC.pe=clock()-CYC.t0;}}
   function unfreeze(e){if(!CYC.on)return;CYC.frozen=false;CYC.t0=clock()-(e==null?CYC.pe:e);kick();}
@@ -359,7 +372,11 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     ctx.clearRect(0,0,W,H);
     if(k>0&&src)photo(k);
     if(x>0&&DUST)dust(x);
-    if(live>.01){placeP();if(ST.am>0)placeM();plan();dotsP(live,lerp(1,.7,lp));if(ST.am>0)dotsM();}
+    if(live>.01){placeP();if(ST.am>0)placeM();plan();
+      if(ST.xf>0){ /* in the noise between scenes: the next scene's dots take over the same samples */
+        dotsP(live*(1-ST.xf),1);var P0=P;P=SC[(cur+1)%SC.length].P;placeP();dotsP(live*ST.xf,1);P=P0;}
+      else dotsP(live,lerp(1,.7,lp));
+      if(ST.am>0)dotsM();}
     if(k>.5&&mouse.on)lens();
     var shown=Math.round(t*1000);
     if(shown!==lastShown){lastShown=shown;if(tEl)tEl.textContent=String(shown).padStart(4,'0');if(sEl)sEl.textContent=t.toFixed(3);
@@ -386,9 +403,12 @@ $$('.tk-track').forEach(function(t){var s=t.firstElementChild;if(!s)return;var c
     if(root.classList.contains('ready'))startIntro();
   }
   if(imgMode){
-    var pm=cv.dataset.model&&window.fetch?fetch(cv.dataset.model).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(parseModel).catch(function(){return null;}):Promise.resolve(null);
-    var pi=new Promise(function(res){src=new Image();src.decoding='async';src.onload=function(){res(true);};src.onerror=function(){imgMode=false;src=null;res(false);};src.src=cv.dataset.img;});
-    Promise.all([pi,pm]).then(function(r){model=r[0]?r[1]:null;go();});
+    var mods=(cv.dataset.model||'').split(',');
+    Promise.all(cv.dataset.img.split(',').map(function(u,i){
+      var pm=mods[i]&&window.fetch?fetch(mods[i].trim()).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(parseModel).catch(function(){return null;}):Promise.resolve(null);
+      var pi=new Promise(function(res){var im=new Image();im.decoding='async';im.onload=function(){res(im);};im.onerror=function(){res(null);};im.src=u.trim();});
+      return Promise.all([pi,pm]).then(function(r){return r[0]?{src:r[0],model:r[1]}:null;});
+    })).then(function(r){SC=r.filter(Boolean);imgMode=SC.length>0;if(imgMode)use(0);go();});
   }
   else{var fr=document.fonts&&document.fonts.load?Promise.race([document.fonts.load('600 100px Newsreader'),new Promise(function(r){setTimeout(r,1500);})]):Promise.resolve();fr.then(go,go);}
 })();
