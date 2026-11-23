@@ -220,7 +220,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
           data-cap="Night city in CARLA: street lights on, pedestrians and traffic around the ego car.">Night city</button>
         <button type="button" role="tab" aria-selected="false" data-group="st" data-src="assets/mv/day_street.mp4" data-poster="assets/mv/day_street.jpg"
           data-cap="Daytime street in CARLA, the six cameras of the ego car.">Day street</button>
-        <button type="button" role="tab" aria-selected="false" data-group="st" data-src="assets/mv/street_cctv.mp4" data-poster="assets/mv/street_cctv.jpg"
+        <button type="button" role="tab" aria-selected="false" data-group="st" data-pair="1" data-src="assets/mv/street_cctv.mp4" data-poster="assets/mv/street_cctv.jpg"
           data-cap="The same street from two different rigs in one CARLA run: the ego car's front camera (left) and a roadside camera (right).">Roadside camera</button>
         <button type="button" role="tab" aria-selected="false" data-src="assets/mv/crash_island.mp4" data-poster="assets/mv/crash_island.jpg"
           data-cap="Crash scene: the ego car drives into a raised traffic island with a tree (contact at about 6 s).">Crash scene</button>
@@ -384,7 +384,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
     if (c === cur) return;
     const keep = c.dataset.group && c.dataset.group === cur.dataset.group ? mv.currentTime : 0;
     chips.forEach(o => o.setAttribute('aria-selected', o === c)); cur = c;
-    mv.poster = c.dataset.poster; mv.src = c.dataset.src; mvCap.textContent = c.dataset.cap;
+    mv.poster = c.dataset.poster; mv.src = c.dataset.src; mvCap.textContent = c.dataset.cap; document.querySelector('.mv-layout').hidden = !!c.dataset.pair;
     mv.addEventListener('loadedmetadata', () => { if (keep && keep < mv.duration) mv.currentTime = keep; mv.play().catch(() => {}); }, { once: true });
   }));
 })();
