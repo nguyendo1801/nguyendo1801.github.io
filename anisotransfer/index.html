@@ -14,19 +14,11 @@
   --paper: #fbfaf6; --card: #ffffff; --ink: #131a33; --muted: #5d637a; --line: #e5e1d6;
   --blue: #3346d3; --violet: #7048e8; --orange: #ff5d3b; --pill: #eff0fb; --pill-line: #bec0d5;
   --best: #e9ecfd; --shadow: rgba(19, 26, 51, .07); --figbg: #ffffff;
+  color-scheme: light;
   --display: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --paper: #0f1325; --card: #171c33; --ink: #e9ebf5; --muted: #a2a7bf; --line: #2a3050;
-  --blue: #8c9bff; --violet: #a98bff; --orange: #ff8a6b; --pill: #20264a; --pill-line: #3a4270;
-  --best: #252c55; --shadow: rgba(0, 0, 0, .35); --figbg: #ffffff; color-scheme: dark } }
-:root[data-theme="dark"] {
-  --paper: #0f1325; --card: #171c33; --ink: #e9ebf5; --muted: #a2a7bf; --line: #2a3050;
-  --blue: #8c9bff; --violet: #a98bff; --orange: #ff8a6b; --pill: #20264a; --pill-line: #3a4270;
-  --best: #252c55; --shadow: rgba(0, 0, 0, .35); --figbg: #ffffff; color-scheme: dark }
-
 * { box-sizing: border-box }
 body { background: var(--paper); color: var(--ink); font: 400 16px/1.65 var(--body); -webkit-font-smoothing: antialiased }
 .wrap { max-width: 1120px; margin: 0 auto; padding-block: 56px 72px;
@@ -104,25 +96,32 @@ section { display: flex; flex-direction: column; gap: 24px }
 @media (max-width: 860px) { .two { grid-template-columns: 1fr } }
 video.plain { width: 100%; height: auto; display: block; border-radius: 14px; background: #fff; max-width: 100% }
 
-/* table */
-.tabs { display: flex; flex-wrap: wrap; gap: 8px }
-.tabs button { font: 500 13px/1 var(--body); padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer }
-.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+/* Table I, set like the paper: serif, booktabs rules, grouped policy columns */
+.paper { gap: 14px; font-family: var(--display) }
+.pt-num { text-align: center; font: 500 15px/1 var(--display); letter-spacing: .08em; max-width: none }
+.pt-cap { text-align: center; font: 400 13.5px/1.5 var(--display); font-variant: small-caps; letter-spacing: .02em; max-width: 110ch; margin: 0 auto; color: var(--ink) }
+.pt-block { border-top: 1.6px solid var(--ink); border-bottom: 1.6px solid var(--ink); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.pt-part { font: 600 15px/1.3 var(--display); max-width: none; padding-bottom: 6px; border-bottom: .8px solid var(--ink) }
 .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch }
-table { border-collapse: collapse; width: 100%; min-width: 720px; font: 400 13.5px/1.4 var(--body); font-variant-numeric: tabular-nums }
-th, td { padding: 9px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line) }
-th:first-child, td:first-child { text-align: left }
-thead th { font: 500 11.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .02em; vertical-align: bottom }
-thead tr.grp th { border-bottom: 0; padding-bottom: 2px; text-align: center; color: var(--ink) }
-tbody tr.ours td { background: var(--best); font-weight: 600 }
-tbody tr.ref td { color: var(--muted); font-style: italic }
-td b { font-weight: 700; color: var(--blue) }
-.note { font: 400 12px/1.6 var(--mono); color: var(--muted) }
+table.pt { border-collapse: collapse; width: 100%; min-width: 760px; font: 400 14.5px/1.35 var(--display); font-variant-numeric: lining-nums tabular-nums; color: var(--ink) }
+.pt th, .pt td { padding: 4px 8px; text-align: center; white-space: nowrap }
+.pt th:first-child, .pt td:first-child { text-align: left }
+.pt thead th { font-weight: 400; vertical-align: middle; border-bottom: .8px solid var(--ink) }
+.pt thead tr.grp th { border-bottom: 0 }
+.pt thead tr.grp th[rowspan] { border-bottom: .8px solid var(--ink) }
+.pt thead tr.grp th.g { border-bottom: .6px solid var(--ink) }
+.pt th.g, .pt .gl { border-left: .8px solid var(--ink) }
+.pt tbody tr:first-child td { padding-top: 8px }
+.pt tbody tr.ours td { background: var(--best); border-top: .8px solid var(--ink); padding-block: 7px }
+.pt tbody tr.ours td:first-child { font-weight: 700 }
+.pt tbody tr.ref td { font-style: italic }
+.pt tbody tr.ref.first td { border-top: .8px solid var(--ink); padding-top: 8px }
+.pt td b { font-weight: 700 }
 
 footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font: 400 13px/1.6 var(--mono); color: var(--muted) }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto } }
 </style>
-<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <div class="wrap">
@@ -145,7 +144,9 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
     <div class="links">
       <a class="btn" aria-disabled="true">Paper · coming soon</a>
       <a class="btn" href="#results">Results</a>
+      <a class="btn" href="#multiview">Multiview</a>
       <a class="btn" href="#method">Method</a>
+      <a class="btn" href="#table1">Table I</a>
     </div>
 
     <figure class="card" style="margin:0">
@@ -172,7 +173,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
       <div class="stat"><span class="n">12.3%</span><span class="k">missing obstacles</span><span class="v">baselines 20.6–45.2% · 252 obstacle-present units</span></div>
       <div class="stat"><span class="n">0.0%</span><span class="k">hallucinated obstacles</span><span class="v">SafeMVDrive 63.5%, Cosmos 3 2.5% · 159 obstacle-free units</span></div>
       <div class="stat"><span class="n">0.76</span><span class="k">BEV agreement with CARLA</span><span class="v">baselines 0.40–0.72 · semantic labels on simulator voxels</span></div>
-      <div class="stat"><span class="n">1365</span><span class="k">FVD</span><span class="v">baselines 1436–1944 · lower is better</span></div>
+      <div class="stat"><span class="n">1365.3</span><span class="k">FVD</span><span class="v">baselines 1435.9–1943.9 · lower is better</span></div>
     </div>
   </section>
 
@@ -188,6 +189,20 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
       <figcaption class="cap"><b>Critical obstacle:</b> the raised traffic island with a tree is kept. <b>No pass-through:</b> the
         stopped vehicle stays solid until contact. <b>Road users:</b> the lead car stays sharp instead of smearing.
         <b>Temporal:</b> 4.0–7.0 s on the front camera. <b>Multiview:</b> one island across the front-left, front and front-right views.</figcaption>
+    </figure>
+  </section>
+
+  <section id="multiview">
+    <div class="head">
+      <div class="eyebrow">MULTIVIEW CONSISTENCY</div>
+      <h2>All six cameras, <span class="grad">at once.</span></h2>
+      <p class="lede">Every camera reads the same shared world memory, so the six views are generated together and show one
+        consistent scene: the same road, buildings and road users from the front and the rear.</p>
+    </div>
+    <figure class="card" style="margin:0">
+      <video class="plain" src="assets/sixview.mp4" poster="assets/sixview.jpg" controls muted loop playsinline autoplay preload="metadata"
+        aria-label="Six-camera output of our method: front left, centre and right on top, rear left, centre and right below."></video>
+      <figcaption class="cap">All six cameras generated at once (front L/C/R, rear L/C/R).</figcaption>
     </figure>
   </section>
 
@@ -254,40 +269,37 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
     </div>
   </section>
 
-  <section>
-    <div class="head">
-      <div class="eyebrow">TABLE I</div>
-      <h2>Full <span class="grad">numbers.</span></h2>
-      <p class="lede">Paired values are obstacle-present / obstacle-absent units (252 / 159). Arrows give the preferred direction; the
-        best value per column is highlighted, ties included.</p>
-    </div>
-    <div class="card">
-      <div class="tabs" role="tablist" aria-label="Table I parts">
-        <button type="button" role="tab" id="tab-a" aria-selected="true" aria-controls="part-a">Objects &amp; driving policies</button>
-        <button type="button" role="tab" id="tab-b" aria-selected="false" aria-controls="part-b">Object &amp; trajectory error</button>
-        <button type="button" role="tab" id="tab-c" aria-selected="false" aria-controls="part-c">Realism &amp; temporal quality</button>
-      </div>
+  <section id="table1">
+    <div class="card paper">
+      <p class="pt-num">TABLE I</p>
+      <p class="pt-cap">Object preservation, driving-policy agreement, distributional realism, and temporal quality. (a) Missing and
+        hallucination rates (%), trajectory preservation error (TPE, m), and decision change rate (DCR, %) on 252/159
+        obstacle-present/absent units. (b) Additional object-error and policy-TPE evaluation. (c) Distributional realism, temporal
+        consistency, and lane preservation. Slash-separated values denote obstacle-present/absent. KID and CMMD are scaled by 10<sup>3</sup>.
+        Bold indicates the best result for each metric and condition; ties are included. Arrows indicate the preferred direction.</p>
 
-      <div class="tbl" id="part-a" role="tabpanel" aria-labelledby="tab-a">
-        <table>
+      <div class="pt-block">
+        <p class="pt-part">(a) Object Preservation and Driving-Policy Agreement</p>
+        <div class="tbl"><table class="pt">
           <thead>
-            <tr class="grp"><th></th><th></th><th></th><th colspan="2">UniAD</th><th colspan="2">SimLingo</th><th colspan="2">LEAD</th><th colspan="2">DriveTransformer</th></tr>
-            <tr><th>Method</th><th>Missing ↓</th><th>Hall. ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th></tr>
+            <tr class="grp"><th rowspan="2">Method</th><th rowspan="2"><i>N</i><sub>+</sub>/<i>N</i><sub>−</sub></th><th rowspan="2">Missing ↓</th><th rowspan="2">Hall. ↓</th>
+              <th colspan="2" class="g">UniAD</th><th colspan="2" class="g">SimLingo</th><th colspan="2" class="g">LEAD</th><th colspan="2" class="g">DriveTransformer</th></tr>
+            <tr><th class="gl">TPE ↓</th><th>DCR ↓</th><th class="gl">TPE ↓</th><th>DCR ↓</th><th class="gl">TPE ↓</th><th>DCR ↓</th><th class="gl">TPE ↓</th><th>DCR ↓</th></tr>
           </thead>
           <tbody>
-            <tr><td>GenieDrive</td><td>22.2</td><td><b>0.0</b></td><td>1.30/1.23</td><td>4.4/<b>4.4</b></td><td>4.08/4.12</td><td>35.4/43.3</td><td><b>1.37</b>/1.44</td><td><b>26.3</b>/50.0</td><td>1.02/1.07</td><td><b>7.5</b>/23.9</td></tr>
-            <tr><td>DriveArena</td><td>29.4</td><td><b>0.0</b></td><td>1.64/<b>1.05</b></td><td>7.1/9.4</td><td>3.73/3.23</td><td>35.4/33.3</td><td>1.93/<b>1.39</b></td><td>28.3/40.0</td><td>1.28/1.44</td><td>9.1/29.6</td></tr>
-            <tr><td>Cosmos 3</td><td>20.6</td><td>2.5</td><td>1.80/1.06</td><td>0.8/5.0</td><td>4.58/3.46</td><td>35.7/50.3</td><td>2.21/1.93</td><td>39.3/47.2</td><td>1.37/1.46</td><td>11.9/31.4</td></tr>
-            <tr><td>SafeMVDrive</td><td>45.2</td><td>63.5</td><td><b>1.24</b>/1.31</td><td>4.0/17.0</td><td>3.91/5.22</td><td>32.3/56.7</td><td>1.81/1.48</td><td>33.3/43.3</td><td>1.20/1.27</td><td>10.7/28.9</td></tr>
-            <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>12.3</b></td><td><b>0.0</b></td><td>1.50/1.21</td><td><b>0.0</b>/11.7</td><td><b>3.63/3.21</b></td><td><b>31.0/30.0</b></td><td>2.23/1.56</td><td>46.9/<b>31.7</b></td><td><b>1.01/1.06</b></td><td>9.6/<b>16.7</b></td></tr>
+            <tr><td>GenieDrive</td><td>252/159</td><td>22.2</td><td><b>0.0</b></td><td class="gl">1.30/1.23</td><td>4.4/<b>4.4</b></td><td class="gl">4.08/4.12</td><td>35.4/43.3</td><td class="gl"><b>1.37</b>/1.44</td><td><b>26.3</b>/50.0</td><td class="gl">1.02/1.07</td><td><b>7.5</b>/23.9</td></tr>
+            <tr><td>DriveArena</td><td>252/159</td><td>29.4</td><td><b>0.0</b></td><td class="gl">1.64/<b>1.05</b></td><td>7.1/9.4</td><td class="gl">3.73/3.23</td><td>35.4/33.3</td><td class="gl">1.93/<b>1.39</b></td><td>28.3/40.0</td><td class="gl">1.28/1.44</td><td>9.1/29.6</td></tr>
+            <tr><td>Cosmos 3</td><td>252/159</td><td>20.6</td><td>2.5</td><td class="gl">1.80/1.06</td><td>0.8/5.0</td><td class="gl">4.58/3.46</td><td>35.7/50.3</td><td class="gl">2.21/1.93</td><td>39.3/47.2</td><td class="gl">1.37/1.46</td><td>11.9/31.4</td></tr>
+            <tr><td>SafeMVDrive</td><td>252/159</td><td>45.2</td><td>63.5</td><td class="gl"><b>1.24</b>/1.31</td><td>4.0/17.0</td><td class="gl">3.91/5.22</td><td>32.3/56.7</td><td class="gl">1.81/1.48</td><td>33.3/43.3</td><td class="gl">1.20/1.27</td><td>10.7/28.9</td></tr>
+            <tr class="ours"><td>AnisoTransfer (Ours)</td><td>252/159</td><td><b>12.3</b></td><td><b>0.0</b></td><td class="gl">1.50/1.21</td><td><b>0.0</b>/11.7</td><td class="gl"><b>3.63/3.21</b></td><td><b>31.0/30.0</b></td><td class="gl">2.23/1.56</td><td>46.9/<b>31.7</b></td><td class="gl"><b>1.01/1.06</b></td><td>9.6/<b>16.7</b></td></tr>
           </tbody>
-        </table>
-        <p class="note">Missing and hallucination rates in %. TPE: trajectory preservation error (m). DCR: decision change rate (%).</p>
+        </table></div>
       </div>
 
-      <div class="tbl" id="part-b" role="tabpanel" aria-labelledby="tab-b" hidden>
-        <table>
-          <thead><tr><th>Method</th><th>Obj. err / Hall. ↓</th><th>UniAD ↓</th><th>SimLingo ↓</th><th>LEAD ↓</th><th>DriveTrans. ↓</th></tr></thead>
+      <div class="pt-block">
+        <p class="pt-part">(b) Additional Object and Trajectory Evaluation</p>
+        <div class="tbl"><table class="pt">
+          <thead><tr><th>Method</th><th>Obj.Err/Hall. ↓</th><th>UniAD ↓</th><th>SimLingo ↓</th><th>LEAD ↓</th><th>DriveTrans. ↓</th></tr></thead>
           <tbody>
             <tr><td>GenieDrive</td><td>10.0/3.7</td><td>1.06/0.80</td><td>2.51/4.13</td><td>1.33/2.07</td><td>1.07/1.71</td></tr>
             <tr><td>DriveArena</td><td>35.6/1.9</td><td>1.25/0.88</td><td>3.19/3.59</td><td>1.70/2.10</td><td>1.96/1.22</td></tr>
@@ -295,12 +307,12 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
             <tr><td>SafeMVDrive</td><td>44.4/37.0</td><td>1.66/1.06</td><td>2.93/4.88</td><td>1.91/2.19</td><td><b>0.90</b>/1.28</td></tr>
             <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>9.1/0.0</b></td><td><b>1.00</b>/0.95</td><td><b>2.02/2.69</b></td><td><b>0.99/1.47</b></td><td>1.30/<b>1.20</b></td></tr>
           </tbody>
-        </table>
-        <p class="note">Additional object-error and policy-TPE evaluation.</p>
+        </table></div>
       </div>
 
-      <div class="tbl" id="part-c" role="tabpanel" aria-labelledby="tab-c" hidden>
-        <table>
+      <div class="pt-block">
+        <p class="pt-part">(c) Distributional Realism and Temporal Quality</p>
+        <div class="tbl"><table class="pt">
           <thead><tr><th>Method</th><th>FID ↓</th><th>KID ↓</th><th>CMMD ↓</th><th>FVD ↓</th><th>Warp ↓</th><th>tLPIPS ↓</th><th>Lane F1 ↑</th></tr></thead>
           <tbody>
             <tr><td>GenieDrive</td><td>124.0</td><td>86.56</td><td>3.828</td><td>1435.9</td><td>0.113</td><td>0.101</td><td><b>0.252</b></td></tr>
@@ -308,11 +320,10 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
             <tr><td>Cosmos 3</td><td>181.4</td><td>190.97</td><td>3.787</td><td>1765.1</td><td>0.102</td><td><b>0.059</b></td><td>0.016</td></tr>
             <tr><td>SafeMVDrive</td><td>148.4</td><td>142.98</td><td>3.200</td><td>1943.9</td><td>0.168</td><td>0.125</td><td>0.079</td></tr>
             <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>104.1</b></td><td>79.95</td><td><b>3.093</b></td><td><b>1365.3</b></td><td><b>0.092</b></td><td>0.060</td><td>0.191</td></tr>
-            <tr class="ref"><td>CARLA render</td><td>178.5</td><td>111.48</td><td>5.275</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+            <tr class="ref first"><td>CARLA render</td><td>178.5</td><td>111.48</td><td>5.275</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
             <tr class="ref"><td>Real vs. real</td><td>36.8</td><td>-0.02</td><td>0.009</td><td>209.6</td><td>–</td><td>–</td><td>–</td></tr>
           </tbody>
-        </table>
-        <p class="note">KID and CMMD are scaled by 10³.</p>
+        </table></div>
       </div>
     </div>
   </section>
@@ -339,11 +350,6 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
   });
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { top.pause(); base.pause(); btn.textContent = 'Play'; }
 
-  // Table I tabs
-  const tabs = [...document.querySelectorAll('[role=tab]')];
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(o => { const on = o === t; o.setAttribute('aria-selected', on); document.getElementById(o.getAttribute('aria-controls')).hidden = !on; });
-  }));
 })();
 </script>
 </body>
