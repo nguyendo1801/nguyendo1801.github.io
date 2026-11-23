@@ -96,6 +96,12 @@ section { display: flex; flex-direction: column; gap: 24px }
 @media (max-width: 860px) { .two { grid-template-columns: 1fr } }
 video.plain { width: 100%; height: auto; display: block; border-radius: 14px; background: #fff; max-width: 100% }
 
+/* multiview gallery */
+.mv-tabs { display: flex; flex-wrap: wrap; gap: 8px }
+.mv-tabs button { font: 500 13px/1 var(--body); padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer }
+.mv-tabs button:hover { color: var(--ink); border-color: var(--pill-line) }
+.mv-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.mv-layout { color: var(--muted) }
 /* Table I, set like the paper: serif, booktabs rules, grouped policy columns */
 .paper { gap: 14px; font-family: var(--display) }
 .pt-num { text-align: center; font: 500 15px/1 var(--display); letter-spacing: .08em; max-width: none }
@@ -197,12 +203,33 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
       <div class="eyebrow">MULTIVIEW CONSISTENCY</div>
       <h2>All six cameras, <span class="grad">at once.</span></h2>
       <p class="lede">Every camera reads the same shared world memory, so the six views are generated together and show one
-        consistent scene: the same road, buildings and road users from the front and the rear.</p>
+        consistent scene. Pick a scene below: different cities, day and night, three vehicles at one intersection, a roadside
+        camera, a crash, and a second simulator.</p>
     </div>
     <figure class="card" style="margin:0">
-      <video class="plain" src="assets/sixview.mp4" poster="assets/sixview.jpg" controls muted loop playsinline autoplay preload="metadata"
+      <div class="mv-tabs" role="tablist" aria-label="Multiview scenes">
+        <button type="button" role="tab" aria-selected="true" data-src="assets/sixview.mp4" data-poster="assets/sixview.jpg"
+          data-cap="Winter street. All six cameras generated at once.">Winter street</button>
+        <button type="button" role="tab" aria-selected="false" data-group="s5" data-src="assets/mv/s5_vehicle2.mp4" data-poster="assets/mv/s5_vehicle2.jpg"
+          data-cap="One intersection seen from vehicle 2. All three vehicles read the same shared world memory; switching vehicle keeps the playback time, so you see the same moment from another car.">Intersection · vehicle 2</button>
+        <button type="button" role="tab" aria-selected="false" data-group="s5" data-src="assets/mv/s5_vehicle3.mp4" data-poster="assets/mv/s5_vehicle3.jpg"
+          data-cap="The same intersection seen from vehicle 3, at the same moment as the other two vehicles.">Vehicle 3</button>
+        <button type="button" role="tab" aria-selected="false" data-group="s5" data-src="assets/mv/s5_vehicle5.mp4" data-poster="assets/mv/s5_vehicle5.jpg"
+          data-cap="The same intersection seen from vehicle 5, at the same moment as the other two vehicles.">Vehicle 5</button>
+        <button type="button" role="tab" aria-selected="false" data-src="assets/mv/night_city.mp4" data-poster="assets/mv/night_city.jpg"
+          data-cap="Night city in CARLA: street lights on, pedestrians and traffic around the ego car.">Night city</button>
+        <button type="button" role="tab" aria-selected="false" data-group="st" data-src="assets/mv/day_street.mp4" data-poster="assets/mv/day_street.jpg"
+          data-cap="Daytime street in CARLA, the six cameras of the ego car.">Day street</button>
+        <button type="button" role="tab" aria-selected="false" data-group="st" data-src="assets/mv/street_cctv.mp4" data-poster="assets/mv/street_cctv.jpg"
+          data-cap="The same street from two different rigs in one CARLA run: the ego car's front camera (left) and a roadside camera (right).">Roadside camera</button>
+        <button type="button" role="tab" aria-selected="false" data-src="assets/mv/crash_island.mp4" data-poster="assets/mv/crash_island.jpg"
+          data-cap="Crash scene: the ego car drives into a raised traffic island with a tree (contact at about 6 s).">Crash scene</button>
+        <button type="button" role="tab" aria-selected="false" data-src="assets/mv/beamng.mp4" data-poster="assets/mv/beamng.jpg"
+          data-cap="A scene from a second simulator, BeamNG, with the same six cameras.">BeamNG</button>
+      </div>
+      <video id="mv" class="plain" src="assets/sixview.mp4" poster="assets/sixview.jpg" controls muted loop playsinline autoplay preload="metadata"
         aria-label="Six-camera output of our method: front left, centre and right on top, rear left, centre and right below."></video>
-      <figcaption class="cap">All six cameras generated at once (front L/C/R, rear L/C/R).</figcaption>
+      <figcaption class="cap"><span id="mvCap">Winter street. All six cameras generated at once.</span> <span class="mv-layout">Layout: front L/C/R on top, rear L/C/R below.</span></figcaption>
     </figure>
   </section>
 
@@ -350,6 +377,16 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; fl
   });
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { top.pause(); base.pause(); btn.textContent = 'Play'; }
 
+  // multiview gallery: one player, scene chips; vehicles of one scene keep the playback time
+  const mv = document.getElementById('mv'), mvCap = document.getElementById('mvCap');
+  const chips = [...document.querySelectorAll('.mv-tabs [role=tab]')]; let cur = chips[0];
+  chips.forEach(c => c.addEventListener('click', () => {
+    if (c === cur) return;
+    const keep = c.dataset.group && c.dataset.group === cur.dataset.group ? mv.currentTime : 0;
+    chips.forEach(o => o.setAttribute('aria-selected', o === c)); cur = c;
+    mv.poster = c.dataset.poster; mv.src = c.dataset.src; mvCap.textContent = c.dataset.cap;
+    mv.addEventListener('loadedmetadata', () => { if (keep && keep < mv.duration) mv.currentTime = keep; mv.play().catch(() => {}); }, { once: true });
+  }));
 })();
 </script>
 </body>
