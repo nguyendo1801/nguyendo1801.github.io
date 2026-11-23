@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnisoTransfer</title>
+<meta name="description" content="AnisoTransfer: rare, safety-critical driving scenes generated in a simulator and transferred to photorealistic multi-camera video.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
+<style>
+/* Layout: one centred reading column (1120px) of white figure cards on the homepage's paper ground; text at ~68ch. */
+:root {
+  --paper: #fbfaf6; --card: #ffffff; --ink: #131a33; --muted: #5d637a; --line: #e5e1d6;
+  --blue: #3346d3; --violet: #7048e8; --orange: #ff5d3b; --pill: #eff0fb; --pill-line: #bec0d5;
+  --best: #e9ecfd; --shadow: rgba(19, 26, 51, .07); --figbg: #ffffff;
+  --display: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1325; --card: #171c33; --ink: #e9ebf5; --muted: #a2a7bf; --line: #2a3050;
+  --blue: #8c9bff; --violet: #a98bff; --orange: #ff8a6b; --pill: #20264a; --pill-line: #3a4270;
+  --best: #252c55; --shadow: rgba(0, 0, 0, .35); --figbg: #ffffff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0f1325; --card: #171c33; --ink: #e9ebf5; --muted: #a2a7bf; --line: #2a3050;
+  --blue: #8c9bff; --violet: #a98bff; --orange: #ff8a6b; --pill: #20264a; --pill-line: #3a4270;
+  --best: #252c55; --shadow: rgba(0, 0, 0, .35); --figbg: #ffffff; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.65 var(--body); -webkit-font-smoothing: antialiased }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 56px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 72px }
+a { color: var(--blue) }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px }
+.eyebrow { font: 500 12px/1.4 var(--mono); letter-spacing: .06em; color: var(--muted); display: flex; align-items: center; gap: 12px }
+.eyebrow::after { content: ""; width: 60px; height: 1.5px; background: linear-gradient(90deg, var(--blue), var(--orange)) }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; letter-spacing: -.01em }
+h1 { font-size: clamp(44px, 7vw, 76px); line-height: 1.02 }
+h2 { font-size: clamp(32px, 4.4vw, 46px); line-height: 1.08 }
+h3 { font-size: 24px; line-height: 1.2 }
+.grad { font-style: italic; background: linear-gradient(100deg, var(--blue) 0%, var(--violet) 45%, var(--orange) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent }
+p { margin: 0; max-width: 68ch }
+.lede { font-size: 18px; color: var(--muted) }
+.lede b { color: var(--ink); font-weight: 600 }
+.lede i { font-family: var(--display); font-size: 1.08em; color: var(--blue) }
+.pill { display: inline-flex; font: 400 12px/1 var(--mono); color: var(--blue); background: var(--pill);
+  border: 1px solid var(--pill-line); border-radius: 999px; padding: 7px 12px }
+.links { display: flex; flex-wrap: wrap; gap: 10px }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 500 14px/1 var(--body); text-decoration: none;
+  padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink) }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.btn[aria-disabled="true"] { color: var(--muted); cursor: default }
+section { display: flex; flex-direction: column; gap: 24px }
+.head { display: flex; flex-direction: column; gap: 14px }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 28px; box-shadow: 0 30px 70px var(--shadow);
+  padding: clamp(16px, 3vw, 32px); display: flex; flex-direction: column; gap: 18px; min-width: 0 }
+.cap { font: 400 13px/1.6 var(--mono); color: var(--muted); max-width: 90ch }
+.cap b { color: var(--ink); font-weight: 500 }
+.fig { background: var(--figbg); border-radius: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch }
+.fig img { display: block; width: 100%; height: auto; min-width: 680px }
+.fig.small img { min-width: 0 }
+.scroll-hint { display: none; font: 400 12px/1 var(--mono); color: var(--muted) }
+@media (max-width: 720px) { .scroll-hint { display: block } }
+
+/* hero */
+.hero { display: flex; flex-direction: column; gap: 26px }
+.hero .title-row { display: flex; flex-direction: column; gap: 10px }
+.hero .sub { font-family: var(--display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.25; color: var(--ink); font-weight: 400; max-width: 30ch }
+.affil { font: 400 13px/1.5 var(--mono); color: var(--muted) }
+
+/* compare slider */
+.compare { position: relative; border-radius: 18px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; max-width: 100%; user-select: none; touch-action: pan-y }
+.compare video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block }
+.compare .top { clip-path: inset(0 0 0 var(--x, 50%)) }
+.compare .bar { position: absolute; top: 0; bottom: 0; left: var(--x, 50%); width: 2px; background: #fff; transform: translateX(-1px); pointer-events: none }
+.compare .knob { position: absolute; top: 50%; left: var(--x, 50%); width: 38px; height: 38px; border-radius: 50%; background: #fff; transform: translate(-50%, -50%);
+  display: grid; place-items: center; color: var(--blue); font: 600 13px/1 var(--mono); pointer-events: none; box-shadow: 0 4px 14px rgba(0,0,0,.25) }
+.compare input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0 }
+.tag { position: absolute; top: 12px; font: 500 11px/1 var(--mono); padding: 7px 10px; border-radius: 999px; color: #fff; pointer-events: none }
+.tag.l { left: 12px; background: rgba(19, 26, 51, .78) }
+.tag.r { right: 12px; background: #3346d3 }
+.ctl { position: absolute; right: 12px; bottom: 12px; font: 500 11px/1 var(--mono); padding: 8px 11px; border-radius: 999px; border: 0;
+  background: rgba(255,255,255,.9); color: #131a33; cursor: pointer; z-index: 2 }
+
+/* numbers */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.stat .n { font: 500 38px/1 var(--display); font-variant-numeric: tabular-nums; color: var(--blue) }
+.stat .k { font: 600 14px/1.35 var(--body) }
+.stat .v { font: 400 12px/1.5 var(--mono); color: var(--muted) }
+@media (max-width: 860px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+
+/* method steps */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px }
+.step { border-top: 1.5px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.step .lab { font: 500 12px/1 var(--mono); color: var(--blue) }
+.step p { font-size: 15px; color: var(--muted) }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr } }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr } }
+video.plain { width: 100%; height: auto; display: block; border-radius: 14px; background: #fff; max-width: 100% }
+
+/* table */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px }
+.tabs button { font: 500 13px/1 var(--body); padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.tbl { overflow-x: auto; -webkit-overflow-scrolling: touch }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font: 400 13.5px/1.4 var(--body); font-variant-numeric: tabular-nums }
+th, td { padding: 9px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line) }
+th:first-child, td:first-child { text-align: left }
+thead th { font: 500 11.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .02em; vertical-align: bottom }
+thead tr.grp th { border-bottom: 0; padding-bottom: 2px; text-align: center; color: var(--ink) }
+tbody tr.ours td { background: var(--best); font-weight: 600 }
+tbody tr.ref td { color: var(--muted); font-style: italic }
+td b { font-weight: 700; color: var(--blue) }
+.note { font: 400 12px/1.6 var(--mono); color: var(--muted) }
+
+footer { border-top: 1px solid var(--line); padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font: 400 13px/1.6 var(--mono); color: var(--muted) }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto } }
+</style>
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="links" style="justify-content:space-between;align-items:center">
+      <span class="pill">Journal in preparation</span>
+      <a class="btn" href="https://nguyendo1801.github.io/">← Nguyen Do</a>
+    </div>
+    <div class="title-row">
+      <h1>Aniso<span class="grad">Transfer.</span></h1>
+      <p class="sub">Rare critical driving scenes, from simulator to the real world.</p>
+      <p class="affil">THÁI Lab · University of Florida</p>
+    </div>
+    <p class="lede">Crashes and near misses are rare in real driving logs, which is exactly when autonomous vehicles need data most. We
+      <b>systematically generate rare, safety-critical scenes</b> in simulators (<b>CARLA</b>, <b>BeamNG</b>) and
+      <b>transfer them to photorealistic real-world video</b>, keeping the scene faithful across all six cameras
+      (<i>multiview consistency</i>), over time (<i>temporal consistency</i>), and around the critical event itself
+      (<i>event preservation</i>), so the obstacle that causes the crash stays where the simulator put it.</p>
+    <div class="links">
+      <a class="btn" aria-disabled="true">Paper · coming soon</a>
+      <a class="btn" href="#results">Results</a>
+      <a class="btn" href="#method">Method</a>
+    </div>
+
+    <figure class="card" style="margin:0">
+      <div class="compare" id="cmp">
+        <video id="vCarla" src="assets/carla.mp4" muted loop playsinline autoplay preload="auto"></video>
+        <video id="vOurs" class="top" src="assets/ours.mp4" muted loop playsinline autoplay preload="auto"></video>
+        <div class="bar"></div><div class="knob" aria-hidden="true">◂▸</div>
+        <span class="tag l">CARLA</span><span class="tag r">Ours</span>
+        <input id="cmpRange" type="range" min="0" max="100" value="50" aria-label="Divider between the CARLA render and our output">
+        <button class="ctl" id="cmpPlay" type="button">Pause</button>
+      </div>
+      <figcaption class="cap">Front camera, 6.0–11.8 s of a CARLA scene. Drag the divider: the simulator render on the left, our
+        photorealistic output on the right. The CARLA render exists at 5 fps; our video is 30 fps. Pilot results.</figcaption>
+    </figure>
+  </header>
+
+  <section id="results">
+    <div class="head">
+      <div class="eyebrow">AT A GLANCE</div>
+      <h2>What the method <span class="grad">keeps.</span></h2>
+      <p class="lede">Four numbers from the paper's evaluation against GenieDrive, DriveArena, Cosmos 3 and SafeMVDrive.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="n">12.3%</span><span class="k">missing obstacles</span><span class="v">baselines 20.6–45.2% · 252 obstacle-present units</span></div>
+      <div class="stat"><span class="n">0.0%</span><span class="k">hallucinated obstacles</span><span class="v">SafeMVDrive 63.5%, Cosmos 3 2.5% · 159 obstacle-free units</span></div>
+      <div class="stat"><span class="n">0.76</span><span class="k">BEV agreement with CARLA</span><span class="v">baselines 0.40–0.72 · semantic labels on simulator voxels</span></div>
+      <div class="stat"><span class="n">1365</span><span class="k">FVD</span><span class="v">baselines 1436–1944 · lower is better</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow">EVENT PRESERVATION AND CONSISTENCY</div>
+      <h2>Cosmos 3 vs. <span class="grad">Ours.</span></h2>
+      <p class="lede">Five failure modes of a frozen video generator on simulator layouts, and the same moments with our guidance.</p>
+    </div>
+    <figure class="card" style="margin:0">
+      <div class="fig"><img src="assets/teaser.jpg" alt="Five panels comparing Cosmos 3 and Ours: critical obstacle (traffic island with a tree), no pass-through (stopped vehicle), road users (lead car), temporal consistency over 4 to 7 seconds, and multiview consistency across three front cameras." loading="lazy"></div>
+      <span class="scroll-hint">Swipe the figure sideways →</span>
+      <figcaption class="cap"><b>Critical obstacle:</b> the raised traffic island with a tree is kept. <b>No pass-through:</b> the
+        stopped vehicle stays solid until contact. <b>Road users:</b> the lead car stays sharp instead of smearing.
+        <b>Temporal:</b> 4.0–7.0 s on the front camera. <b>Multiview:</b> one island across the front-left, front and front-right views.</figcaption>
+    </figure>
+  </section>
+
+  <section id="method">
+    <div class="head">
+      <div class="eyebrow">METHOD</div>
+      <h2>Guide a frozen generator with <span class="grad">the simulator's world.</span></h2>
+      <p class="lede">The video generator is never retrained. Corrections computed from the simulator's world are added at each guided
+        sampling step.</p>
+    </div>
+    <figure class="card" style="margin:0">
+      <div class="fig"><img src="assets/overview.jpg" alt="Method overview: (a) simulator inputs, (b) shared world memory, (c) object-wise transport with a mixture of sliced transport experts and a gating network, (d) frozen generator sampling." loading="lazy"></div>
+      <span class="scroll-hint">Swipe the figure sideways →</span>
+      <div class="steps">
+        <div class="step"><span class="lab">(b) Shared world memory</span><h3>One world, many observers</h3>
+          <p>The simulator's semantic world and actor boxes are stored once. Every camera, and every vehicle observing the scene, reads the same memory, so they all see the same buildings, trees and road.</p></div>
+        <div class="step"><span class="lab">(c) Object-wise transport</span><h3>Mixture of sliced transport experts</h3>
+          <p>A gating network routes each region to an object expert (building, tree, car). Each expert moves only its own object's features toward real examples with sliced optimal transport.</p></div>
+        <div class="step"><span class="lab">(d) Frozen generator</span><h3>Corrections at sampling time</h3>
+          <p>The generator keeps its weights. It receives the world control and caption, and the corrections from (b) and (c) are added at each guided step.</p></div>
+      </div>
+    </figure>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow">OBJECT-CONDITIONED TRANSPORT</div>
+      <h2>From noise to a <span class="grad">3D actor.</span></h2>
+      <p class="lede">Optimal transport moves a noise point cloud onto a 3D model of the simulator's vehicle, then adapts its shape and
+        texture toward a real car. The adapted actor is placed in the shared world memory and seen consistently from every camera.</p>
+    </div>
+    <div class="card">
+      <video class="plain" src="assets/car3d_ot.mp4" controls muted loop playsinline autoplay preload="metadata"
+        aria-label="Animation: a noise point cloud is transported into a 3D car, which is then adapted in shape and texture."></video>
+      <p class="cap">The transport animation: noise → simulator vehicle → adapted real-looking vehicle.</p>
+      <div class="fig"><img src="assets/ot_actor.jpg" alt="Figure: (a) simulator views, (b) transport from a noise point cloud to the adapted 3D vehicle, (c) the 3D actor from the camera viewpoint, (d) shared world memory with the actor, (e) our generated frames, (f) Cosmos 3 generated frames, from 10.8 to 12.8 seconds." loading="lazy"></div>
+      <span class="scroll-hint">Swipe the figure sideways →</span>
+      <p class="cap"><b>(a)</b> Simulator views of the source vehicle. <b>(b)</b> Transport from noise to the 3D model of the source
+        vehicle, then adaptation of shape and texture. <b>(c)</b> The adapted actor from the camera viewpoint. <b>(d)</b> Shared world
+        memory with the actor; orange boxes mark the vehicle. <b>(e)</b> Our generated frames. <b>(f)</b> Cosmos 3. Every 0.4 s from 10.8 to 12.8 s.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow">SIMULATOR-GROUNDED LAYOUT</div>
+      <h2>Does the video still match <span class="grad">the map?</span></h2>
+      <p class="lede">We segment each generated video, project the labels onto the simulator's 3D voxels, and compare the resulting
+        bird's-eye view with CARLA's own.</p>
+    </div>
+    <div class="card">
+      <div class="fig"><img src="assets/bev_agreement.png" alt="Semantic BEV maps for CARLA, GenieDrive, Cosmos 3, SafeMVDrive, DriveArena and Ours, with agreement maps and scores 0.72, 0.67, 0.50, 0.40 and 0.76, and enlarged views of two T-shaped buildings." loading="lazy"></div>
+      <span class="scroll-hint">Swipe the figure sideways →</span>
+      <p class="cap"><b>Top:</b> semantic BEV maps (purple road, orange building, green vegetation, light blue sky, white unobserved).
+        <b>Middle:</b> cell-wise agreement with CARLA (green match, red mismatch) and the agreement score. <b>Bottom:</b> a 56 m × 56 m
+        view with two T-shaped buildings. Ours keeps the building outlines and the surrounding road (0.76).</p>
+    </div>
+    <div class="card">
+      <div class="fig"><img src="assets/ground_bev.png" alt="Front camera and ground-level BEV for CARLA, GenieDrive, DriveArena, UniScene, SafeMVDrive, Cosmos 3 and Ours, with realism and road IoU scores. Ours: realism 0.97, road IoU 0.79." loading="lazy"></div>
+      <span class="scroll-hint">Swipe the figure sideways →</span>
+      <p class="cap"><b>Ground layout around the traffic island.</b> The rendered CARLA frame keeps the road layout but looks
+        synthetic (realism 0.00). Cosmos 3 and SafeMVDrive look real but cover the road in snow (road IoU 0.33 and 0.45).
+        Ours is both realistic (0.97) and keeps the road and the island (road IoU 0.79).</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow">TABLE I</div>
+      <h2>Full <span class="grad">numbers.</span></h2>
+      <p class="lede">Paired values are obstacle-present / obstacle-absent units (252 / 159). Arrows give the preferred direction; the
+        best value per column is highlighted, ties included.</p>
+    </div>
+    <div class="card">
+      <div class="tabs" role="tablist" aria-label="Table I parts">
+        <button type="button" role="tab" id="tab-a" aria-selected="true" aria-controls="part-a">Objects &amp; driving policies</button>
+        <button type="button" role="tab" id="tab-b" aria-selected="false" aria-controls="part-b">Object &amp; trajectory error</button>
+        <button type="button" role="tab" id="tab-c" aria-selected="false" aria-controls="part-c">Realism &amp; temporal quality</button>
+      </div>
+
+      <div class="tbl" id="part-a" role="tabpanel" aria-labelledby="tab-a">
+        <table>
+          <thead>
+            <tr class="grp"><th></th><th></th><th></th><th colspan="2">UniAD</th><th colspan="2">SimLingo</th><th colspan="2">LEAD</th><th colspan="2">DriveTransformer</th></tr>
+            <tr><th>Method</th><th>Missing ↓</th><th>Hall. ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th><th>TPE ↓</th><th>DCR ↓</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GenieDrive</td><td>22.2</td><td><b>0.0</b></td><td>1.30/1.23</td><td>4.4/<b>4.4</b></td><td>4.08/4.12</td><td>35.4/43.3</td><td><b>1.37</b>/1.44</td><td><b>26.3</b>/50.0</td><td>1.02/1.07</td><td><b>7.5</b>/23.9</td></tr>
+            <tr><td>DriveArena</td><td>29.4</td><td><b>0.0</b></td><td>1.64/<b>1.05</b></td><td>7.1/9.4</td><td>3.73/3.23</td><td>35.4/33.3</td><td>1.93/<b>1.39</b></td><td>28.3/40.0</td><td>1.28/1.44</td><td>9.1/29.6</td></tr>
+            <tr><td>Cosmos 3</td><td>20.6</td><td>2.5</td><td>1.80/1.06</td><td>0.8/5.0</td><td>4.58/3.46</td><td>35.7/50.3</td><td>2.21/1.93</td><td>39.3/47.2</td><td>1.37/1.46</td><td>11.9/31.4</td></tr>
+            <tr><td>SafeMVDrive</td><td>45.2</td><td>63.5</td><td><b>1.24</b>/1.31</td><td>4.0/17.0</td><td>3.91/5.22</td><td>32.3/56.7</td><td>1.81/1.48</td><td>33.3/43.3</td><td>1.20/1.27</td><td>10.7/28.9</td></tr>
+            <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>12.3</b></td><td><b>0.0</b></td><td>1.50/1.21</td><td><b>0.0</b>/11.7</td><td><b>3.63/3.21</b></td><td><b>31.0/30.0</b></td><td>2.23/1.56</td><td>46.9/<b>31.7</b></td><td><b>1.01/1.06</b></td><td>9.6/<b>16.7</b></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Missing and hallucination rates in %. TPE: trajectory preservation error (m). DCR: decision change rate (%).</p>
+      </div>
+
+      <div class="tbl" id="part-b" role="tabpanel" aria-labelledby="tab-b" hidden>
+        <table>
+          <thead><tr><th>Method</th><th>Obj. err / Hall. ↓</th><th>UniAD ↓</th><th>SimLingo ↓</th><th>LEAD ↓</th><th>DriveTrans. ↓</th></tr></thead>
+          <tbody>
+            <tr><td>GenieDrive</td><td>10.0/3.7</td><td>1.06/0.80</td><td>2.51/4.13</td><td>1.33/2.07</td><td>1.07/1.71</td></tr>
+            <tr><td>DriveArena</td><td>35.6/1.9</td><td>1.25/0.88</td><td>3.19/3.59</td><td>1.70/2.10</td><td>1.96/1.22</td></tr>
+            <tr><td>Cosmos 3</td><td>12.2/<b>0.0</b></td><td>1.60/<b>0.78</b></td><td>3.82/4.62</td><td>1.99/2.27</td><td>1.46/1.39</td></tr>
+            <tr><td>SafeMVDrive</td><td>44.4/37.0</td><td>1.66/1.06</td><td>2.93/4.88</td><td>1.91/2.19</td><td><b>0.90</b>/1.28</td></tr>
+            <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>9.1/0.0</b></td><td><b>1.00</b>/0.95</td><td><b>2.02/2.69</b></td><td><b>0.99/1.47</b></td><td>1.30/<b>1.20</b></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Additional object-error and policy-TPE evaluation.</p>
+      </div>
+
+      <div class="tbl" id="part-c" role="tabpanel" aria-labelledby="tab-c" hidden>
+        <table>
+          <thead><tr><th>Method</th><th>FID ↓</th><th>KID ↓</th><th>CMMD ↓</th><th>FVD ↓</th><th>Warp ↓</th><th>tLPIPS ↓</th><th>Lane F1 ↑</th></tr></thead>
+          <tbody>
+            <tr><td>GenieDrive</td><td>124.0</td><td>86.56</td><td>3.828</td><td>1435.9</td><td>0.113</td><td>0.101</td><td><b>0.252</b></td></tr>
+            <tr><td>DriveArena</td><td>107.9</td><td><b>76.32</b></td><td>3.317</td><td>1930.5</td><td>0.209</td><td>0.166</td><td>0.147</td></tr>
+            <tr><td>Cosmos 3</td><td>181.4</td><td>190.97</td><td>3.787</td><td>1765.1</td><td>0.102</td><td><b>0.059</b></td><td>0.016</td></tr>
+            <tr><td>SafeMVDrive</td><td>148.4</td><td>142.98</td><td>3.200</td><td>1943.9</td><td>0.168</td><td>0.125</td><td>0.079</td></tr>
+            <tr class="ours"><td>AnisoTransfer (Ours)</td><td><b>104.1</b></td><td>79.95</td><td><b>3.093</b></td><td><b>1365.3</b></td><td><b>0.092</b></td><td>0.060</td><td>0.191</td></tr>
+            <tr class="ref"><td>CARLA render</td><td>178.5</td><td>111.48</td><td>5.275</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+            <tr class="ref"><td>Real vs. real</td><td>36.8</td><td>-0.02</td><td>0.009</td><td>209.6</td><td>–</td><td>–</td><td>–</td></tr>
+          </tbody>
+        </table>
+        <p class="note">KID and CMMD are scaled by 10³.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>AnisoTransfer · THÁI Lab, University of Florida · 2026</span>
+    <a href="https://nguyendo1801.github.io/">nguyendo1801.github.io</a>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // compare slider: Ours on top, clipped from the left by the divider; CARLA follows Ours' clock
+  const box = document.getElementById('cmp'), range = document.getElementById('cmpRange');
+  const top = document.getElementById('vOurs'), base = document.getElementById('vCarla'), btn = document.getElementById('cmpPlay');
+  const setX = v => box.style.setProperty('--x', v + '%');
+  range.addEventListener('input', () => setX(range.value)); setX(range.value);
+  top.addEventListener('loadedmetadata', () => { if (top.videoWidth) box.style.aspectRatio = top.videoWidth + ' / ' + top.videoHeight; });
+  const sync = () => { if (base.duration && Math.abs(base.currentTime - top.currentTime) > 0.15) base.currentTime = Math.min(top.currentTime, base.duration - 0.01); requestAnimationFrame(sync); };
+  requestAnimationFrame(sync);
+  btn.addEventListener('click', () => {
+    if (top.paused) { top.play().catch(() => {}); base.play().catch(() => {}); btn.textContent = 'Pause'; }
+    else { top.pause(); base.pause(); btn.textContent = 'Play'; }
+  });
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { top.pause(); base.pause(); btn.textContent = 'Play'; }
+
+  // Table I tabs
+  const tabs = [...document.querySelectorAll('[role=tab]')];
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(o => { const on = o === t; o.setAttribute('aria-selected', on); document.getElementById(o.getAttribute('aria-controls')).hidden = !on; });
+  }));
+})();
+</script>
+</body>
+</html>
